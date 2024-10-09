@@ -387,3 +387,19 @@ body.dark-mode #modal-change-pass-btn:hover {
 .modal-content {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
+.error-msg{
+    display: flex;
+    padding: 0.5rem;
+    text-align: justify;
+    justify-content: center;
+    font-weight: bold;
+    color: red;
+}
+.sucess-msg{
+    display: flex;
+    padding: 0.5rem;
+    text-align: justify;
+    justify-content: center;
+    font-weight: bold;
+    color: green;
+}
