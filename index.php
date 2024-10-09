@@ -49,6 +49,7 @@
            $result1 = mysqli_query($conn, $select1);
            while ( $row = mysqli_fetch_array($result1)){
            $id = $row['user_id'];}
+           
            header("location: home.php?id=$id");
          }
          else{
@@ -189,9 +190,9 @@
                 <label for="sign-up-email" class="sign-up-modal-label">Email</label>
                 <input type="email" id="sign-up-email" name="email" placeholder="Write your email" required>
                 <label for="sign-up-password" class="sign-up-modal-label">Password</label>
-                <input type="password" id="sign-up-password" name="password" placeholder="Enter your password" required>
-                <label for="confirm-password" class="sign-up-modal-label">Confirm Password</label>
-                <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required>
+                <input type="password" id="sign-up-password" name="password" placeholder="Enter your password" onkeyup='check();' required>
+                <label for="confirm-password" class="sign-up-modal-label">Confirm Password <span id="sign-up-message"></span></label>
+                <input type="password" id="sign-up-confirm-password" name="confirm-password" placeholder="Confirm your password" onkeyup='check();' required>
                 <button type="submit" name="submit" id="modal-sign-up-btn">Sign Up</button><br>
                 <p id="have-account-text">Already have an account?&nbsp;<a href="#" class="sign-up-modal-links" id="sign-up-in-btn">Sign In</a></p>
             </form>
@@ -216,11 +217,11 @@
                 <label for="change-pass-email" class="change-pass-modal-label">Email</label>
                 <input type="email" id="change-pass-email" name="email" placeholder="Write your email" required>
                 <label for="change-pass-password" class="change-pass-modal-label">Old Password</label>
-                <input type="password" id="change-pass-password" name="old-password" placeholder="Enter your old password" required>
+                <input type="password" id="old-change-password" name="old-password" placeholder="Enter your old password" required>
                 <label for="change-pass-password" class="change-pass-modal-label">New Password</label>
-                <input type="password" id="change-pass-password" name="password" placeholder="Enter your new password" required>
-                <label for="confirm-password" class="change-pass-modal-label">Confirm New Password</label>
-                <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your new password" required>
+                <input type="password" id="change-password" name="password" placeholder="Enter your new password" onkeyup='check();'  required>
+                <label for="confirm-password" class="change-pass-modal-label">Confirm New Password <span id="change-message"></span></label>
+                <input type="password" id="confirm-change-password" name="confirm-password" placeholder="Confirm your new password" onkeyup='check();' required>
                 <button type="submit" name="change" id="modal-change-pass-btn">Change Password</button><br>
                 <a href="#" class="change-pass-modal-links" id="change-pass-in-btn">Sign In</a>
             </form>

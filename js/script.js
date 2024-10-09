@@ -100,3 +100,31 @@ changePassInBtn.addEventListener('click', function(event) {
         showModal(modal);
     }, 300);
 });
+
+var check = function() {
+    if(document.getElementById('sign-up-password').value == "" &&
+      document.getElementById('sign-up-confirm-password').value == ""){
+      document.getElementById('sign-up-message').innerHTML = '';
+    }
+    else if (document.getElementById('sign-up-password').value ==
+      document.getElementById('sign-up-confirm-password').value) {
+      document.getElementById('sign-up-message').style.color = 'green';
+      document.getElementById('sign-up-message').innerHTML = '| Matching';
+    } else {
+      document.getElementById('sign-up-message').style.color = 'red';
+      document.getElementById('sign-up-message').innerHTML = '| Not matching';
+    }
+
+    if(document.getElementById('change-password').value == "" &&
+      document.getElementById('confirm-change-password').value == ""){
+      document.getElementById('change-message').innerHTML = '';
+    }
+    else if (document.getElementById('change-password').value ==
+      document.getElementById('confirm-change-password').value) {
+      document.getElementById('change-message').style.color = 'green';
+      document.getElementById('change-message').innerHTML = '| Matching';
+    } else {
+      document.getElementById('change-message').style.color = 'red';
+      document.getElementById('change-message').innerHTML = '| Not matching';
+    }
+  }

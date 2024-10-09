@@ -389,6 +389,7 @@ body.dark-mode #modal-change-pass-btn:hover {
 }
 .error-msg{
     display: flex;
+    font-size: 0.8rem;
     padding: 0.5rem;
     text-align: justify;
     justify-content: center;
