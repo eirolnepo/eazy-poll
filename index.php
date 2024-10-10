@@ -50,7 +50,7 @@
            while ( $row = mysqli_fetch_array($result1)){
            $id = $row['user_id'];}
            
-           header("location: home.php?id=$id");
+           header("location: home.html?id=$id");
          }
          else{
            $errors['db_error'] = "Database Error!";
@@ -76,7 +76,7 @@
            $select = " SELECT * FROM survey_db.users WHERE email = '$email' && pass = '$encpass' ";
            $result = mysqli_query($conn, $select);
            if(mysqli_num_rows($result) > 0){
-              header("location:home.php?id=$id");
+              header("location:home.html?id=$id");
            }else{
                $errorlogin[] = 'Incorrect email or password!';
            }
