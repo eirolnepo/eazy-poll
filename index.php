@@ -50,7 +50,7 @@
            while ( $row = mysqli_fetch_array($result1)){
            $id = $row['user_id'];}
            
-           header("location: home.html?id=$id");
+            header("location: home.html?id=$id");
          }
          else{
            $errors['db_error'] = "Database Error!";
@@ -61,7 +61,7 @@
     };
 
     if(isset($_POST['log-in'])){
-
+        $loading = 'true';
         $email = $_POST['email'];
         $pass = $_POST['password'];
         $encpass = md5($pass);
@@ -76,26 +76,26 @@
            $select = " SELECT * FROM survey_db.users WHERE email = '$email' && pass = '$encpass' ";
            $result = mysqli_query($conn, $select);
            if(mysqli_num_rows($result) > 0){
-              header("location:home.html?id=$id");
+                $loading = 'false';
+                header("location:home.html?id=$id");
            }else{
                $errorlogin[] = 'Incorrect email or password!';
+               $loading = 'false';
            }
     }
 
     if(isset($_POST['change'])){
 
         $email = $_POST['email'];
-        $opass = $_POST['old-password'];
         $npass = $_POST['password'];
         $cpass = $_POST['confirm-password'];
-        $o_encpass = md5($opass);
         $encpass = md5($npass);
 
         $uppercase = preg_match('@[A-Z]@', $npass);
         $lowercase = preg_match('@[a-z]@', $npass);
         $number    = preg_match('@[0-9]@', $npass);
      
-           $select = " SELECT * FROM survey_db.users WHERE email = '$email' && pass = '$o_encpass' ";
+           $select = " SELECT * FROM survey_db.users WHERE email = '$email' ";
            $result = mysqli_query($conn, $select);
            if(mysqli_num_rows($result) > 0){
                 if($npass != $cpass){
@@ -127,6 +127,7 @@
     <link rel="icon" href="imgs/logo.png">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/script.js" defer></script>
+    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
 </head>
 <body>
     <nav id="nav-bar">
@@ -169,7 +170,19 @@
             <input type="email" id="email" name="email" placeholder="Write your email" required>
             <label for="password" class="sign-in-modal-label">Password</label>
             <input type="password" id="password" name="password" placeholder="Enter your password" required>
-            <button type="submit" name="log-in" id="modal-sign-in-btn">Sign In</button><br>
+            <button type="submit" name="log-in" id="modal-sign-in-btn">
+                <?php
+                    if(isset($_POST['log-in'])){
+                        if ($loading == 'true'){
+                            echo '<div class="loading-section"><dotlottie-player class="lottie" src="https://lottie.host/e3b63b70-be62-43c3-a29d-0dc2547e954d/zyUbGagAIh.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></dotlottie-player></div>';
+                        }else{
+                            echo 'Sign In';
+                        }
+                    }else{
+                        echo 'Sign In';
+                    }
+                ?>
+            </button><br>
             <p id="no-account-text">Don't have an account?&nbsp;<a href="#" class="sign-in-modal-links" id="sign-in-up-btn">Sign Up</a></p>
             <a href="#" class="sign-in-modal-links" id="forgot-pass-link">Forgot password?</a>
           </form>
@@ -216,8 +229,6 @@
             <form id="change-pass-form" action="" method="post">
                 <label for="change-pass-email" class="change-pass-modal-label">Email</label>
                 <input type="email" id="change-pass-email" name="email" placeholder="Write your email" required>
-                <label for="change-pass-password" class="change-pass-modal-label">Old Password</label>
-                <input type="password" id="old-change-password" name="old-password" placeholder="Enter your old password" required>
                 <label for="change-pass-password" class="change-pass-modal-label">New Password</label>
                 <input type="password" id="change-password" name="password" placeholder="Enter your new password" onkeyup='check();'  required>
                 <label for="confirm-password" class="change-pass-modal-label">Confirm New Password <span id="change-message"></span></label>
