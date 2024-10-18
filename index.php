@@ -1,5 +1,9 @@
 <?php
-    include 'php/db_connect.php';
+    include 'php/db_create.php';
+    session_start();
+    header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+    header("Cache-Control: post-check=0, pre-check=0", false);
+    header("Pragma: no-cache");
 
     if(isset($_POST['submit'])){
     
@@ -7,10 +11,18 @@
         $email = $_POST['email'];
         $cpass = $_POST['confirm-password'];
         $encpass = md5($pass);
+        $fname = ucfirst(strtolower($_POST['sign-up-fname']));
+        $lname = ucfirst(strtolower($_POST['sign-up-lname']));
 
         $uppercase = preg_match('@[A-Z]@', $pass);
         $lowercase = preg_match('@[a-z]@', $pass);
         $number    = preg_match('@[0-9]@', $pass);
+
+        $lowercase_fname = preg_match('@[a-z]@', $fname);
+        $uppercase_fname = preg_match('@[A-Z]@', $fname);
+
+        $lowercase_lname = preg_match('@[a-z]@', $lname);
+        $uppercase_lname = preg_match('@[A-Z]@', $lname);
      
         $select = " SELECT * FROM survey_db.users WHERE email = '$email' && pass = '$pass' ";
       
@@ -31,33 +43,43 @@
                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                  $error[] = 'Email is invalid';
                }else{
-               $select1 = " SELECT email FROM survey_db.users WHERE email = '$email'";
-               $result1 = mysqli_query($conn, $select1);
-               if (mysqli_num_rows($result1) > 0) {
-                 $error[] = 'Email already exist!';
-               }else{
-     
-              $insert = "INSERT INTO survey_db.users(email,pass) VALUES(?,?)";
-             
-      
-         $stmt = $conn -> prepare ($insert);
-         $stmt -> bind_param('ss',$email,$encpass);
-      
-         if($stmt->execute()){
-     
-           $select1 = "SELECT user_id FROM survey_db.users WHERE email = '$email'";
-           $result1 = mysqli_query($conn, $select1);
-           while ( $row = mysqli_fetch_array($result1)){
-           $id = $row['user_id'];}
-           
-            header("location: creator/home.html?id=$id");
-         }
-         else{
-           $errors['db_error'] = "Database Error!";
-         }}
+                if(!$lowercase_lname && !$uppercase_lname && !$lowercase_fname && !$uppercase_fname){
+                    $error[] = 'First Name and Last Name should only contain letters!';
+                }else{
+                    if(!$lowercase_fname || !$uppercase_fname){
+                        $error[] = 'First Name should only contain letters!';
+                    }else{
+                        if(!$lowercase_lname || !$uppercase_lname){
+                            $error[] = 'Last Name should only contain letters!';
+                    }else{
+                    $select1 = " SELECT email FROM survey_db.users WHERE email = '$email'";
+                    $result1 = mysqli_query($conn, $select1);
+                    if (mysqli_num_rows($result1) > 0) {
+                        $error[] = 'Email already exist!';
+                    }else{
+            
+                    $insert = "INSERT INTO survey_db.users(fname,lname,email,pass) VALUES(?,?,?,?)";
+                    
+            
+                $stmt = $conn -> prepare ($insert);
+                $stmt -> bind_param('ssss',$fname,$lname,$email,$encpass);
+            
+                if($stmt->execute()){
+            
+                $select1 = "SELECT user_id FROM survey_db.users WHERE email = '$email'";
+                $result1 = mysqli_query($conn, $select1);
+                while ( $row = mysqli_fetch_array($result1)){
+                $id = $row['user_id'];}
+                    $_SESSION['loggedin'] = true;
+                    header("location: creator/home.php?id=$id");
+                    exit;
+                }
+                else{
+                $errors['db_error'] = "Database Error!";
+                }}
+            }
        }
-       }
-           }}
+           }}}}}
     };
 
     if(isset($_POST['log-in'])){
@@ -77,7 +99,9 @@
            $result = mysqli_query($conn, $select);
            if(mysqli_num_rows($result) > 0){
                 $loading = 'false';
-                header("location:creator/home.html?id=$id");
+                $_SESSION['loggedin'] = true;
+                header("location:creator/home.php?id=$id");
+                exit;
            }else{
                $errorlogin[] = 'Incorrect email or password!';
                $loading = 'false';
@@ -124,6 +148,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EazyPoll</title>
+    <script type="text/javascript">
+        window.history.forward();
+    </script>
     <link rel="icon" href="imgs/logo.png">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/script.js" defer></script>
@@ -208,7 +235,7 @@
                 <label for="sign-up-fname" class="sign-up-modal-label">First Name</label>
                 <input type="text" id="sign-up-fname" name="sign-up-fname" placeholder="Write your first name" required>
                 <label for="sign-up-lname" class="sign-up-modal-label">Last Name</label>
-                <input type="text" id="sign-up-lname" name="sign-up-fname" placeholder="Write your last name" required>
+                <input type="text" id="sign-up-lname" name="sign-up-lname" placeholder="Write your last name" required>
                 <label for="sign-up-password" class="sign-up-modal-label">Password</label>
                 <input type="password" id="sign-up-password" name="password" placeholder="Enter your password" onkeyup='check();' required>
                 <label for="confirm-password" class="sign-up-modal-label">Confirm Password <span id="sign-up-message"></span></label>

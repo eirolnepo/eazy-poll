@@ -1,3 +1,31 @@
+<?php
+    session_start();
+    include '../php/db_connect.php';
+
+    if (!isset($_SESSION['loggedin'])) {
+        header("Location: ../index.php");
+        exit;
+    }
+
+    header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+    header("Cache-Control: post-check=0, pre-check=0", false);
+    header("Pragma: no-cache");
+
+    $id = $_GET['id'];
+
+    $select = " SELECT fname FROM survey_db.users WHERE user_id = '$id' ";
+    $result = mysqli_query($conn, $select);
+    while($row = mysqli_fetch_array($result)){
+        $fname = $row['fname'];
+    }
+
+    if(isset($_POST['sign-out'])){
+        session_destroy();
+        header("location: ../index.php");
+        exit;
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,10 +53,12 @@
                 <img src="../imgs/default_profile_image.svg" alt="" id="nav-profile-img">
                 <div id="profile-options" class="hidden">
                     <img src="../imgs/default_profile_image.svg" alt="" id="profile-options-image">
-                    <p>Hi, User!</p>
+                    <p>Hi, <?php echo $fname; ?>!</p>
                     <div id="profile-options-btns-container">
                         <button class="profile-options-btns"><img src="../imgs/manage_accounts.svg" alt="" class="profile-options-btns-imgs">Manage Accounts</button>
-                        <button class="profile-options-btns"><img src="../imgs/signout.svg" alt=""  class="profile-options-btns-imgs">Sign Out</button>
+                        <form action="" method="post">
+                            <button class="profile-options-btns" name="sign-out"><img src="../imgs/signout.svg" alt=""  class="profile-options-btns-imgs">Sign Out</button>
+                        </form>
                     </div>
                 </div>
             </div>
