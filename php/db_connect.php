@@ -41,6 +41,72 @@ if ($conn->query($sql_create_table) === TRUE) {
     die("Error creating table: " . $conn->error);
 }
 
-// Close the connection
-$conn->close();
+// Database configuration
+$host = 'localhost';
+$username = 'root';
+$password = '';
+$dbname = 'survey_db';
+$backup_dir = 'backups/';
+
+// Define the path to the MySQL executable
+$mysqlPath = 'C:\\xampp\\mysql\\bin\\mysql.exe'; // Adjust this path as necessary
+$mysqldumpPath = 'C:\\xampp\\mysql\\bin\\mysqldump.exe'; // Path to mysqldump
+
+// Function to export the database
+function exportDatabase($host, $username, $password, $dbname, $backup_dir, $mysqldumpPath) {
+    // Create a timestamped backup filename
+    $backup_file = $backup_dir . $dbname . '_' . date('Y-m-d_H-i-s') . '.sql';
+
+    // Create the backup command
+    $command = "$mysqldumpPath --user=$username --password=$password --host=$host $dbname > $backup_file";
+
+    // Execute the command
+    system($command, $output);
+
+    if ($output === 0) {
+        echo "Database exported successfully to $backup_file<br>";
+    } else {
+        echo "Error occurred during backup<br>";
+    }
+}
+
+// Function to import the database
+function importDatabase($host, $username, $password, $dbname, $backup_dir, $mysqlPath) {
+    // Get the latest backup file
+    $files = glob($backup_dir . '*.sql');
+    if (empty($files)) {
+        echo "No backup files found.<br>";
+        return;
+    }
+    $latest_file = max($files);
+
+    // Create the restore command
+    $command = "$mysqlPath --user=$username --password=$password --host=$host $dbname < $latest_file";
+
+    // Execute the command
+    system($command, $output);
+
+    if ($output === 0) {
+        echo "Database restored successfully from $latest_file<br>";
+    } else {
+        echo "Error occurred during restoration. Error code: $output.<br>";
+    }
+}
+
+
+// Determine the action to take: export or import
+if (isset($_GET['action'])) {
+    $action = $_GET['action'];
+
+    if ($action === 'export') {
+        exportDatabase($host, $username, $password, $dbname, $backup_dir, $mysqldumpPath);
+    } elseif ($action === 'import') {
+        importDatabase($host, $username, $password, $dbname, $backup_dir, $mysqlPath);
+    } else {
+        echo "Invalid action. Use 'export' or 'import'.<br>";
+    }
+} else {
+    echo "Use ?action=export or ?action=import in the URL. for Importing and Exporting<br>";
+}
 ?>
+
