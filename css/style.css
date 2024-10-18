@@ -6,11 +6,7 @@
     box-sizing: border-box;
     font-family: Poppins;
 }
-.loading-section{
-    margin-top: -0.5rem;
-    height: 2rem;
-    
-}
+
 button {
     transition: background-color 0.3s ease;
     text-align: center;
@@ -213,6 +209,11 @@ input {
 #modal-sign-in-btn:hover {
     background-color: #006156;
     cursor: pointer;
+}
+
+.loading-section{
+    margin-top: -0.5rem;
+    height: 2rem;
 }
 
 #no-account-text {
