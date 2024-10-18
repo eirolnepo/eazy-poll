@@ -205,6 +205,10 @@
             <form id="sign-up-form" action="" method="post">
                 <label for="sign-up-email" class="sign-up-modal-label">Email</label>
                 <input type="email" id="sign-up-email" name="email" placeholder="Write your email" required>
+                <label for="sign-up-fname" class="sign-up-modal-label">First Name</label>
+                <input type="text" id="sign-up-fname" name="sign-up-fname" placeholder="Write your first name" required>
+                <label for="sign-up-lname" class="sign-up-modal-label">Last Name</label>
+                <input type="text" id="sign-up-lname" name="sign-up-fname" placeholder="Write your last name" required>
                 <label for="sign-up-password" class="sign-up-modal-label">Password</label>
                 <input type="password" id="sign-up-password" name="password" placeholder="Enter your password" onkeyup='check();' required>
                 <label for="confirm-password" class="sign-up-modal-label">Confirm Password <span id="sign-up-message"></span></label>
