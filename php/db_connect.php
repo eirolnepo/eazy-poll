@@ -48,12 +48,25 @@ $password = '';
 $dbname = 'survey_db';
 $backup_dir = 'backups/';
 
-// Define the path to the MySQL executable
+// Define the path to the MySQL and mysqldump executables
 $mysqlPath = 'C:\\xampp\\mysql\\bin\\mysql.exe'; // Adjust this path as necessary
 $mysqldumpPath = 'C:\\xampp\\mysql\\bin\\mysqldump.exe'; // Path to mysqldump
 
+// Function to delete old backup files
+function deleteOldBackups($backup_dir) {
+    $files = glob($backup_dir . '*.sql');
+    foreach ($files as $file) {
+        if (is_file($file)) {
+            unlink($file); // Delete the file
+        }
+    }
+}
+
 // Function to export the database
 function exportDatabase($host, $username, $password, $dbname, $backup_dir, $mysqldumpPath) {
+    // Delete old backups before exporting
+    deleteOldBackups($backup_dir);
+
     // Create a timestamped backup filename
     $backup_file = $backup_dir . $dbname . '_' . date('Y-m-d_H-i-s') . '.sql';
 
@@ -64,9 +77,9 @@ function exportDatabase($host, $username, $password, $dbname, $backup_dir, $mysq
     system($command, $output);
 
     if ($output === 0) {
-        echo "Database exported successfully to $backup_file<br>";
+        return "Database exported successfully to $backup_file<br>";
     } else {
-        echo "Error occurred during backup<br>";
+        return "Error occurred during backup<br>";
     }
 }
 
@@ -75,8 +88,7 @@ function importDatabase($host, $username, $password, $dbname, $backup_dir, $mysq
     // Get the latest backup file
     $files = glob($backup_dir . '*.sql');
     if (empty($files)) {
-        echo "No backup files found.<br>";
-        return;
+        return "No backup files found.<br>";
     }
     $latest_file = max($files);
 
@@ -87,26 +99,28 @@ function importDatabase($host, $username, $password, $dbname, $backup_dir, $mysq
     system($command, $output);
 
     if ($output === 0) {
-        echo "Database restored successfully from $latest_file<br>";
+        return "Database restored successfully from $latest_file<br>";
     } else {
-        echo "Error occurred during restoration. Error code: $output.<br>";
+        return "Error occurred during restoration. Error code: $output.<br>";
     }
 }
 
+// Initialize a message variable to display feedback
+$message = "";
 
 // Determine the action to take: export or import
 if (isset($_GET['action'])) {
     $action = $_GET['action'];
 
     if ($action === 'export') {
-        exportDatabase($host, $username, $password, $dbname, $backup_dir, $mysqldumpPath);
+        $message = exportDatabase($host, $username, $password, $dbname, $backup_dir, $mysqldumpPath);
     } elseif ($action === 'import') {
-        importDatabase($host, $username, $password, $dbname, $backup_dir, $mysqlPath);
+        $message = importDatabase($host, $username, $password, $dbname, $backup_dir, $mysqlPath);
     } else {
-        echo "Invalid action. Use 'export' or 'import'.<br>";
+        $message = "Invalid action. Use 'export' or 'import'.<br>";
     }
 } else {
-    echo "Use ?action=export or ?action=import in the URL. for Importing and Exporting<br>";
+    $message = "Use ?action=export or ?action=import in the URL for Importing and Exporting<br>";
 }
 ?>
 
