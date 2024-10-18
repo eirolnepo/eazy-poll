@@ -130,6 +130,9 @@
     <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
 </head>
 <body>
+    <div>
+        <?php if (!empty($message)) echo $message; ?>
+    </div>  
     <nav id="nav-bar">
         <img src="imgs/logo.png" alt="" id="nav-logo">
         <h1 id="nav-title">EazyPoll</h1>
