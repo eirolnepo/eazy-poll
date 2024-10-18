@@ -6,6 +6,7 @@
     <title>EazyPoll</title>
     <link rel="icon" href="../imgs/logo.png">
     <link rel="stylesheet" href="css/home.css">
+    <script src="js/home.js" defer></script>
 </head>
 <body>
     <nav id="nav-bar">
@@ -20,8 +21,18 @@
             <img src="../imgs/dark-mode-green.png" alt="" id="nav-dark-mode">
         </div>
         <div id="nav-right-side">
-            <img src="../imgs/default_profile_image.svg" alt="" id="nav-profile-img">
-            <img src="../imgs/hamburger_menu.svg" alt="" id="nav-burger-menu">
+            <div id="profile-container">
+                <img src="../imgs/default_profile_image.svg" alt="" id="nav-profile-img">
+                <div id="profile-options" class="hidden">
+                    <img src="../imgs/default_profile_image.svg" alt="" id="profile-options-image">
+                    <p>Hi, User!</p>
+                    <div id="profile-options-btns-container">
+                        <button class="profile-options-btns"><img src="../imgs/manage_accounts.svg" alt="" class="profile-options-btns-imgs">Manage Accounts</button>
+                        <button class="profile-options-btns"><img src="../imgs/signout.svg" alt=""  class="profile-options-btns-imgs">Sign Out</button>
+                    </div>
+                </div>
+            </div>
+            <img src="../imgs/info_button.svg" alt="" id="nav-info">
         </div>
     </nav>
 </body>
