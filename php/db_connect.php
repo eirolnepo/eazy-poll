@@ -3,10 +3,8 @@ $servername = "localhost";
 $username = "root";
 $password = "";
 
-// Create connection
 $conn = new mysqli($servername, $username, $password);
 
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
@@ -41,6 +39,4 @@ if ($conn->query($sql_create_table) === TRUE) {
     die("Error creating table: " . $conn->error);
 }
 
-// Close the connection
-$conn->close();
 ?>
