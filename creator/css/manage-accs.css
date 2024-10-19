@@ -185,6 +185,19 @@ main {
     gap: 1rem;
 }
 
+.account-fields-labels {
+    display: inline-block;
+    width: 12.5rem;
+}
+
+.account-inputs {
+    width: 14rem;
+    padding: 0.3rem;
+    border: 0.1rem solid #000;
+    border-radius: 0.5rem;
+    outline: none;
+}
+
 #npass-container {
     position: relative;
 }
@@ -199,11 +212,6 @@ main {
     cursor: pointer;
 }
 
-.account-fields-labels {
-    display: inline-block;
-    width: 12.5rem;
-}
-
 .account-btns {
     width: 10rem;
 }
@@ -214,4 +222,39 @@ main {
 
 #account-delete-btn:hover {
     background-color: #9F0606;
+}
+
+/* dark mode */
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode {
+    background-color: #173a56;
+    color: #fff;
+}
+
+body.dark-mode #nav-title,
+body.dark-mode #manage-accs-title {
+    color: #fff;
+}
+
+body.dark-mode .side-bar-links {
+    color: #fff;
+}
+
+body.dark-mode .side-bar-links::after {
+    background-color: #fff;
+}
+
+body.dark-mode #change-img-btn {
+    background-color: #173a56;
+    color: #fff;
+}
+
+body.dark-mode .profile-inputs,
+body.dark-mode .account-inputs {
+    background-color: #173a56;
+    border: 0.1rem solid #fff;
+    color: #fff;
 }
