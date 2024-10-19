@@ -24,6 +24,8 @@ $sql_create_table = "CREATE TABLE IF NOT EXISTS users (
     user_id INT(11) AUTO_INCREMENT PRIMARY KEY,
     fname VARCHAR(255) NOT NULL,
     lname VARCHAR(255) NOT NULL,
+    contact_num VARCHAR(255) NOT NULL,
+    address VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     pass VARCHAR(255) NOT NULL
 )";

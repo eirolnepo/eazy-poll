@@ -24,6 +24,11 @@
         header("location: ../index.php");
         exit;
     }
+
+    if(isset($_POST['manage-accs'])){
+        header("location: manage-accs.php?id=$id");
+        exit;
+    }
 ?>
 
 <!DOCTYPE html>
@@ -55,8 +60,10 @@
                     <img src="../imgs/default_profile_image_light.svg" alt="User's profile picture" id="profile-options-img">
                     <p>Hi, <?php echo $fname; ?>!</p>
                     <div id="profile-options-btns-container">
-                        <button class="profile-options-btns" id="manage-accs-btn"><img src="../imgs/manage_accounts.svg" alt="" class="profile-options-btns-imgs">Manage Account</button>
                         <form action="" method="post">
+                            <button class="profile-options-btns" id="manage-accs-btn" name="manage-accs"><img src="../imgs/manage_accounts.svg" alt="" class="profile-options-btns-imgs">Manage Account</button>
+                        </form>
+                        <form action="" method="post"> 
                             <button class="profile-options-btns" name="sign-out"><img src="../imgs/signout.svg" alt=""  class="profile-options-btns-imgs">Sign Out</button>
                         </form>
                     </div>

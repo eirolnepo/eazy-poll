@@ -18,13 +18,13 @@
         $lowercase = preg_match('@[a-z]@', $pass);
         $number    = preg_match('@[0-9]@', $pass);
 
-        $lowercase_fname = preg_match('@[a-z]@', $fname);
-        $uppercase_fname = preg_match('@[A-Z]@', $fname);
+        $letter_fname = preg_match('@[a-zA-Z]@', $fname);
+        $number_fname    = preg_match('@[0-9]@', $fname);
 
-        $lowercase_lname = preg_match('@[a-z]@', $lname);
-        $uppercase_lname = preg_match('@[A-Z]@', $lname);
+        $letter_lname = preg_match('@[a-zA-Z]@', $lname);
+        $number_lname    = preg_match('@[0-9]@', $lname);
      
-        $select = " SELECT * FROM survey_db.users WHERE email = '$email' && pass = '$pass' ";
+        $select = " SELECT * FROM survey_db.users WHERE email = '$email'";
       
         $result = mysqli_query($conn, $select);
      
@@ -43,13 +43,13 @@
                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                  $error[] = 'Email is invalid';
                }else{
-                if(!$lowercase_lname && !$uppercase_lname && !$lowercase_fname && !$uppercase_fname){
+                if(!$letter_lname && !$letter_fname || $number_fname && $number_lname){
                     $error[] = 'First Name and Last Name should only contain letters!';
                 }else{
-                    if(!$lowercase_fname || !$uppercase_fname){
+                    if(!$letter_fname || $number_fname){
                         $error[] = 'First Name should only contain letters!';
                     }else{
-                        if(!$lowercase_lname || !$uppercase_lname){
+                        if(!$letter_lname || $number_lname){
                             $error[] = 'Last Name should only contain letters!';
                     }else{
                     $select1 = " SELECT email FROM survey_db.users WHERE email = '$email'";
@@ -196,8 +196,8 @@
             <?php
                 $formHasErrors = false;
                 if(isset($errorlogin)){
-                    foreach($errorlogin as $error){
-                        echo '<span class="error-msg">'.$error.'</span>';
+                    foreach($errorlogin as $errorlogin){
+                        echo '<span class="error-msg">'.$errorlogin.'</span>';
                     };
                     $formHasErrors = true;
                 };
@@ -275,9 +275,9 @@
                         $passwordChangeFormHasErrors = true;
                     } 
 
-                    if (isset($success)) {
-                        foreach ($success as $changesuccess) {
-                            echo '<span class="success-msg">' . $changesuccess . '</span>';
+                    if (isset($sucess)) {
+                        foreach ($sucess as $sucess) {
+                            echo '<span class="success-msg">' . $sucess . '</span>';
                         }
                         $passwordChangeSuccess = true;
                     }
