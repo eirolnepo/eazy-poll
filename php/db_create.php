@@ -61,7 +61,12 @@ function deleteOldBackups($backup_dir) {
 }
 
 // Function to export the database
-function exportDatabase($host, $username, $password, $dbname, $backup_dir, $mysqldumpPath) {
+function exportDatabase($conn, $host, $username, $password, $dbname, $backup_dir, $mysqldumpPath) {
+    // Check if the `users` table is empty
+    if (isTableEmpty($conn, 'users')) {
+        return "Export skipped: The `users` table is empty.<br>";
+    }
+
     // Delete old backups before exporting
     deleteOldBackups($backup_dir);
 
@@ -103,6 +108,21 @@ function importDatabase($host, $username, $password, $dbname, $backup_dir, $mysq
     }
 }
 
+function dropDatabase($conn, $dbname) {
+    $sql_drop_db = "DROP DATABASE IF EXISTS $dbname";
+    if ($conn->query($sql_drop_db) === TRUE) {
+        return "Database dropped successfully.<br>";
+    } else {
+        return "Error dropping database: " . $conn->error . "<br>";
+    }
+}
+
+function isTableEmpty($conn, $tableName) {
+    $result = $conn->query("SELECT COUNT(*) AS count FROM $tableName");
+    $row = $result->fetch_assoc();
+    return $row['count'] == 0;
+}
+
 // Initialize a message variable to display feedback
 $message = "";
 
@@ -111,14 +131,19 @@ if (isset($_GET['action'])) {
     $action = $_GET['action'];
 
     if ($action === 'export') {
-        $message = exportDatabase($host, $username, $password, $dbname, $backup_dir, $mysqldumpPath);
+        $message = exportDatabase($conn, $host, $username, $password, $dbname, $backup_dir, $mysqldumpPath);
+        header("Location: index.php");
     } elseif ($action === 'import') {
         $message = importDatabase($host, $username, $password, $dbname, $backup_dir, $mysqlPath);
-    } else {
+        header("Location: index.php");
+    } elseif ($action === 'drop') {
+        $message .= dropDatabase($conn, $dbname);
+        header("Location: index.php");
+    } else {    
         $message = "Invalid action. Use 'export' or 'import'.<br>";
     }
 } else {
-    $message = "Use ?action=export or ?action=import in the URL for Importing and Exporting<br>";
+    $message = "Use ?action=export, ?action=import, or ?action=drop in the URL for Importing, Exporting, and Dropping<br>";
 }
 ?>
 

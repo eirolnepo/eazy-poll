@@ -108,7 +108,7 @@
            }
     }
 
-    if(isset($_POST['change'])){
+    /* if(isset($_POST['change'])){
 
         $email = $_POST['email'];
         $npass = $_POST['password'];
@@ -138,7 +138,7 @@
            }else{
                $errorchange[] = 'Incorrect email or password!';
            }
-    }
+    } */
 
 ?>
 
@@ -257,29 +257,33 @@
             <form id="change-pass-form" action="" method="post">
                 <label for="change-pass-email" class="change-pass-modal-label">Email</label>
                 <input type="email" id="change-pass-email" name="email" placeholder="Write your email" required>
-                <label for="change-pass-password" class="change-pass-modal-label">New Password</label>
-                <input type="password" id="change-password" name="password" placeholder="Enter your new password" onkeyup='check();'  required>
-                <label for="confirm-password" class="change-pass-modal-label">Confirm New Password <span id="change-message"></span></label>
-                <input type="password" id="confirm-change-password" name="confirm-password" placeholder="Confirm your new password" onkeyup='check();' required>
-                <?php
-                    $passwordChangeFormHasErrors = false;
-                    $passwordChangeSuccess = false;
+                <label for="change-pass-password" class="change-pass-modal-label">Verification Code</label>
+                <input type="password" id="change-password" name="password" placeholder="Enter Code" onkeyup='check();'  required>
+                <!-- 
+                    <label for="change-pass-password" class="change-pass-modal-label">New Password</label>
+                    <input type="password" id="change-password" name="password" placeholder="Enter your new password" onkeyup='check();'  required>
+                    <label for="confirm-password" class="change-pass-modal-label">Confirm New Password <span id="change-message"></span></label>
+                    <input type="password" id="confirm-change-password" name="confirm-password" placeholder="Confirm your new password" onkeyup='check();' required>
+                    <?php /*
+                        $passwordChangeFormHasErrors = false;
+                        $passwordChangeSuccess = false;
 
-                    if (isset($errorchange)) {
-                        foreach ($errorchange as $errorchanges) {
-                            echo '<span class="error-msg">' . $errorchanges . '</span>';
-                        }
-                        $passwordChangeFormHasErrors = true;
-                    } 
+                        if (isset($errorchange)) {
+                            foreach ($errorchange as $errorchanges) {
+                                echo '<span class="error-msg">' . $errorchanges . '</span>';
+                            }
+                            $passwordChangeFormHasErrors = true;
+                        } 
 
-                    if (isset($sucess)) {
-                        foreach ($sucess as $sucess) {
-                            echo '<span class="success-msg">' . $sucess . '</span>';
+                        if (isset($sucess)) {
+                            foreach ($sucess as $sucess) {
+                                echo '<span class="success-msg">' . $sucess . '</span>';
+                            }
+                            $passwordChangeSuccess = true;
                         }
-                        $passwordChangeSuccess = true;
-                    }
-                ?>
-                <button type="submit" name="change" id="modal-change-pass-btn">Change Password</button><br>
+                    */?>  
+                -->
+                <button type="submit" name="change" id="modal-change-pass-btn">Verify</button><br>
                 <a href="#" class="change-pass-modal-links" id="change-pass-in-btn">Sign In</a>
             </form>
         </div>

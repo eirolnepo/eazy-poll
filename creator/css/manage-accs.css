@@ -80,6 +80,11 @@ main {
     position: fixed;
 }
 
+.side-bar-button {
+    background-color: none;
+    border: none;
+}
+
 .side-bar-links {
     width: max-content;
     position: relative;

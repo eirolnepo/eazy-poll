@@ -13,6 +13,12 @@
 
     $id = $_GET['id'];
 
+    if (isset($_POST['sign-out'])) {
+        session_destroy();
+        header("Location: ../index.php");
+        exit;
+    }
+
     $select = " SELECT * FROM survey_db.users WHERE user_id = '$id' ";
     $result = mysqli_query($conn, $select);
     while($row = mysqli_fetch_array($result)){
@@ -20,6 +26,7 @@
         $lname = $row['lname'];
         $contact = $row['contact_num'];
         $address = $row['address'];
+        $email = $row['email'];
     }
 
     if(isset($_POST['profile-save'])){
@@ -38,21 +45,31 @@
         $letter = preg_match('@[A-Za-z]@', $contact);
 
         if(!$letter_lname && !$letter_fname || $number_fname && $number_lname){
-            $error_profile[] = 'First Name and Last Name should only contain letters!';
+            $_SESSION['errorProfile'] = 'Fisrt Name and Last Name should only contain letters!';
+            header('Location: '.$_SERVER['PHP_SELF'].'?id='.$id);
+            exit();
         }else{
             if(!$letter_fname || $number_fname){
-                $error_profile[] = 'First Name should only contain letters!';
+                $_SESSION['errorProfile'] = 'First Name should only contain letters!';
+                header('Location: '.$_SERVER['PHP_SELF'].'?id='.$id);
+                exit();
             }else{
                 if(!$letter_lname || $number_lname){
-                    $error_profile[] = 'Last Name should only contain letters!';
+                    $_SESSION['errorProfile'] = 'Last Name should only contain letters!';
+                    header('Location: '.$_SERVER['PHP_SELF'].'?id='.$id);
+                    exit();
                 }else{
                     if(!$number && $contact != "" || $letter){
-                        $error_profile[] = 'Contact No. should only contain numbers';
+                        $_SESSION['errorProfile'] = 'Contact No. should only contain numbers!';
+                        header('Location: '.$_SERVER['PHP_SELF'].'?id='.$id);
+                        exit();
                     }else{
                         $UpdateQuery = "UPDATE survey_db.users SET fname = '$fname',lname = '$lname', address = '$address', contact_num = '$contact' WHERE user_id = '$id'";
                         $query = mysqli_query($conn,$UpdateQuery);
                         if($query){
-                            $success_profile[] = "Profile Updated Successfully!";
+                            $_SESSION['successProfile'] = 'Profile updated successfully!';
+                            header('Location: '.$_SERVER['PHP_SELF'].'?id='.$id);
+                            exit();
                         }
                     }
                 }
@@ -66,12 +83,16 @@
         $confirmEmail = $_POST['cn-email']; 
 
         if($new != $confirmEmail){
-            $errorEmail[] = 'Emails do not match!';
+            $_SESSION['errorEmail'] = 'Emails do not matched!'; // Store error message in session
+            header('Location: '.$_SERVER['PHP_SELF'].'?id='.$id);
+            exit();
         }else{
             $UpdateEmail = "UPDATE survey_db.users SET email = '$new' WHERE user_id = '$id'";
             $Emailquery = mysqli_query($conn,$UpdateEmail);
             if($Emailquery){
-                $success_email[] = "Email Updated Successfully!";
+                $_SESSION['successEmail'] = 'Email updated successfully!'; // Store error message in session
+                header('Location: '.$_SERVER['PHP_SELF'].'?id='.$id);
+                exit();
             }
         }
 
@@ -123,11 +144,6 @@
     <link rel="icon" href="../imgs/logo.png">
     <link rel="stylesheet" href="css/manage-accs.css">
     <script src="js/manage-accs.js" defer></script>
-    <script>
-            document.getElementById("account-save-pass-btn").addEventListener("click", function(event) {
-                event.preventDefault();
-            });
-    </script>
 </head>
 <body>
     <nav id="nav-bar">
@@ -146,31 +162,28 @@
 
     <main>
         <div id="side-bar">
-            <a href="home.php" class="side-bar-links">Back to Home</a>
+            <a href="home.php?id=<?php echo $id; ?>" class="side-bar-links">Back to Home</a>
             <a href="#profile-content" class="side-bar-links" id="profile-link">Profile</a>
             <a href="#account-content" class="side-bar-links">Account</a>
-            <a href="#" class="side-bar-links">Sign Out</a>
+            <form id="signOutForm" method="POST" action="manage-accs.php?id=<?php $id?>">
+                <input type="hidden" name="sign-out" value="1">
+            </form>
+            <a href="#" class="side-bar-links" onclick="document.getElementById('signOutForm').submit();">Sign Out</a>
         </div>
 
         <div id="profile-content">
             <img src="../imgs/default_profile_image_light.svg" alt="User's profile picture" id="profile-image">
             <button id="change-img-btn">Change Profile Picture</button>
             <?php
-                $formHasErrors = false;
-                $success = false;
-                if(isset($error_profile)){
-                    foreach($error_profile as $error_profile){
-                        echo '<span class="error-msg">'.$error_profile.'</span>';
-                    };
-                    $formHasErrors = true;
-                };
-                if(isset($success_profile)){
-                    foreach($success_profile as $success_profile){
-                        echo '<span class="success-msg">'.$success_profile.'</span>';
-                    };
-                    $success = true;
-                };
-            ?>
+                    if (isset($_SESSION['errorProfile'])) {
+                        echo "<div class='error-msg'>{$_SESSION['errorProfile']}</div>";
+                        unset($_SESSION['errorProfile']); 
+                    }
+                    if (isset($_SESSION['successProfile'])) {
+                        echo "<div class='success-msg'>{$_SESSION['successProfile']}</div>";
+                        unset($_SESSION['successProfile']); 
+                    }  
+                ?>
             <div id="fields-container">
                 <form action="" method="post" id="fields-container">
                     <div id="left-fields">
@@ -197,25 +210,17 @@
         <div id="account-content">
             <form action="" method="post" id="account-content">
                 <?php
-                    $EmailChangeFormHasErrors = false;
-                    $EmailChangeSuccess = false;
-
-                    if (isset($errorEmail)) {
-                        foreach ($errorEmail as $errorEmail) {
-                            echo '<span class="error-msg">' . $errorEmail . '</span>';
-                        }
-                        $EmailChangeFormHasErrors = true;
-                    } 
-
-                    if (isset($success_email)) {
-                        foreach ($success_email as $success_email) {
-                            echo '<span class="success-msg">' . $success_email . '</span>';
-                        }
-                        $EmailChangeSuccess = true;
+                    if (isset($_SESSION['errorEmail'])) {
+                        echo "<div class='error-msg'>{$_SESSION['errorEmail']}</div>";
+                        unset($_SESSION['errorEmail']); 
                     }
+                    if (isset($_SESSION['successEmail'])) {
+                        echo "<div class='success-msg'>{$_SESSION['successEmail']}</div>";
+                        unset($_SESSION['successEmail']); 
+                    }  
                 ?>
                 <div>
-                    <span class="account-fields-labels">Current Email: </span><input name="c-email" type="email" id="cuemail" class="account-inputs">
+                    <span class="account-fields-labels">Current Email: </span><input name="c-email" type="email" id="cuemail" class="account-inputs" value="<?php echo $email ; ?>" readonly>
                 </div>
                 <div>
                     <span class="account-fields-labels">New Email: </span><input name="n-email" type="email" id="nemail" class="account-inputs">
@@ -225,17 +230,14 @@
                 </div>
                 <button class="save-btns account-btns" id="account-save-email-btn" name="save-email">Save Changes</button>
                 <?php
-                    
                     if (isset($_SESSION['error'])) {
                         echo "<div class='error-msg'>{$_SESSION['error']}</div>";
                         unset($_SESSION['error']); 
                     }
-
                     if (isset($_SESSION['success'])) {
                         echo "<div class='success-msg'>{$_SESSION['success']}</div>";
                         unset($_SESSION['success']); 
-                    }
-                    
+                    }  
                 ?>
                 <div>
                     <span class="account-fields-labels">Current Password: </span><input name="c-pass" type="password" id="cupass" class="account-inputs">
