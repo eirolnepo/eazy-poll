@@ -1,0 +1,217 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+html {
+    scroll-behavior: smooth;
+}
+
+*{
+    margin: 0;
+    padding : 0;
+    box-sizing: border-box;
+    font-family: Poppins;
+}
+
+#nav-bar {
+    margin: 1rem 5rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#nav-left-side {
+    display: flex;
+}
+
+#nav-logo {
+    width: 2.5rem;
+}
+
+#nav-title {
+    font-size: 1.8rem;
+    color: #173a56;
+    margin-left: 1rem;
+}
+
+#nav-center {
+    display: flex;
+}
+
+#manage-accs-title {
+    color: #173a56;
+    font-weight: 500;
+}
+
+#nav-right-side {
+    display: flex;
+}
+
+#nav-dark-mode {
+    width: 2.5rem;
+    margin-left: 2rem;
+    cursor: pointer;
+}
+
+#nav-info {
+    width: 2.5rem;
+    margin-left: 2rem;
+    cursor: pointer;
+}
+
+main {
+    margin-top: 2.75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    position: relative;
+}
+
+#side-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 3rem;
+    margin-left: 8rem;
+    position: fixed;
+}
+
+.side-bar-links {
+    width: max-content;
+    position: relative;
+    color: #173a56;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.side-bar-links::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0.1rem;
+    bottom: 0;
+    left: 0;
+    background-color: #173a56;
+    transition: width 0.3s ease;
+}
+
+.side-bar-links:hover::after {
+    width: 100%;
+}
+
+#profile-content {
+    height: 100vh;
+    margin-top: 3rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#profile-image {
+    width: 14rem;
+    margin-bottom: -0.4rem;
+}
+
+#change-img-btn {
+    background-color: #fff;
+    color: #02897a;
+    border: none;
+    cursor: pointer;
+}
+
+#fields-container {
+    margin-top: 2rem;
+
+    display: flex;
+    gap: 3rem;
+}
+
+#left-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#right-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.fields-labels {
+    display: inline-block;
+    width: 6.5rem;
+}
+
+.profile-inputs {
+    width: 14rem;
+    padding: 0.3rem;
+    border: 0.1rem solid #000;
+    border-radius: 0.5rem;
+    outline: none;
+}
+
+.save-btns {
+    background-color: #02897a;
+    color: white;
+    padding: 0.6rem;
+    border: none;
+    border-radius: 2rem;
+    transition: background-color 0.3s ease;
+}
+
+.save-btns:hover {
+    background-color: #006156;
+    cursor: pointer;
+}
+
+#profile-save-btn {
+    width: 10rem;
+}
+
+#account-content {
+    height: 80vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+}
+
+#npass-container {
+    position: relative;
+}
+
+#show-pass-img {
+    position: absolute;
+    right: 0.625rem;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 1.25rem;
+    width: auto;
+    cursor: pointer;
+}
+
+.account-fields-labels {
+    display: inline-block;
+    width: 12.5rem;
+}
+
+.account-btns {
+    width: 10rem;
+}
+
+#account-delete-btn {
+    background-color: #C50606;
+}
+
+#account-delete-btn:hover {
+    background-color: #9F0606;
+}

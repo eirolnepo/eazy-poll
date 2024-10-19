@@ -55,7 +55,7 @@
                     <img src="../imgs/default_profile_image_light.svg" alt="User's profile picture" id="profile-options-img">
                     <p>Hi, <?php echo $fname; ?>!</p>
                     <div id="profile-options-btns-container">
-                        <button class="profile-options-btns"><img src="../imgs/manage_accounts.svg" alt="" class="profile-options-btns-imgs">Manage Accounts</button>
+                        <button class="profile-options-btns" id="manage-accs-btn"><img src="../imgs/manage_accounts.svg" alt="" class="profile-options-btns-imgs">Manage Accounts</button>
                         <form action="" method="post">
                             <button class="profile-options-btns" name="sign-out"><img src="../imgs/signout.svg" alt=""  class="profile-options-btns-imgs">Sign Out</button>
                         </form>

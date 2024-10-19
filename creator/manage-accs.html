@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EazyPoll</title>
+    <link rel="icon" href="../imgs/logo.png">
+    <link rel="stylesheet" href="css/manage-accs.css">
+    <script src="js/manage-accs.js" defer></script>
+</head>
+<body>
+    <nav id="nav-bar">
+        <div id="nav-left-side">
+            <img src="../imgs/logo.png" alt="Eazypoll logo" id="nav-logo">
+            <h1 id="nav-title">EazyPoll</h1>
+        </div>
+        <div id="nav-center">
+            <h2 id="manage-accs-title">Manage Account</h2>
+        </div>
+        <div id="nav-right-side">
+            <img src="../imgs/dark-mode-green.png" alt="Dark mode button" id="nav-dark-mode">
+            <img src="../imgs/info_button_light.svg" alt="Play tutorial button" id="nav-info">
+        </div>
+    </nav>
+
+    <main>
+        <div id="side-bar">
+            <a href="home.php" class="side-bar-links">Back to Home</a>
+            <a href="#profile-content" class="side-bar-links" id="profile-link">Profile</a>
+            <a href="#account-content" class="side-bar-links">Account</a>
+            <a href="#" class="side-bar-links">Sign Out</a>
+        </div>
+
+        <div id="profile-content">
+            <img src="../imgs/default_profile_image_light.svg" alt="User's profile picture" id="profile-image">
+            <button id="change-img-btn">Change Profile Picture</button>
+            <div id="fields-container">
+                <div id="left-fields">
+                    <div>
+                        <span class="fields-labels">First Name: </span><input type="text" id="fname" class="profile-inputs">
+                    </div>
+                    <div>
+                        <span class="fields-labels">Contact No: </span><input type="text" id="contact" class="profile-inputs">
+                    </div>
+                    <button class="save-btns" id="profile-save-btn">Save Changes</button>
+                </div>
+                <div id="right-fields">
+                    <div>
+                        <span class="fields-labels">Last Name: </span><input type="text" id="lname" class="profile-inputs">
+                    </div>
+                    <div>
+                        <span class="fields-labels">Address: </span><input type="text" id="address" class="profile-inputs">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="account-content">
+            <div>
+                <span class="account-fields-labels">Current Email: </span><input type="email" id="cuemail" class="profile-inputs">
+            </div>
+            <div>
+                <span class="account-fields-labels">New Email: </span><input type="email" id="nemail" class="profile-inputs">
+            </div>
+            <div>
+                <span class="account-fields-labels">Confirm New Email: </span><input type="email" id="cnemail" class="profile-inputs">
+            </div>
+            <button class="save-btns account-btns" id="account-save-email-btn">Save Changes</button>
+            <div>
+                <span class="account-fields-labels">Current Password: </span><input type="password" id="cupass" class="profile-inputs">
+            </div>
+            <div id="npass-container">
+                <span class="account-fields-labels">New Password: </span><input type="password" id="npass" class="profile-inputs">
+                <img src="../imgs/eye_close.svg" alt="" id="show-pass-img">
+            </div>
+            <div>
+                <span class="account-fields-labels">Confirm New Password: </span><input type="password" id="cnpass" class="profile-inputs">
+            </div>
+            <button class="save-btns account-btns" id="account-save-pass-btn">Save Changes</button>
+            <button class="save-btns account-btns" id="account-delete-btn">Delete Account</button>
+        </div>
+    </main>
+</body>
+</html>

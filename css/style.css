@@ -403,6 +403,10 @@ body.dark-mode input::placeholder {
     color: white;
 }
 
+body.dark-mode input:focus {
+    outline: none;
+}
+
 body.dark-mode .modal-content {
     background-color: #173a56;
 }

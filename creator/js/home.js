@@ -56,3 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 });
+
+document.getElementById("manage-accs-btn").addEventListener("click", function() {
+    window.location.href = "manage-accs.html";
+});
