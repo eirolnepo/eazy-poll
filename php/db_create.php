@@ -64,7 +64,7 @@ function deleteOldBackups($backup_dir) {
 function exportDatabase($conn, $host, $username, $password, $dbname, $backup_dir, $mysqldumpPath) {
     // Check if the `users` table is empty
     if (isTableEmpty($conn, 'users')) {
-        return "Export skipped: The `users` table is empty.<br>";
+        return "Export skipped: The `users` table is empty.";
     }
 
     // Delete old backups before exporting
@@ -80,9 +80,9 @@ function exportDatabase($conn, $host, $username, $password, $dbname, $backup_dir
     system($command, $output);
 
     if ($output === 0) {
-        return "Database exported successfully to $backup_file<br>";
+        return "Database exported successfully to $backup_file";
     } else {
-        return "Error occurred during backup<br>";
+        return "Error occurred during backup";
     }
 }
 
@@ -91,7 +91,7 @@ function importDatabase($host, $username, $password, $dbname, $backup_dir, $mysq
     // Get the latest backup file
     $files = glob($backup_dir . '*.sql');
     if (empty($files)) {
-        return "No backup files found.<br>";
+        return "No backup files found.";
     }
     $latest_file = max($files);
 
@@ -102,18 +102,18 @@ function importDatabase($host, $username, $password, $dbname, $backup_dir, $mysq
     system($command, $output);
 
     if ($output === 0) {
-        return "Database restored successfully from $latest_file<br>";
+        return "Database restored successfully from $latest_file";
     } else {
-        return "Error occurred during restoration. Error code: $output.<br>";
+        return "Error occurred during restoration. Error code: $output.";
     }
 }
 
 function dropDatabase($conn, $dbname) {
     $sql_drop_db = "DROP DATABASE IF EXISTS $dbname";
     if ($conn->query($sql_drop_db) === TRUE) {
-        return "Database dropped successfully.<br>";
+        return "Database dropped successfully.";
     } else {
-        return "Error dropping database: " . $conn->error . "<br>";
+        return "Error dropping database: " . $conn->error;
     }
 }
 
@@ -140,10 +140,10 @@ if (isset($_GET['action'])) {
         $message .= dropDatabase($conn, $dbname);
         header("Location: index.php");
     } else {    
-        $message = "Invalid action. Use 'export' or 'import'.<br>";
+        $message = "Invalid action. Use 'export' or 'import'.";
     }
 } else {
-    $message = "Use ?action=export, ?action=import, or ?action=drop in the URL for Importing, Exporting, and Dropping<br>";
+    $message = "Use ?action=export, ?action=import, or ?action=drop in the URL for Importing, Exporting, and Dropping";
 }
 ?>
 
