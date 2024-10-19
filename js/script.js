@@ -9,13 +9,22 @@ const forgotPassLink = document.getElementById('forgot-pass-link');
 const changePassInBtn = document.getElementById('change-pass-in-btn');
 const darkModeButton = document.getElementById('nav-dark-mode');
 
+if (localStorage.getItem('darkMode') === 'enabled') {
+    document.body.classList.add('dark-mode');
+    darkModeButton.src = 'imgs/dark-mode-white.png';
+} else {
+    darkModeButton.src = 'imgs/dark-mode-green.png';
+}
+
 darkModeButton.addEventListener('click', function() {
     document.body.classList.toggle('dark-mode');
     
     if (document.body.classList.contains('dark-mode')) {
-      darkModeButton.src = 'imgs/dark-mode-white.png';
+        localStorage.setItem('darkMode', 'enabled');
+        darkModeButton.src = 'imgs/dark-mode-white.png';
     } else {
-      darkModeButton.src = 'imgs/dark-mode-green.png';
+        localStorage.setItem('darkMode', 'disabled');
+        darkModeButton.src = 'imgs/dark-mode-green.png';
     }
 });
 
@@ -127,4 +136,4 @@ var check = function() {
       document.getElementById('change-message').style.color = 'red';
       document.getElementById('change-message').innerHTML = '| Not matching';
     }
-  }
+}

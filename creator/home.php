@@ -50,9 +50,9 @@
         </div>
         <div id="nav-right-side">
             <div id="profile-container">
-                <img src="../imgs/default_profile_image.svg" alt="" id="nav-profile-img">
+                <img src="../imgs/default_profile_image_light.svg" alt="" id="nav-profile-img">
                 <div id="profile-options" class="hidden">
-                    <img src="../imgs/default_profile_image.svg" alt="" id="profile-options-image">
+                    <img src="../imgs/default_profile_image_light.svg" alt="" id="profile-options-img">
                     <p>Hi, <?php echo $fname; ?>!</p>
                     <div id="profile-options-btns-container">
                         <button class="profile-options-btns"><img src="../imgs/manage_accounts.svg" alt="" class="profile-options-btns-imgs">Manage Accounts</button>
@@ -62,7 +62,7 @@
                     </div>
                 </div>
             </div>
-            <img src="../imgs/info_button.svg" alt="" id="nav-info">
+            <img src="../imgs/info_button_light.svg" alt="" id="nav-info">
         </div>
     </nav>
 
