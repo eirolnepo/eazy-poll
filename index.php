@@ -30,12 +30,12 @@
      
         if(mysqli_num_rows($result) > 0){
       
-           $error[] = 'user already exist!';
+           $error[] = 'User already exists!';
       
         }else{
       
            if($pass != $cpass){
-              $error[] = 'Password do not matched!';
+              $error[] = 'Passwords do not match!';
            }else{
              if (!$uppercase || !$lowercase || !$number || strlen($pass) < 8) {
                $error[] = 'Password should be atleast 8 characters in length and should include at least one upper case letter, and one number.';
@@ -55,7 +55,7 @@
                     $select1 = " SELECT email FROM survey_db.users WHERE email = '$email'";
                     $result1 = mysqli_query($conn, $select1);
                     if (mysqli_num_rows($result1) > 0) {
-                        $error[] = 'Email already exist!';
+                        $error[] = 'Email already exists!';
                     }else{
             
                     $insert = "INSERT INTO survey_db.users(fname,lname,email,pass) VALUES(?,?,?,?)";
@@ -123,7 +123,7 @@
            $result = mysqli_query($conn, $select);
            if(mysqli_num_rows($result) > 0){
                 if($npass != $cpass){
-                    $errorchange[] = 'Password do not matched!';
+                    $errorchange[] = 'Passwords do not match!';
                 }else{
                     if (!$uppercase || !$lowercase || !$number || strlen($npass) < 8) {
                         $errorchange[] = 'Password should be atleast 8 characters in length and should include at least one upper case letter, and one number.';
@@ -131,7 +131,7 @@
                             $update = "UPDATE survey_db.users SET pass = '$encpass' WHERE email = '$email'";
                             $update_query = mysqli_query($conn, $update);
                             if($update_query){
-                                $sucess[] = "Password change sucessfully";
+                                $sucess[] = "Password changed sucessfully";
                             }
                         }    
                 }
@@ -188,18 +188,20 @@
     <div id="sign-in-modal" class="modal">
         <div class="modal-content" id="sign-in-modal-content">
           <h2 id="sign-in-modal-title">Sign In</h2>
-          <?php
-                if(isset($errorlogin)){
-                    foreach($errorlogin as $errorlogin){
-                        echo '<span class="error-msg">'.$errorlogin.'</span>';
-                    };
-                };
-            ?>
           <form id="sign-in-form" action="" method="post">
             <label for="email" class="sign-in-modal-label">Email</label>
             <input type="email" id="email" name="email" placeholder="Write your email" required>
             <label for="password" class="sign-in-modal-label">Password</label>
             <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            <?php
+                $formHasErrors = false;
+                if(isset($errorlogin)){
+                    foreach($errorlogin as $error){
+                        echo '<span class="error-msg">'.$error.'</span>';
+                    };
+                    $formHasErrors = true;
+                };
+            ?>
             <button type="submit" name="log-in" id="modal-sign-in-btn">
                 <?php
                     if(isset($_POST['log-in'])){
@@ -222,13 +224,6 @@
     <div id="sign-up-modal" class="modal">
         <div class="modal-content" id="sign-up-modal-content">
             <h2 id="sign-up-modal-title">Sign Up</h2>
-            <?php
-                if(isset($error)){
-                    foreach($error as $error){
-                        echo '<span class="error-msg">'.$error.'</span>';
-                    };
-                };
-            ?>
             <form id="sign-up-form" action="" method="post">
                 <label for="sign-up-email" class="sign-up-modal-label">Email</label>
                 <input type="email" id="sign-up-email" name="email" placeholder="Write your email" required>
@@ -240,6 +235,19 @@
                 <input type="password" id="sign-up-password" name="password" placeholder="Enter your password" onkeyup='check();' required>
                 <label for="confirm-password" class="sign-up-modal-label">Confirm Password <span id="sign-up-message"></span></label>
                 <input type="password" id="sign-up-confirm-password" name="confirm-password" placeholder="Confirm your password" onkeyup='check();' required>
+                <?php
+                    $signUpFormHasErrors = false;
+                    if (isset($error)) {
+                        if (is_array($error)) {
+                            foreach ($error as $errors) {
+                                echo '<span class="error-msg">' . $errors . '</span>';
+                            }
+                        } elseif (is_string($error)) {
+                            echo '<span class="error-msg">' . $error . '</span>';
+                        }
+                        $signUpFormHasErrors = true;
+                    }
+                ?>
                 <button type="submit" name="submit" id="modal-sign-up-btn">Sign Up</button><br>
                 <p id="have-account-text">Already have an account?&nbsp;<a href="#" class="sign-up-modal-links" id="sign-up-in-btn">Sign In</a></p>
             </form>
@@ -249,17 +257,6 @@
     <div id="change-pass-modal" class="modal">
         <div class="modal-content" id="sign-up-modal-content">
             <h2 id="change-pass-modal-title">Change Password</h2>
-            <?php
-                if(isset($errorchange)){
-                    foreach($errorchange as $errorchange){
-                        echo '<span class="error-msg">'.$errorchange.'</span>';
-                    };
-                }else if (isset($sucess)){
-                    foreach($sucess as $sucess){
-                        echo '<span class="sucess-msg">'.$sucess.'</span>';
-                    };
-                };
-            ?>
             <form id="change-pass-form" action="" method="post">
                 <label for="change-pass-email" class="change-pass-modal-label">Email</label>
                 <input type="email" id="change-pass-email" name="email" placeholder="Write your email" required>
@@ -267,10 +264,44 @@
                 <input type="password" id="change-password" name="password" placeholder="Enter your new password" onkeyup='check();'  required>
                 <label for="confirm-password" class="change-pass-modal-label">Confirm New Password <span id="change-message"></span></label>
                 <input type="password" id="confirm-change-password" name="confirm-password" placeholder="Confirm your new password" onkeyup='check();' required>
+                <?php
+                    $passwordChangeFormHasErrors = false;
+                    $passwordChangeSuccess = false;
+
+                    if (isset($errorchange)) {
+                        foreach ($errorchange as $errorchanges) {
+                            echo '<span class="error-msg">' . $errorchanges . '</span>';
+                        }
+                        $passwordChangeFormHasErrors = true;
+                    } 
+
+                    if (isset($success)) {
+                        foreach ($success as $changesuccess) {
+                            echo '<span class="success-msg">' . $changesuccess . '</span>';
+                        }
+                        $passwordChangeSuccess = true;
+                    }
+                ?>
                 <button type="submit" name="change" id="modal-change-pass-btn">Change Password</button><br>
                 <a href="#" class="change-pass-modal-links" id="change-pass-in-btn">Sign In</a>
             </form>
         </div>
     </div>
+
+    <script>
+        window.addEventListener('load', function() {
+            <?php if ($formHasErrors) : ?>
+                showModal(document.getElementById('sign-in-modal'));
+            <?php endif; ?>
+
+            <?php if ($signUpFormHasErrors) : ?>
+                showModal(document.getElementById('sign-up-modal'));
+            <?php endif; ?>
+
+            <?php if ($passwordChangeFormHasErrors || $passwordChangeSuccess) : ?>
+                showModal(document.getElementById('change-pass-modal'));
+            <?php endif; ?>
+        });
+    </script>
 </body>
 </html>
