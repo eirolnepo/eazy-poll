@@ -83,7 +83,7 @@
     right: -100%;
     background-color: white;
     padding: 1rem;
-    border: 0.1rem solid #000;
+    border: 0.1rem solid #173a56;
     border-radius: 2rem;
     z-index: 1;
     
@@ -145,4 +145,102 @@
     width: 2.5rem;
     margin-left: 2rem;
     cursor: pointer;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#templates-container {
+    width: 58rem;
+    margin-top: 2rem;
+}
+
+.containers-title {
+    color: #02897a;
+    font-weight: 500;
+    margin-left: -3rem;
+}
+
+.divs-container {
+    margin-top: 1rem;
+
+    display: flex;
+    gap: 2rem;
+}
+
+.templates-divs-container {
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.templates-divs-container:hover {
+    transform: scale(1.05);
+}
+
+.templates-divs {
+    width: 10rem;
+    height: 12rem;
+    border: 0.1rem solid #000;
+    border-radius: 1rem;
+}
+
+.templates-texts {
+    width: 10rem;
+    color: #173a56;
+    text-align: center;
+    margin-top: 0.3rem;
+}
+
+#custom-container {
+    width: 58rem;
+    margin-top: 1rem;
+}
+
+#add-custom-div {
+    width: 10rem;
+    height: 12rem;
+    border: 0.1rem solid transparent;
+    border-radius: 0rem;
+    transition: border 0.3s ease, border-radius 0.3s ease;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#add-custom-div:hover {
+    border: 0.1rem solid #000;
+    border-radius: 1rem;
+    cursor: pointer;
+}
+
+#add-custom-btn {
+    width: 5rem;
+}
+
+.custom-divs-container {
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.custom-divs-container:hover {
+    transform: scale(1.05);
+}
+
+.custom-divs {
+    width: 10rem;
+    height: 12rem;
+    border: 0.1rem solid #000;
+    border-radius: 1rem;
+}
+
+.custom-texts{
+    width: 10rem;
+    color: #173a56;
+    text-align: center;
+    margin-top: 0.3rem;
 }

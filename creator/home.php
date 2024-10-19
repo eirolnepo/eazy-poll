@@ -65,5 +65,46 @@
             <img src="../imgs/info_button.svg" alt="" id="nav-info">
         </div>
     </nav>
+
+    <main>
+        <div id="templates-container">
+            <h3 class="containers-title">Templates</h3>
+            <div class="divs-container">
+                <div class="templates-divs-container">
+                    <div class="templates-divs"></div>
+                    <p class="templates-texts">Multiple-Choice Survey</p>
+                </div>
+                <div class="templates-divs-container">
+                    <div class="templates-divs"></div>
+                    <p class="templates-texts">True or False Survey</p>
+                </div>
+                <div class="templates-divs-container">
+                    <div class="templates-divs"></div>
+                    <p class="templates-texts">Satisfaction Survey</p>
+                </div>
+                <div class="templates-divs-container">
+                    <div class="templates-divs"></div>
+                    <p class="templates-texts">Rating Scale Survey</p>
+                </div>
+                <div class="templates-divs-container">
+                    <div class="templates-divs"></div>
+                    <p class="templates-texts">Pulse Survey</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="custom-container">
+            <h3 class="containers-title">Custom Surveys</h3>
+            <div class="divs-container">
+                <div id="add-custom-div">
+                    <img src="../imgs/plus.svg" alt="" id="add-custom-btn">
+                </div>
+                <div class="custom-divs-container">
+                    <div class="custom-divs"></div>
+                    <p class="custom-texts">Sample Title</p>
+                </div>
+            </div>
+        </div>
+    </main>
 </body>
 </html>
