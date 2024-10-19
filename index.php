@@ -161,13 +161,13 @@
         <?php if (!empty($message)) echo $message; ?>
     </div>  
     <nav id="nav-bar">
-        <img src="imgs/logo.png" alt="" id="nav-logo">
+        <img src="imgs/logo.png" alt="EazyPoll logo" id="nav-logo">
         <h1 id="nav-title">EazyPoll</h1>
         <div id="nav-btns-container">
             <button class="nav-btns" id="sign-in-btn">Sign In</button>
             <button class="nav-btns" id="sign-up-btn">Sign Up</button>
         </div>
-        <img src="imgs/dark-mode-green.png" alt="" id="nav-dark-mode">
+        <img src="imgs/dark-mode-green.png" alt="Dark mode button" id="nav-dark-mode">
     </nav>
 
     <main>
@@ -177,7 +177,7 @@
             <div id="home-btns-links">
                 <button id="get-started-btn">Get Started</button>
                 <div id="tutorial-container" onclick="location.href='#';">
-                    <img src="imgs/triangle.png" alt="" id="home-triangle">
+                    <img src="imgs/triangle.png" alt="Play tutorial button" id="home-triangle">
                     <a id="home-link">Tutorial</a>
                 </div>
             </div>

@@ -39,20 +39,20 @@
 <body>
     <nav id="nav-bar">
         <div id="nav-left-side">
-            <img src="../imgs/logo.png" alt="" id="nav-logo">
+            <img src="../imgs/logo.png" alt="Eazypoll logo" id="nav-logo">
             <h1 id="nav-title">EazyPoll</h1>
         </div>
         <div id="nav-center">
             <div id="search-container">
                 <input type="text" placeholder="Search" id="nav-search-bar">
             </div>
-            <img src="../imgs/dark-mode-green.png" alt="" id="nav-dark-mode">
+            <img src="../imgs/dark-mode-green.png" alt="Dark mode button" id="nav-dark-mode">
         </div>
         <div id="nav-right-side">
             <div id="profile-container">
-                <img src="../imgs/default_profile_image_light.svg" alt="" id="nav-profile-img">
+                <img src="../imgs/default_profile_image_light.svg" alt="User's profile picture" id="nav-profile-img">
                 <div id="profile-options" class="hidden">
-                    <img src="../imgs/default_profile_image_light.svg" alt="" id="profile-options-img">
+                    <img src="../imgs/default_profile_image_light.svg" alt="User's profile picture" id="profile-options-img">
                     <p>Hi, <?php echo $fname; ?>!</p>
                     <div id="profile-options-btns-container">
                         <button class="profile-options-btns"><img src="../imgs/manage_accounts.svg" alt="" class="profile-options-btns-imgs">Manage Accounts</button>
@@ -62,7 +62,7 @@
                     </div>
                 </div>
             </div>
-            <img src="../imgs/info_button_light.svg" alt="" id="nav-info">
+            <img src="../imgs/info_button_light.svg" alt="Play tutorial button" id="nav-info">
         </div>
     </nav>
 
@@ -97,7 +97,7 @@
             <h3 class="containers-title">Custom Surveys</h3>
             <div class="divs-container">
                 <div id="add-custom-div">
-                    <img src="../imgs/plus.svg" alt="" id="add-custom-btn">
+                    <img src="../imgs/plus.svg" alt="Make a custom survey button" id="add-custom-btn">
                 </div>
                 <div class="custom-divs-container">
                     <div class="custom-divs"></div>
