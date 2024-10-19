@@ -157,9 +157,6 @@
     <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
 </head>
 <body>
-    <div>
-        <?php if (!empty($message)) echo $message; ?>
-    </div>  
     <nav id="nav-bar">
         <img src="imgs/logo.png" alt="EazyPoll logo" id="nav-logo">
         <h1 id="nav-title">EazyPoll</h1>
@@ -303,5 +300,11 @@
             <?php endif; ?>
         });
     </script>
+
+    <?php if (!empty($message)) : ?>
+        <script>
+            console.log(<?php echo json_encode($message); ?>);
+        </script>
+    <?php endif; ?>
 </body>
 </html>
