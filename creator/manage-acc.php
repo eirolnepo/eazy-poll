@@ -112,6 +112,10 @@
         $encnewpass = md5($new);
         $enccurrent = md5($current);
 
+        $uppercase = preg_match('@[A-Z]@', $new);
+        $lowercase = preg_match('@[a-z]@', $new);
+        $number    = preg_match('@[0-9]@', $new);
+
         if($enccurrent != $pass){
             $_SESSION['error'] = 'Current password is incorrect!'; // Store error message in session
             header('Location: '.$_SERVER['PHP_SELF'].'?id='.$id);
@@ -122,12 +126,18 @@
                 header('Location: '.$_SERVER['PHP_SELF'].'?id='.$id);
                 exit();
             }else{
-                $UpdatePass = "UPDATE survey_db.users SET pass = '$encnewpass' WHERE user_id = '$id'";
-                $Passquery = mysqli_query($conn,$UpdatePass);
-                if($Passquery){
-                    $_SESSION['success'] = 'Password updated successfully!';
+                if (!$uppercase || !$lowercase || !$number || strlen($npass) < 8) {
+                    $_SESSION['error'] = 'Password should be atleast 8 characters in length and should <br> include at least one upper case letter, and one number.'; // Store error message in session
                     header('Location: '.$_SERVER['PHP_SELF'].'?id='.$id);
                     exit();
+                }else{
+                    $UpdatePass = "UPDATE survey_db.users SET pass = '$encnewpass' WHERE user_id = '$id'";
+                    $Passquery = mysqli_query($conn,$UpdatePass);
+                    if($Passquery){
+                        $_SESSION['success'] = 'Password updated successfully!';
+                        header('Location: '.$_SERVER['PHP_SELF'].'?id='.$id);
+                        exit();
+                    }
                 }
             }
         }
@@ -177,11 +187,11 @@
             <?php
                     if (isset($_SESSION['errorProfile'])) {
                         echo "<div class='error-msg'>{$_SESSION['errorProfile']}</div>";
-                        unset($_SESSION['errorProfile']); 
+                        //unset($_SESSION['errorProfile']); 
                     }
                     if (isset($_SESSION['successProfile'])) {
                         echo "<div class='success-msg'>{$_SESSION['successProfile']}</div>";
-                        unset($_SESSION['successProfile']); 
+                        //unset($_SESSION['successProfile']); 
                     }  
                 ?>
             <div id="fields-container">
@@ -212,11 +222,11 @@
                 <?php
                     if (isset($_SESSION['errorEmail'])) {
                         echo "<div class='error-msg'>{$_SESSION['errorEmail']}</div>";
-                        unset($_SESSION['errorEmail']); 
+                        //unset($_SESSION['errorEmail']); 
                     }
                     if (isset($_SESSION['successEmail'])) {
                         echo "<div class='success-msg'>{$_SESSION['successEmail']}</div>";
-                        unset($_SESSION['successEmail']); 
+                        //unset($_SESSION['successEmail']); 
                     }  
                 ?>
                 <div>
@@ -232,11 +242,11 @@
                 <?php
                     if (isset($_SESSION['error'])) {
                         echo "<div class='error-msg'>{$_SESSION['error']}</div>";
-                        unset($_SESSION['error']); 
+                        //unset($_SESSION['error']); 
                     }
                     if (isset($_SESSION['success'])) {
                         echo "<div class='success-msg'>{$_SESSION['success']}</div>";
-                        unset($_SESSION['success']); 
+                        //unset($_SESSION['success']); 
                     }  
                 ?>
                 <div>

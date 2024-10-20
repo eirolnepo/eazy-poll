@@ -128,11 +128,11 @@ main {
     color: #02897a;
     border: none;
     cursor: pointer;
+    margin-bottom: 2rem;
 }
 
 #fields-container {
-    margin-top: 2rem;
-
+    margin-top: 0.5rem;
     display: flex;
     gap: 3rem;
 }

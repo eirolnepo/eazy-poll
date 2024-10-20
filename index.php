@@ -265,7 +265,7 @@
                     <input type="password" id="change-password" name="password" placeholder="Enter your new password" onkeyup='check();'  required>
                     <label for="confirm-password" class="change-pass-modal-label">Confirm New Password <span id="change-message"></span></label>
                     <input type="password" id="confirm-change-password" name="confirm-password" placeholder="Confirm your new password" onkeyup='check();' required>
-                    <?php /*
+                    <?php 
                         $passwordChangeFormHasErrors = false;
                         $passwordChangeSuccess = false;
 
@@ -282,7 +282,7 @@
                             }
                             $passwordChangeSuccess = true;
                         }
-                    */?>  
+                    ?>  
                 -->
                 <button type="submit" name="change" id="modal-change-pass-btn">Verify</button><br>
                 <a href="#" class="change-pass-modal-links" id="change-pass-in-btn">Sign In</a>
