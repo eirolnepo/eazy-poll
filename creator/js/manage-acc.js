@@ -1,6 +1,6 @@
 const darkModeButton = document.getElementById("nav-dark-mode");
 const navInfoButton = document.getElementById("nav-info");
-const profileImage = document.getElementById("profile-image");
+const profileImage = document.getElementById("profile-img");
 const showPassImage = document.getElementById("show-pass-img");
 const passwordVisible = localStorage.getItem("passwordVisible") === "true";
 const npassInput = document.getElementById("npass");

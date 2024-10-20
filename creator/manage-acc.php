@@ -142,8 +142,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EazyPoll</title>
     <link rel="icon" href="../imgs/logo.png">
-    <link rel="stylesheet" href="css/manage-accs.css">
-    <script src="js/manage-accs.js" defer></script>
+    <link rel="stylesheet" href="css/manage-acc.css">
+    <script src="js/manage-acc.js" defer></script>
 </head>
 <body>
     <nav id="nav-bar">
@@ -152,7 +152,7 @@
             <h1 id="nav-title">EazyPoll</h1>
         </div>
         <div id="nav-center">
-            <h2 id="manage-accs-title">Manage Account</h2>
+            <h2 id="manage-acc-title">Manage Account</h2>
         </div>
         <div id="nav-right-side">
             <img src="../imgs/dark-mode-green.png" alt="Dark mode button" id="nav-dark-mode">
@@ -165,14 +165,14 @@
             <a href="home.php?id=<?php echo $id; ?>" class="side-bar-links">Back to Home</a>
             <a href="#profile-content" class="side-bar-links" id="profile-link">Profile</a>
             <a href="#account-content" class="side-bar-links">Account</a>
-            <form id="signOutForm" method="POST" action="manage-accs.php?id=<?php $id?>">
+            <form id="signOutForm" method="POST" action="manage-acc.php?id=<?php $id?>">
                 <input type="hidden" name="sign-out" value="1">
             </form>
             <a href="#" class="side-bar-links" onclick="document.getElementById('signOutForm').submit();">Sign Out</a>
         </div>
 
         <div id="profile-content">
-            <img src="../imgs/default_profile_image_light.svg" alt="User's profile picture" id="profile-image">
+            <img src="../imgs/default_profile_image_light.svg" alt="User's profile picture" id="profile-img">
             <button id="change-img-btn">Change Profile Picture</button>
             <?php
                     if (isset($_SESSION['errorProfile'])) {

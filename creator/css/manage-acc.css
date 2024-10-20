@@ -42,7 +42,7 @@ html {
     display: flex;
 }
 
-#manage-accs-title {
+#manage-acc-title {
     color: #173a56;
     font-weight: 500;
 }
@@ -118,7 +118,7 @@ main {
     align-items: center;
 }
 
-#profile-image {
+#profile-img {
     width: 14rem;
     margin-bottom: -0.4rem;
 }
@@ -240,7 +240,7 @@ body.dark-mode {
 }
 
 body.dark-mode #nav-title,
-body.dark-mode #manage-accs-title {
+body.dark-mode #manage-acc-title {
     color: #fff;
 }
 

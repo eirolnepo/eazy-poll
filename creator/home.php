@@ -25,8 +25,8 @@
         exit;
     }
 
-    if(isset($_POST['manage-accs'])){
-        header("location: manage-accs.php?id=$id");
+    if(isset($_POST['manage-acc'])){
+        header("location: manage-acc.php?id=$id");
         exit;
     }
 ?>
@@ -61,7 +61,7 @@
                     <p>Hi, <?php echo $fname; ?>!</p>
                     <div id="profile-options-btns-container">
                         <form action="" method="post">
-                            <button class="profile-options-btns" id="manage-accs-btn" name="manage-accs"><img src="../imgs/manage_accounts.svg" alt="" class="profile-options-btns-imgs">Manage Account</button>
+                            <button class="profile-options-btns" id="manage-acc-btn" name="manage-acc"><img src="../imgs/manage_accounts.svg" alt="" class="profile-options-btns-imgs">Manage Account</button>
                         </form>
                         <form action="" method="post"> 
                             <button class="profile-options-btns" name="sign-out"><img src="../imgs/signout.svg" alt=""  class="profile-options-btns-imgs">Sign Out</button>

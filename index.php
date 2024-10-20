@@ -193,8 +193,8 @@
             <?php
                 $formHasErrors = false;
                 if(isset($errorlogin)){
-                    foreach($errorlogin as $errorlogin){
-                        echo '<span class="error-msg">'.$errorlogin.'</span>';
+                    foreach($errorlogin as $errorslogin){
+                        echo '<span class="error-msg">'.$errorslogin.'</span>';
                     };
                     $formHasErrors = true;
                 };
