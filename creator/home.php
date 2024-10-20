@@ -59,9 +59,12 @@
                 <div id="profile-options" class="hidden">
                     <img src="../imgs/default_profile_image_light.svg" alt="User's profile picture" id="profile-options-img">
                     <p>Hi, <?php echo $fname; ?>!</p>
+                    <form action="" method="post">
+                        <button class="profile-options-btns" id="manage-acc-btn" name="manage-acc"><img src="../imgs/manage_accounts.svg" alt="" class="profile-options-btns-imgs">Manage Account</button>
+                    </form>
                     <div id="profile-options-btns-container">
                         <form action="" method="post">
-                            <button class="profile-options-btns" id="manage-acc-btn" name="manage-acc"><img src="../imgs/manage_accounts.svg" alt="" class="profile-options-btns-imgs">Manage Account</button>
+                            <button class="profile-options-btns" id="add-acc-btn" name="add-acc"><img src="../imgs/plus_white.svg" alt="" class="profile-options-btns-imgs">Add Account</button>
                         </form>
                         <form action="" method="post"> 
                             <button class="profile-options-btns" name="sign-out"><img src="../imgs/signout.svg" alt=""  class="profile-options-btns-imgs">Sign Out</button>

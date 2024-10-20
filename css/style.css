@@ -301,6 +301,23 @@ input {
     border-radius: 0.7rem;
 }
 
+#get-code-btn {
+    width: 12rem;
+    font-size: 1.1rem;
+    background-color: #02897a;
+    color: white;
+    padding: 0.6rem;
+    border: none;
+    border-radius: 1rem;
+
+    align-self: center;
+}
+
+#get-code-btn:hover {
+    background-color: #006156;
+    cursor: pointer;
+}
+
 #modal-change-pass-btn {
     width: 12rem;
     font-size: 1.1rem;
@@ -412,7 +429,7 @@ body.dark-mode .modal-content {
 }
 
 body.dark-mode #modal-change-pass-btn {
-    background-color: #00796b;
+    background-color: #02897a;
     color: white;
 }
 

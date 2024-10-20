@@ -253,10 +253,11 @@
 
     <div id="change-pass-modal" class="modal">
         <div class="modal-content" id="sign-up-modal-content">
-            <h2 id="change-pass-modal-title">Change Password</h2>
+            <h2 id="change-pass-modal-title">Forgot Password</h2>
             <form id="change-pass-form" action="" method="post">
                 <label for="change-pass-email" class="change-pass-modal-label">Email</label>
                 <input type="email" id="change-pass-email" name="email" placeholder="Write your email" required>
+                <button id="get-code-btn">Get Code</button>
                 <label for="change-pass-password" class="change-pass-modal-label">Verification Code</label>
                 <input type="password" id="change-password" name="password" placeholder="Enter Code" onkeyup='check();'  required>
                 <!-- 
