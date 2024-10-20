@@ -41,7 +41,13 @@ document.addEventListener("DOMContentLoaded", () => {
     img.onclick = () => {
         if (!options.classList.contains("show")) {
             options.style.display = "flex";
+            options.style.pointerEvents = "auto";
             options.offsetHeight;
+        } else {
+            options.style.pointerEvents = "none";
+            setTimeout(() => {
+                options.style.display = "none";
+            }, 300);
         }
         
         options.classList.toggle("show");
@@ -50,6 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.onclick = (event) => {
         if (!img.contains(event.target) && !options.contains(event.target)) {
             options.classList.remove("show");
+            options.style.pointerEvents = "none";
             setTimeout(() => {
                 options.style.display = "none";
             }, 300);
