@@ -52,13 +52,13 @@ html {
 }
 
 #nav-dark-mode {
-    width: 2.5rem;
+    width: 2.7rem;
     margin-left: 2rem;
     cursor: pointer;
 }
 
 #nav-info {
-    width: 2.5rem;
+    width: 2.7rem;
     margin-left: 2rem;
     cursor: pointer;
 }
@@ -78,11 +78,6 @@ main {
     margin-top: 3rem;
     margin-left: 8rem;
     position: fixed;
-}
-
-.side-bar-button {
-    background-color: none;
-    border: none;
 }
 
 .side-bar-links {
