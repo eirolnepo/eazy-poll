@@ -29,6 +29,11 @@
         header("location: manage-acc.php?id=$id");
         exit;
     }
+
+    if(isset($_POST['custom-btn'])){
+        header("location: custom-survey.php?id=$id");
+        exit;
+    }
 ?>
 
 <!DOCTYPE html>
@@ -107,7 +112,11 @@
             <h3 class="containers-title">Custom Surveys</h3>
             <div class="divs-container">
                 <div id="add-custom-div">
-                    <img src="../imgs/plus.svg" alt="Make a custom survey button" id="add-custom-btn">
+                    <form method="post">
+                        <button id="custom-btn" name="custom-btn">
+                            <img src="../imgs/plus.svg" alt="Make a custom survey button" id="add-custom-btn">
+                        </button>
+                    </form>
                 </div>
                 <div class="custom-divs-container">
                     <div class="custom-divs"></div>

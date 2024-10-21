@@ -288,3 +288,9 @@ body.dark-mode .custom-divs,
 body.dark-mode #add-custom-div:hover {
     border: 0.1rem solid #fff;
 }
+
+#add-custom-div #custom-btn{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}

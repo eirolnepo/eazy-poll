@@ -1,3 +1,41 @@
+<?php
+    session_start();
+    include '../php/db_connect.php';
+
+    if (!isset($_SESSION['loggedin'])) {
+        header("Location: ../index.php");
+        exit;
+    }
+
+    header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+    header("Cache-Control: post-check=0, pre-check=0", false);
+    header("Pragma: no-cache");
+
+    $id = $_GET['id'];
+
+    $select = " SELECT fname FROM survey_db.users WHERE user_id = '$id' ";
+    $result = mysqli_query($conn, $select);
+    while($row = mysqli_fetch_array($result)){
+        $fname = $row['fname'];
+    }
+
+    if(isset($_POST['sign-out'])){
+        session_destroy();
+        header("location: ../index.php");
+        exit;
+    }
+
+    if(isset($_POST['manage-acc'])){
+        header("location: manage-acc.php?id=$id");
+        exit;
+    }
+
+    if(isset($_POST['home-btn'])){
+        header("location: home.php?id=$id");
+        exit;
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +59,11 @@
             </div>
         </div>
         <div id="nav-right-side">
-            <img src="../imgs/home.svg" alt="Back to home button" id="nav-home-btn">
+            <form action="" method="post">
+                <button class="home-btn" name="home-btn">
+                    <img src="../imgs/home.svg" alt="Back to home button" id="nav-home-btn">
+                </button>   
+            </form>
             <img src="../imgs/dark-mode-green.png" alt="Dark mode button" id="nav-dark-mode">
             <div id="profile-container">
                 <img src="../imgs/default_profile_image_light.svg" alt="User's profile picture" id="nav-profile-img">

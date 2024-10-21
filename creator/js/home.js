@@ -63,7 +63,3 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 });
-
-document.getElementById("add-custom-btn").addEventListener("click", function() {
-    window.location.href = "custom-survey.html";
-});

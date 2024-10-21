@@ -67,8 +67,15 @@
 
 #nav-home-btn {
     width: 2.7rem;
-    margin-right: 2rem;
     cursor: pointer;
+}
+
+.home-btn{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    width: auto;
+    margin-right: 2rem;
 }
 
 #nav-dark-mode {
