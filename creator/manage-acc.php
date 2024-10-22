@@ -187,11 +187,11 @@
             <?php
                     if (isset($_SESSION['errorProfile'])) {
                         echo "<div class='error-msg'>{$_SESSION['errorProfile']}</div>";
-                        //unset($_SESSION['errorProfile']); 
+                        unset($_SESSION['errorProfile']); 
                     }
                     if (isset($_SESSION['successProfile'])) {
                         echo "<div class='success-msg'>{$_SESSION['successProfile']}</div>";
-                        //unset($_SESSION['successProfile']); 
+                        unset($_SESSION['successProfile']); 
                     }  
                 ?>
             <div id="fields-container">
@@ -222,11 +222,11 @@
                 <?php
                     if (isset($_SESSION['errorEmail'])) {
                         echo "<div class='error-msg'>{$_SESSION['errorEmail']}</div>";
-                        //unset($_SESSION['errorEmail']); 
+                        unset($_SESSION['errorEmail']); 
                     }
                     if (isset($_SESSION['successEmail'])) {
                         echo "<div class='success-msg'>{$_SESSION['successEmail']}</div>";
-                        //unset($_SESSION['successEmail']); 
+                        unset($_SESSION['successEmail']); 
                     }  
                 ?>
                 <div>
@@ -242,11 +242,11 @@
                 <?php
                     if (isset($_SESSION['error'])) {
                         echo "<div class='error-msg'>{$_SESSION['error']}</div>";
-                        //unset($_SESSION['error']); 
+                        unset($_SESSION['error']); 
                     }
                     if (isset($_SESSION['success'])) {
                         echo "<div class='success-msg'>{$_SESSION['success']}</div>";
-                        //unset($_SESSION['success']); 
+                        unset($_SESSION['success']); 
                     }  
                 ?>
                 <div>
