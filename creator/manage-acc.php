@@ -253,12 +253,13 @@
                     <span class="account-fields-labels">Current Password: </span><input name="c-pass" type="password" id="cupass" class="account-inputs">
                 </div>
                 <div id="npass-container">
-                    <span class="account-fields-labels">New Password: </span><input name="n-pass" type="password" id="npass" class="account-inputs">
+                    <span class="account-fields-labels">New Password: </span><input name="n-pass" type="password" id="npass" class="account-inputs" onkeyup='check();'>
                     <img src="../imgs/eye_close_light.svg" alt="" id="show-pass-img">
                 </div>
                 <div>
-                    <span class="account-fields-labels">Confirm New Password: </span><input name="cn-pass" type="password" id="cnpass" class="account-inputs">
+                    <span class="account-fields-labels">Confirm New Password: </span><input name="cn-pass" type="password" id="cnpass" class="account-inputs" onkeyup='check();'>
                 </div>
+                <span id="matched-message"></span>
                 <button class="save-btns account-btns" id="account-save-pass-btn" name="save-password">Save Changes</button>
                 <button class="save-btns account-btns" id="account-delete-btn">Delete Account</button>
             </form>

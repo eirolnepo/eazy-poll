@@ -88,3 +88,19 @@ document.querySelector("#profile-link").addEventListener("click", function (e) {
         behavior: "smooth"
     });
 });
+
+var check = function() {
+    if(document.getElementById("npass").value == "" &&
+      document.getElementById("cnpass").value == ""){
+      document.getElementById("matched-message").innerHTML = "";
+    }
+    else if (document.getElementById("npass").value ==
+      document.getElementById("cnpass").value) {
+      document.getElementById("matched-message").style.color = "green";
+      document.getElementById("matched-message").innerHTML = "Matching";
+    } else {
+      document.getElementById("matched-message").style.color = "red";
+      document.getElementById("matched-message").innerHTML = "Not matching";
+    }
+
+}
