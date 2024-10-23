@@ -48,27 +48,29 @@ document.addEventListener("DOMContentLoaded", function () {
     const surveyContainer = document.querySelector("#survey-container");
     const addOptionsBtn = document.querySelector("#add-options-btn");
     const addOptionsContainer = document.querySelector("#add-options-container");
+    let questionCount = 0;
 
     addOptionsContainer.style.display = "none";
     addOptionsContainer.style.opacity = 0;
     addOptionsContainer.style.transform = "scale(0.9)";
 
-    function handleChoices(questionDiv) {
+    function handleChoices(questionDiv, questionIndex) {
         const questionType = questionDiv.querySelector(".question-type");
         const choicesContainer = questionDiv.querySelector(".question-choices-container");
         const addChoiceBtn = questionDiv.querySelector(".add-choice-btn");
 
-        function addChoice(inputType = "radio") {
+        function addChoice(inputType = "radio", questionIndex) {
             const choiceDiv = document.createElement("div");
             choiceDiv.classList.add("choice-container");
 
             const inputOption = document.createElement("input");
             inputOption.type = inputType;
-            inputOption.name = "multiple-choice";
+            inputOption.name = `multiple-choice[${questionIndex}]`;
 
             const inputText = document.createElement("input");
             inputText.type = "text";
             inputText.classList.add("choice-input-text");
+            inputText.name = `choice-input[${questionIndex}][]`;
             inputText.placeholder = "Option text";
 
             const deleteImg = document.createElement("img");
@@ -92,15 +94,15 @@ document.addEventListener("DOMContentLoaded", function () {
             choicesContainer.appendChild(addChoiceBtn);
 
             if (e.target.value === "Multiple Choice") {
-                addChoice("radio");
+                addChoice("radio",questionIndex);
             } else if (e.target.value === "Checkboxes") {
-                addChoice("checkbox");
+                addChoice("checkbox",questionIndex);
             }
         });
 
         addChoiceBtn.addEventListener("click", function () {
             const inputType = questionType.value === "Multiple Choice" ? "radio" : "checkbox";
-            addChoice(inputType);
+            addChoice(inputType,questionIndex);
         });
 
         const deleteQuestionBtn = questionDiv.querySelector(".delete-question-btn");
@@ -115,8 +117,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const existingQuestions = document.querySelectorAll(".question-container");
     existingQuestions.forEach(questionDiv => {
-        handleChoices(questionDiv);
+        handleChoices(questionDiv, questionCount);
         questionDiv.classList.add("show");
+        questionCount++;
     });
 
     function addQuestion() {
@@ -125,8 +128,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         questionDiv.innerHTML = `
             <div class="question-upper">
-                <input type="text" name="question-title" class="question-title" placeholder="Untitled Question">
-                <select name="question-type" class="question-type">
+                <input type="text" name="question-title[${questionCount}]" class="question-title" placeholder="Untitled Question">
+                <select name="question-type[${questionCount}]" class="question-type">
                     <option value="Multiple Choice">Multiple Choice</option>
                     <option value="Checkboxes">Checkboxes</option>
                 </select>
@@ -138,7 +141,8 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
 
         surveyContainer.appendChild(questionDiv);
-        handleChoices(questionDiv);
+        handleChoices(questionDiv, questionCount);
+        questionCount++;
 
         setTimeout(() => {
             questionDiv.classList.add("show");

@@ -34,6 +34,54 @@
         header("location: home.php?id=$id");
         exit;
     }
+
+    if (isset($_POST['save-btn'])) {
+
+        $survey_id = 1; // Adjust as necessary
+        $questions = $_POST['question-title'] ?? [];
+        $question_types = $_POST['question-type'] ?? [];
+    
+        // Ensure $questions is an array
+        if (!is_array($questions)) {
+            $questions = [$questions]; // Wrap in an array if it's a string
+        }
+    
+        foreach ($questions as $index => $question_text) {
+            if (!empty($question_text) && isset($question_types[$index])) {
+                // Insert question into the database
+                $stmt = $conn->prepare("INSERT INTO survey_db.questions (survey_id, question_text, question_type) VALUES (?, ?, ?)");
+                $stmt->bind_param("iss", $survey_id, $question_text, $question_types[$index]);
+    
+                if ($stmt->execute()) {
+                    $lastQuestionId = $conn->insert_id;
+    
+                    // Access choices safely, ensure to use $index
+                    $options = $_POST['choice-input'][$index] ?? [];
+    
+                    // Check if options are indeed an array
+                    if (!is_array($options)) {
+                        $options = [$options]; // Wrap the string in an array
+                    }
+    
+                    foreach ($options as $optionText) {
+                        if (!empty($optionText)) {
+                            // Insert each choice into the database
+                            $stmt = $conn->prepare("INSERT INTO survey_db.choices (question_id, choice_text) VALUES (?, ?)");
+                            $stmt->bind_param("is", $lastQuestionId, $optionText);
+                            if (!$stmt->execute()) {
+                                echo "Choice Error: " . $stmt->error; // Print error for choice insertion
+                            }
+                        }
+                    }
+                } else {
+                    echo "Question Error: " . $stmt->error; // Print error for question insertion
+                }
+            }
+        }
+    }
+    
+    
+
 ?>
 
 <!DOCTYPE html>
@@ -88,35 +136,39 @@
     </nav>
 
     <main>
-        <div id="title-desc-container">
-            <input type="text" name="survey-title" id="survey-title" value="Untitled Survey">
-            <textarea name="survey-desc" id="survey-desc" placeholder="Survey Description"></textarea>
-        </div>
-
-        <div id="survey-container">
-            <div class="question-container">
-                <div class="question-upper">
-                    <input type="text" name="question-title" class="question-title" placeholder="Untitled Question">
-                    <select name="question-type" class="question-type">
-                        <option value="Multiple Choice">Multiple Choice</option>
-                        <option value="Checkboxes">Checkboxes</option>
-                    </select>
-                </div>
-                <div class="question-choices-container">
-                    <img src="../imgs/plus_choices.svg" alt="Add choice button" class="add-choice-btn">
-                </div>
-                <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn">
+        <form action="" method="post" class="main">
+            <div id="title-desc-container">
+                <input type="text" name="survey-title" id="survey-title" value="Untitled Survey">
+                <textarea name="survey-desc" id="survey-desc" placeholder="Survey Description"></textarea>
             </div>
-        </div>
 
-        <img src="../imgs/plus.svg" alt="Add options button" id="add-options-btn">
+            <div id="survey-container">
+                <div class="question-container">
+                    <div class="question-upper">
+                        <input type="text" name="question-title" class="question-title" placeholder="Untitled Question">
+                        <select name="question-type" class="question-type">
+                            <option value="Multiple Choice">Multiple Choice</option>
+                            <option value="Checkboxes">Checkboxes</option>
+                        </select>
+                    </div>
+                    <div class="question-choices-container">
+                        <img src="../imgs/plus_choices.svg" alt="Add choice button" class="add-choice-btn">
+                    </div>
+                    <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn">
+                </div>
+            </div>
 
-        <div id="add-options-container">
-            <img src="../imgs/plus_choices.svg" alt="Add question button" id="add-question-btn" class="add-options-btns">
-            <img src="../imgs/text_logo.svg" alt="Add title and description button" id="add-td-btn" class="add-options-btns">
-            <img src="../imgs/image_logo.svg" alt="Add image logo" id="add-image-btn" class="add-options-btns">
-            <img src="../imgs/save.svg" alt="Add image logo" id="add-save-btn" class="add-options-btns">
-        </div>
+            <img src="../imgs/plus.svg" alt="Add options button" id="add-options-btn">
+
+            <div id="add-options-container">
+                <img src="../imgs/plus_choices.svg" alt="Add question button" id="add-question-btn" class="add-options-btns">
+                <img src="../imgs/text_logo.svg" alt="Add title and description button" id="add-td-btn" class="add-options-btns">
+                <img src="../imgs/image_logo.svg" alt="Add image logo" id="add-image-btn" class="add-options-btns">
+                <button class="save-btn" name="save-btn">
+                    <img src="../imgs/save.svg" alt="Add image logo" id="add-save-btn" class="add-options-btns">
+                </button>
+            </div>
+        </form>
     </main>
 </body>
 </html>
