@@ -50,7 +50,7 @@
     <nav id="nav-bar">
         <div id="nav-left-side">
             <img src="../imgs/logo.png" alt="Eazypoll logo" id="nav-logo">
-            <h1 id="nav-title">Untitled Survey</h1>
+             <input type="text" id="nav-title" value="Untitled Survey" readonly>
         </div>
         <div id="nav-center">
             <div id="links-container">
@@ -64,7 +64,9 @@
                     <img src="../imgs/home.svg" alt="Back to home button" id="nav-home-btn">
                 </button>   
             </form>
-            <img src="../imgs/dark-mode-green.png" alt="Dark mode button" id="nav-dark-mode">
+            <button class="dark-mode-btn">
+                <img src="../imgs/dark-mode-green.png" alt="Dark mode button" id="nav-dark-mode">
+            </button>
             <div id="profile-container">
                 <img src="../imgs/default_profile_image_light.svg" alt="User's profile picture" id="nav-profile-img">
                 <div id="profile-options" class="hidden">
@@ -83,7 +85,9 @@
                     </div>
                 </div>
             </div>
-            <img src="../imgs/info_button_light.svg" alt="Play tutorial button" id="nav-info">
+            <button class="info-btn">
+                <img src="../imgs/info_button_light.svg" alt="Play tutorial button" id="nav-info">
+            </button>
         </div>
     </nav>
 
@@ -100,6 +104,9 @@
                     <select name="question-type" class="question-type">
                         <option value="Multiple Choice">Multiple Choice</option>
                         <option value="Checkboxes">Checkboxes</option>
+                        <option value="Dropdown">Dropdown</option>
+                        <option value="Short Answer">Short Answer</option>
+                        <option value="Paragraph">Paragraph</option>
                     </select>
                 </div>
                 <div class="question-choices-container">

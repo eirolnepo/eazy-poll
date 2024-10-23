@@ -29,10 +29,10 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const surveyInput = document.getElementById("survey-title");
-const navTitle = document.getElementById("nav-title");
+const navTitleInput = document.getElementById("nav-title");
 
 surveyInput.addEventListener("input", function() {
-    navTitle.textContent = surveyInput.value || "Untitled Survey";
+    navTitleInput.value = surveyInput.value || "Untitled Survey";
 });
 
 const textarea = document.getElementById("survey-desc");
@@ -85,16 +85,66 @@ document.addEventListener("DOMContentLoaded", function () {
             choicesContainer.insertBefore(choiceDiv, addChoiceBtn);
         }
 
+        function addDropdownChoices() {
+            const dropdown = document.createElement("select");
+            dropdown.classList.add("dropdown-choices");
+
+            const trueOption = document.createElement("option");
+            trueOption.value = "True";
+            trueOption.text = "True";
+
+            const falseOption = document.createElement("option");
+            falseOption.value = "False";
+            falseOption.text = "False";
+
+            dropdown.appendChild(trueOption);
+            dropdown.appendChild(falseOption);
+
+            choicesContainer.appendChild(dropdown);
+        }
+
+        function addShortAnswer() {
+            const shortAnswerInput = document.createElement("input");
+            shortAnswerInput.type = "text";
+            shortAnswerInput.classList.add("short-answer-input");
+            shortAnswerInput.placeholder = "Your answer";
+            choicesContainer.appendChild(shortAnswerInput);
+        }
+
+        function addParagraph() {
+            const paragraphTextarea = document.createElement("textarea");
+            paragraphTextarea.classList.add("paragraph-textarea");
+            paragraphTextarea.placeholder = "Your answer";
+            paragraphTextarea.rows = 4;
+            paragraphTextarea.style.resize = "none";
+        
+            paragraphTextarea.addEventListener("input", function () {
+                this.style.height = "auto";
+                this.style.height = this.scrollHeight + "px";
+            });
+        
+            choicesContainer.appendChild(paragraphTextarea);
+        }        
+
+        addChoice();
         addChoice();
 
         questionType.addEventListener("change", function (e) {
             choicesContainer.innerHTML = "";
-            choicesContainer.appendChild(addChoiceBtn);
-
             if (e.target.value === "Multiple Choice") {
+                choicesContainer.appendChild(addChoiceBtn);
+                addChoice("radio");
                 addChoice("radio");
             } else if (e.target.value === "Checkboxes") {
+                choicesContainer.appendChild(addChoiceBtn);
                 addChoice("checkbox");
+                addChoice("checkbox");
+            } else if (e.target.value === "Dropdown") {
+                addDropdownChoices();
+            } else if (e.target.value === "Short Answer") {
+                addShortAnswer();
+            } else if (e.target.value === "Paragraph") {
+                addParagraph();
             }
         });
 
@@ -129,6 +179,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 <select name="question-type" class="question-type">
                     <option value="Multiple Choice">Multiple Choice</option>
                     <option value="Checkboxes">Checkboxes</option>
+                    <option value="Dropdown">Dropdown</option>
+                    <option value="Short Answer">Short Answer</option>
+                    <option value="Paragraph">Paragraph</option>
                 </select>
             </div>
             <div class="question-choices-container">
