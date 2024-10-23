@@ -24,10 +24,17 @@
 }
 
 #nav-title {
+    width: 11.40rem;
     font-size: 1.5rem;
     font-weight: 500;
     color: #173a56;
+    border: none;
+    outline: none;
     margin-left: 1rem;
+    overflow: hidden;
+    white-space: nowrap;
+    direction: rtl;
+    text-align: left;
 }
 
 #nav-center {
@@ -65,6 +72,11 @@
     width: 100%;
 }
 
+#nav-right-side {
+    display: flex;
+    gap: 1.5rem;
+}
+
 #nav-home-btn {
     width: 2.7rem;
     cursor: pointer;
@@ -75,17 +87,18 @@
     border: none;
     cursor: pointer;
     width: auto;
-    margin-right: 2rem;
 }
 
 #nav-dark-mode {
-    width: 2.7rem;
-    margin-right: 2rem;
+    width: 2.5rem;
     cursor: pointer;
 }
 
-#nav-right-side {
-    display: flex;
+.dark-mode-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    width: auto;
 }
 
 #nav-profile-img {
@@ -166,8 +179,21 @@
 
 #nav-info {
     width: 2.7rem;
-    margin-left: 2rem;
     cursor: pointer;
+}
+
+.info-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    width: auto;
+}
+
+.info-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    width: auto;
 }
 
 main, .main {
@@ -176,7 +202,7 @@ main, .main {
     align-items: center;
 }
 
-#title-desc-container {
+.title-desc-container {
     width: 35rem;
     padding: 1rem;
     border-top: 1rem solid #02897a;
@@ -190,13 +216,19 @@ main, .main {
     gap: 0.8rem;
 }
 
-#survey-title {
+#survey-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.survey-title {
     font-size: 1.5rem;
     border: none;
     outline: none;
 }
 
-#survey-desc {
+.survey-desc {
     font-size: 1rem;
     line-height: 1;
     padding: 0;
@@ -206,7 +238,7 @@ main, .main {
     outline: none;
 }
 
-#survey-title:focus, #survey-desc:focus {
+.survey-title:focus, .survey-desc:focus {
     border-bottom: 0.1rem solid #173a56;
 }
 
@@ -265,13 +297,98 @@ main, .main {
     outline: none;
 }
 
-.add-choice-btn, .delete-choice-btn, .delete-question-btn {
+.dropdown-choices {
+    width: 30rem;
+    font-size: 1rem;
+    border: 0.1rem solid #173a56;
+    border-radius: 0.5rem;
+    margin: 1rem;
+    outline: none;
+}
+
+.short-answer-input {
+    width: 30rem;
+    border: none;
+    border-bottom: 0.1rem solid #173a56;
+    margin: 1rem;
+    outline: none;
+}
+
+.paragraph-textarea {
+    width: 30rem;
+    padding: 0.5rem;
+    border: 0.1rem solid #173a56;
+    border-radius: 0.5rem;
+    margin: 1rem;
+    overflow: hidden;
+    outline: none;
+}
+
+.add-choice-btn, .delete-choice-btn, .delete-question-btn, .delete-section-btn, .delete-upload-btn, .upload-image-btn {
     width: 1.3rem;
     cursor: pointer;
 }
 
-.delete-question-btn {
+.delete-question-btn, .delete-section-btn, .delete-upload-btn {
     align-self: flex-end;
+}
+
+.new-title-desc-container {
+    width: 35rem;
+    padding: 1rem;
+    border-top: 1rem solid #02897a;
+    border-right: 0.1rem solid #173a56;
+    border-bottom: 0.1rem solid #173a56;
+    border-left: 0.1rem solid #173a56;
+    border-radius: 0.5rem;
+    margin-top: 2rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.new-title-desc-container.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.image-upload-container {
+    width: 35rem;
+    height: 8.2rem;
+    padding: 1rem;
+    border: 0.1rem solid #173a56;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.image-upload-container.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.upload-text {
+    width: 100%;
+    text-align: center;
+}
+
+.uploaded-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 #add-options-btn {
