@@ -54,6 +54,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const addTdBtn = document.querySelector("#add-td-btn");
     const addImageBtn = document.querySelector("#add-image-btn");
 
+    let questionCounter = 1;
+
     addOptionsContainer.style.display = "none";
     addOptionsContainer.style.opacity = 0;
     addOptionsContainer.style.transform = "scale(0.9)";
@@ -75,6 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
             inputText.type = "text";
             inputText.classList.add("choice-input-text");
             inputText.placeholder = "Option text";
+            inputText.name = `choice[${questionCounter-1}][]`;
 
             const deleteImg = document.createElement("img");
             deleteImg.src = "../imgs/close.svg";
@@ -180,8 +183,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         questionDiv.innerHTML = `
             <div class="question-upper">
-                <input type="text" name="question-title" class="question-title" placeholder="Untitled Question">
-                <select name="question-type" class="question-type">
+                <input type="text" name="question-title[${questionCounter}]" class="question-title" placeholder="Untitled Question">
+                <select name="question-type[${questionCounter}]" class="question-type">
                     <option value="Multiple Choice">Multiple Choice</option>
                     <option value="Checkboxes">Checkboxes</option>
                     <option value="Dropdown">Dropdown</option>
@@ -196,8 +199,8 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
 
         surveyContainer.appendChild(questionDiv);
+        questionCounter++;
         handleChoices(questionDiv);
-
         setTimeout(() => {
             questionDiv.classList.add("show");
         }, 10);

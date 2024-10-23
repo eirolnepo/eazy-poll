@@ -186,7 +186,7 @@ if (isset($_GET['action'])) {
         header("Location: index.php");
     } elseif ($action === 'drop') {
         $message .= dropDatabase($conn, $dbname);
-        header("Location: index.php");
+        header("Location: index.php?action=import");
     } else {    
         $message = "Invalid action. Use 'export' or 'import'.";
     }
