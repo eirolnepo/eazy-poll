@@ -92,9 +92,9 @@
     </nav>
 
     <main>
-        <div id="title-desc-container">
-            <input type="text" name="survey-title" id="survey-title" value="Untitled Survey">
-            <textarea name="survey-desc" id="survey-desc" placeholder="Survey Description"></textarea>
+        <div class="title-desc-container">
+            <input type="text" name="survey-title" class="survey-title" id="nav-survey-title" value="Untitled Survey">
+            <textarea name="survey-desc" class="survey-desc" placeholder="Survey Description"></textarea>
         </div>
 
         <div id="survey-container">

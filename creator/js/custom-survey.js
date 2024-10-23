@@ -28,26 +28,31 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 });
 
-const surveyInput = document.getElementById("survey-title");
+const surveyInput = document.getElementById("nav-survey-title");
 const navTitleInput = document.getElementById("nav-title");
 
 surveyInput.addEventListener("input", function() {
     navTitleInput.value = surveyInput.value || "Untitled Survey";
 });
 
-const textarea = document.getElementById("survey-desc");
+const textareas = document.getElementsByClassName("survey-desc");
 
-textarea.style.resize = "none";
-textarea.addEventListener("input", function() {
-    this.style.height = "auto";
-    this.style.height = this.scrollHeight + "px";
-});
+for (let i = 0; i < textareas.length; i++) {
+    textareas[i].style.resize = "none";
+
+    textareas[i].addEventListener("input", function() {
+        this.style.height = "auto";
+        this.style.height = this.scrollHeight + "px";
+    });
+}
 
 document.addEventListener("DOMContentLoaded", function () {
     const addQuestionBtn = document.querySelector("#add-question-btn");
     const surveyContainer = document.querySelector("#survey-container");
     const addOptionsBtn = document.querySelector("#add-options-btn");
     const addOptionsContainer = document.querySelector("#add-options-container");
+    const addTdBtn = document.querySelector("#add-td-btn");
+    const addImageBtn = document.querySelector("#add-image-btn");
 
     addOptionsContainer.style.display = "none";
     addOptionsContainer.style.opacity = 0;
@@ -117,14 +122,14 @@ document.addEventListener("DOMContentLoaded", function () {
             paragraphTextarea.placeholder = "Your answer";
             paragraphTextarea.rows = 4;
             paragraphTextarea.style.resize = "none";
-        
+
             paragraphTextarea.addEventListener("input", function () {
                 this.style.height = "auto";
                 this.style.height = this.scrollHeight + "px";
             });
-        
+
             choicesContainer.appendChild(paragraphTextarea);
-        }        
+        }
 
         addChoice();
         addChoice();
@@ -232,4 +237,106 @@ document.addEventListener("DOMContentLoaded", function () {
     addQuestionBtn.addEventListener("click", function () {
         addQuestion();
     });
+
+    addTdBtn.addEventListener("click", function () {
+        const titleDescContainer = document.createElement("div");
+        titleDescContainer.classList.add("new-title-desc-container");
+
+        titleDescContainer.innerHTML = `
+            <input type="text" name="survey-title" class="survey-title" value="Untitled Section">
+            <textarea name="survey-desc" class="survey-desc" placeholder="Section Description"></textarea>
+            <img src="../imgs/delete.svg" alt="Delete section button" class="delete-section-btn">
+        `;
+        surveyContainer.appendChild(titleDescContainer);
+
+        const newTextarea = titleDescContainer.querySelector(".survey-desc");
+        newTextarea.style.resize = "none";
+
+        newTextarea.addEventListener("input", function() {
+            this.style.height = "auto";
+            this.style.height = this.scrollHeight + "px";
+        });
+
+        setTimeout(() => {
+            titleDescContainer.classList.add("show");
+        }, 10);
+
+        const deleteSectionBtn = titleDescContainer.querySelector(".delete-section-btn");
+        deleteSectionBtn.addEventListener("click", function () {
+            titleDescContainer.classList.remove("show");
+
+            setTimeout(() => {
+                titleDescContainer.remove();
+            }, 300);
+        });
+    });
+
+    addImageBtn.addEventListener("click", function () {
+        const imageUploadDiv = document.createElement("div");
+        imageUploadDiv.classList.add("image-upload-container");
+        imageUploadDiv.innerHTML = `
+            <p class="upload-text"><img src="../imgs/upload.svg" alt="Upload button" class="upload-image-btn">Click to upload an image</p>
+            <img src="../imgs/delete.svg" alt="Delete button" class="delete-upload-btn">
+        `;
+    
+        const imageInput = document.createElement("input");
+        imageInput.type = "file";
+        imageInput.accept = "image/*";
+        imageInput.style.display = "none";
+    
+        imageUploadDiv.appendChild(imageInput);
+    
+        imageUploadDiv.addEventListener("click", function () {
+            imageInput.click();
+        });
+    
+        imageInput.addEventListener("change", function () {
+            const file = imageInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const img = document.createElement("img");
+                    img.src = e.target.result;
+                    img.classList.add("uploaded-image");
+                    img.style.maxWidth = "100%";
+                    img.style.maxHeight = "100%";
+    
+                    imageUploadDiv.innerHTML = "";
+                    imageUploadDiv.appendChild(img);
+    
+                    const deleteBtn = document.createElement("img");
+                    deleteBtn.src = "../imgs/delete.svg";
+                    deleteBtn.alt = "Delete button";
+                    deleteBtn.classList.add("delete-upload-btn");
+    
+                    deleteBtn.addEventListener("click", function (event) {
+                        event.stopPropagation();
+                        imageUploadDiv.classList.remove("show");
+    
+                        setTimeout(() => {
+                            imageUploadDiv.remove();
+                        }, 300);
+                    });
+    
+                    imageUploadDiv.appendChild(deleteBtn);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    
+        imageUploadDiv.querySelector(".delete-upload-btn").addEventListener("click", function (event) {
+            event.stopPropagation();
+            imageUploadDiv.classList.remove("show");
+    
+            setTimeout(() => {
+                imageUploadDiv.remove();
+            }, 300);
+        });
+    
+        surveyContainer.appendChild(imageUploadDiv);
+    
+        setTimeout(() => {
+            imageUploadDiv.classList.add("show");
+        }, 10);
+    });      
 });
