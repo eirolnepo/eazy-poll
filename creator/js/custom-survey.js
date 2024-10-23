@@ -53,29 +53,27 @@ document.addEventListener("DOMContentLoaded", function () {
     const addOptionsContainer = document.querySelector("#add-options-container");
     const addTdBtn = document.querySelector("#add-td-btn");
     const addImageBtn = document.querySelector("#add-image-btn");
-    let questionCount = 0;
 
     addOptionsContainer.style.display = "none";
     addOptionsContainer.style.opacity = 0;
     addOptionsContainer.style.transform = "scale(0.9)";
 
-    function handleChoices(questionDiv, questionIndex) {
+    function handleChoices(questionDiv) {
         const questionType = questionDiv.querySelector(".question-type");
         const choicesContainer = questionDiv.querySelector(".question-choices-container");
         const addChoiceBtn = questionDiv.querySelector(".add-choice-btn");
 
-        function addChoice(inputType = "radio", questionIndex) {
+        function addChoice(inputType = "radio") {
             const choiceDiv = document.createElement("div");
             choiceDiv.classList.add("choice-container");
 
             const inputOption = document.createElement("input");
             inputOption.type = inputType;
-            inputOption.name = `multiple-choice[${questionIndex}]`;
+            inputOption.name = "multiple-choice";
 
             const inputText = document.createElement("input");
             inputText.type = "text";
             inputText.classList.add("choice-input-text");
-            inputText.name = `choice-input[${questionIndex}][]`;
             inputText.placeholder = "Option text";
 
             const deleteImg = document.createElement("img");
@@ -140,12 +138,12 @@ document.addEventListener("DOMContentLoaded", function () {
             choicesContainer.innerHTML = "";
             if (e.target.value === "Multiple Choice") {
                 choicesContainer.appendChild(addChoiceBtn);
-                addChoice("radio",questionIndex);
-                addChoice("radio",questionIndex);
+                addChoice("radio");
+                addChoice("radio");
             } else if (e.target.value === "Checkboxes") {
                 choicesContainer.appendChild(addChoiceBtn);
-                addChoice("checkbox",questionIndex);
-                addChoice("checkbox",questionIndex);
+                addChoice("checkbox");
+                addChoice("checkbox");
             } else if (e.target.value === "Dropdown") {
                 addDropdownChoices();
             } else if (e.target.value === "Short Answer") {
@@ -157,7 +155,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         addChoiceBtn.addEventListener("click", function () {
             const inputType = questionType.value === "Multiple Choice" ? "radio" : "checkbox";
-            addChoice(inputType,questionIndex);
+            addChoice(inputType);
         });
 
         const deleteQuestionBtn = questionDiv.querySelector(".delete-question-btn");
@@ -172,9 +170,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const existingQuestions = document.querySelectorAll(".question-container");
     existingQuestions.forEach(questionDiv => {
-        handleChoices(questionDiv, questionCount);
+        handleChoices(questionDiv);
         questionDiv.classList.add("show");
-        questionCount++;
     });
 
     function addQuestion() {
@@ -183,8 +180,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         questionDiv.innerHTML = `
             <div class="question-upper">
-                <input type="text" name="question-title[${questionCount}]" class="question-title" placeholder="Untitled Question">
-                <select name="question-type[${questionCount}]" class="question-type">
+                <input type="text" name="question-title" class="question-title" placeholder="Untitled Question">
+                <select name="question-type" class="question-type">
                     <option value="Multiple Choice">Multiple Choice</option>
                     <option value="Checkboxes">Checkboxes</option>
                     <option value="Dropdown">Dropdown</option>
@@ -199,8 +196,7 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
 
         surveyContainer.appendChild(questionDiv);
-        handleChoices(questionDiv, questionCount);
-        questionCount++;
+        handleChoices(questionDiv);
 
         setTimeout(() => {
             questionDiv.classList.add("show");

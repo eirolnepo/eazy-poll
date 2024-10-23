@@ -189,14 +189,7 @@
     width: auto;
 }
 
-.info-btn {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    width: auto;
-}
-
-main, .main {
+main {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -419,13 +412,5 @@ main, .main {
 }
 
 .add-options-btns {
-    cursor: pointer;
-}
-
-.save-btn{
-    display: flex;
-    align-items: center;
-    background-color: transparent;
-    border: none;
     cursor: pointer;
 }
