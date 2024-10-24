@@ -189,7 +189,7 @@
     width: auto;
 }
 
-main {
+main, .main {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -497,4 +497,12 @@ body.dark-mode .image-upload-container {
 
 body.dark-mode ::placeholder {
     color: #D3D2D2;
+}
+
+.save-btn{
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
 }

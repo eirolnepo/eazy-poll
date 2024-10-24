@@ -34,6 +34,65 @@
         header("location: home.php?id=$id");
         exit;
     }
+
+    if(isset($_POST['save-btn'])){
+        $survey_title = $_POST['survey-title'];
+        $survey_desc = $_POST['survey-desc'];
+
+        $insert_survey = "INSERT INTO survey_db.surveys (user_id,title,description) VALUES(?,?,?)";
+                    
+        $stmt = $conn -> prepare ($insert_survey);
+        $stmt -> bind_param('iss',$id,$survey_title,$survey_desc);
+            
+        if($stmt->execute()){
+            $survey_id = $stmt->insert_id;
+            $questions = $_POST['question-title'];
+            $count = count($questions);
+            
+            for($i=0; $i < $count; $i++){
+                $count_choices = $_POST['choice'][$i];
+                $question = $_POST['question-title'][$i];
+                $type = $_POST['question-type'][$i];
+
+                if($question==""){
+                    break;
+                }else{
+
+                    $insert_question = "INSERT INTO survey_db.questions (survey_id,question_text,question_type) VALUES(?,?,?)";
+                            
+                    $stmt = $conn -> prepare ($insert_question);
+                    $stmt -> bind_param('iss',$survey_id,$question,$type);
+                    
+                        if($stmt->execute()){
+                            if($type == "Multiple Choice" || $type == "Checkboxes"){
+                                if(isset($_POST['choice'][$i]) && is_array($_POST['choice'][$i])) {
+                                    $count_choices = count($_POST['choice'][$i]); 
+                                    
+                                    $select = "SELECT LAST_INSERT_ID() AS question_id"; 
+                                    $query = mysqli_query($conn, $select);
+
+                                    if ($query) {
+                                        $row = mysqli_fetch_array($query);
+                                        $question_id = $row['question_id'];
+                                    }
+                                    
+                                    for($j = 0; $j < $count_choices; $j++) {
+                                        $choice = $_POST['choice'][$i][$j];
+            
+                                        if(!empty($choice)) {
+                                            $insert_choice = "INSERT INTO survey_db.choices (question_id, choice_text) VALUES (?, ?)";
+                                            $stmt = $conn->prepare($insert_choice);
+                                            $stmt->bind_param('is', $question_id, $choice);
+                                            $stmt->execute();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                }
+            }
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -92,38 +151,42 @@
     </nav>
 
     <main>
-        <div class="title-desc-container">
-            <input type="text" name="survey-title" class="survey-title" id="nav-survey-title" value="Untitled Survey">
-            <textarea name="survey-desc" class="survey-desc" placeholder="Survey Description"></textarea>
-        </div>
-
-        <div id="survey-container">
-            <div class="question-container">
-                <div class="question-upper">
-                    <input type="text" name="question-title" class="question-title" placeholder="Untitled Question">
-                    <select name="question-type" class="question-type">
-                        <option value="Multiple Choice">Multiple Choice</option>
-                        <option value="Checkboxes">Checkboxes</option>
-                        <option value="Dropdown">Dropdown</option>
-                        <option value="Short Answer">Short Answer</option>
-                        <option value="Paragraph">Paragraph</option>
-                    </select>
-                </div>
-                <div class="question-choices-container">
-                    <img src="../imgs/plus_choices.svg" alt="Add choice button" class="add-choice-btn">
-                </div>
-                <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn">
+        <form action="" method="post" class="main">
+            <div class="title-desc-container">
+                <input type="text" name="survey-title" class="survey-title" id="nav-survey-title" value="Untitled Survey">
+                <textarea name="survey-desc" class="survey-desc" placeholder="Survey Description"></textarea>
             </div>
-        </div>
 
-        <img src="../imgs/plus.svg" alt="Add options button" id="add-options-btn">
+            <div id="survey-container">
+                <div class="question-container">
+                    <div class="question-upper">
+                        <input type="text" name="question-title[0]" class="question-title" placeholder="Untitled Question">
+                        <select name="question-type[0]" class="question-type">
+                            <option value="Multiple Choice">Multiple Choice</option>
+                            <option value="Checkboxes">Checkboxes</option>
+                            <option value="Dropdown">Dropdown</option>
+                            <option value="Short Answer">Short Answer</option>
+                            <option value="Paragraph">Paragraph</option>
+                        </select>
+                    </div>
+                    <div class="question-choices-container">
+                        <img src="../imgs/plus_choices.svg" alt="Add choice button" class="add-choice-btn">
+                    </div>
+                    <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn">
+                </div>
+            </div>
 
-        <div id="add-options-container">
-            <img src="../imgs/plus_choices.svg" alt="Add question button" id="add-question-btn" class="add-options-btns">
-            <img src="../imgs/text_logo.svg" alt="Add title and description button" id="add-td-btn" class="add-options-btns">
-            <img src="../imgs/image_logo.svg" alt="Add image logo" id="add-image-btn" class="add-options-btns">
-            <img src="../imgs/save.svg" alt="Add image logo" id="add-save-btn" class="add-options-btns">
-        </div>
+            <img src="../imgs/plus.svg" alt="Add options button" id="add-options-btn">
+
+            <div id="add-options-container">
+                <img src="../imgs/plus_choices.svg" alt="Add question button" id="add-question-btn" class="add-options-btns">
+                <img src="../imgs/text_logo.svg" alt="Add title and description button" id="add-td-btn" class="add-options-btns">
+                <img src="../imgs/image_logo.svg" alt="Add image logo" id="add-image-btn" class="add-options-btns">
+                <button class="save-btn" name="save-btn">
+                    <img src="../imgs/save.svg" alt="Add image logo" id="add-save-btn" class="add-options-btns">
+                </button>       
+            </div>
+        </form>
     </main>
 </body>
 </html>
