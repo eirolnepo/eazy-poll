@@ -102,5 +102,39 @@ var check = function() {
       document.getElementById("matched-message").style.color = "red";
       document.getElementById("matched-message").innerHTML = "Not matching";
     }
-
 }
+
+const deleteBtn = document.getElementById("account-delete-btn");
+const modal = document.getElementById("deleteModal");
+
+function showModal(modal) {
+    modal.style.display = "flex";
+    modal.style.justifyContent = "center";
+    modal.style.alignItems = "center";
+    modal.classList.add("fade-in");
+    document.body.style.overflow = "hidden";
+
+    setTimeout(() => {
+        modal.classList.remove("fade-in");
+    }, 300);
+}
+
+function hideModal(modal) {
+    modal.classList.add("fade-out");
+
+    setTimeout(() => {
+        modal.style.display = "none";
+        modal.classList.remove("fade-out");
+        document.body.style.overflow = "auto";
+    }, 300);
+}
+
+deleteBtn.onclick = function () {
+    showModal(modal);
+};
+
+window.onclick = function (event) {
+    if (event.target === modal) {
+        hideModal(modal);
+    }
+};

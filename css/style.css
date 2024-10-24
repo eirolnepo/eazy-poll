@@ -58,7 +58,7 @@ button {
 
 #sign-up-btn {
     background-color: #02897a;
-    color: white;
+    color: #fff;
 }
 
 #sign-up-btn:hover {
@@ -103,7 +103,7 @@ main {
     font-size: 1.1rem;
     font-weight: 600;
     background-color: #02897a;
-    color: white;
+    color: #fff;
     padding: 0.6rem 1.8rem;
     border: none;
 }
@@ -139,7 +139,7 @@ main {
 .modal {
     display: none;
     position: fixed; 
-    z-index: 1; 
+    z-index: 1000; 
     left: 0;
     top: 0;
     width: 100%; 
@@ -152,7 +152,7 @@ main {
     background-color: #fff;
     margin: auto;
     padding: 2rem;
-    border-radius: 1rem;                         
+    border-radius: 1rem;
     box-shadow: 0px 0px 0.625rem rgba(0, 0, 0, 0.2);
 
     display: flex;
@@ -163,19 +163,6 @@ main {
     font-weight: 400;
     color: #02897a;
     align-self: center;
-}
-
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 1.75rem;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: #000;
-    cursor: pointer;
 }
 
 #sign-in-form {
@@ -190,7 +177,7 @@ main {
 input {
     padding: 0.5rem;
     margin-bottom: 0.625rem;
-    border: 0.1rem solid black;
+    border: 0.1rem solid #000;
     border-radius: 0.7rem;
 }
 
@@ -198,7 +185,7 @@ input {
     width: 12rem;
     font-size: 1.2rem;
     background-color: #02897a;
-    color: white;
+    color: #fff;
     padding: 0.6rem;
     border: none;
     border-radius: 1rem;
@@ -246,7 +233,7 @@ input {
 input {
     padding: 0.5rem;
     margin-bottom: 0.625rem;
-    border: 0.1rem solid black;
+    border: 0.1rem solid #000;
     border-radius: 0.7rem;
 }
 
@@ -254,7 +241,7 @@ input {
     width: 12rem;
     font-size: 1.2rem;
     background-color: #02897a;
-    color: white;
+    color: #fff;
     padding: 0.6rem;
     border: none;
     border-radius: 1rem;
@@ -297,7 +284,7 @@ input {
 input {
     padding: 0.5rem;
     margin-bottom: 0.625rem;
-    border: 0.1rem solid black;
+    border: 0.1rem solid #000;
     border-radius: 0.7rem;
 }
 
@@ -305,7 +292,7 @@ input {
     width: 12rem;
     font-size: 1.1rem;
     background-color: #02897a;
-    color: white;
+    color: #fff;
     padding: 0.6rem;
     border: none;
     border-radius: 1rem;
@@ -322,7 +309,7 @@ input {
     width: 12rem;
     font-size: 1.1rem;
     background-color: #02897a;
-    color: white;
+    color: #fff;
     padding: 0.6rem;
     border: none;
     border-radius: 1rem;
@@ -417,7 +404,7 @@ body.dark-mode input {
 }
 
 body.dark-mode input::placeholder {
-    color: white;
+    color: #fff;
 }
 
 body.dark-mode input:focus {
@@ -430,7 +417,7 @@ body.dark-mode .modal-content {
 
 body.dark-mode #modal-change-pass-btn {
     background-color: #02897a;
-    color: white;
+    color: #fff;
 }
 
 body.dark-mode #modal-change-pass-btn:hover {

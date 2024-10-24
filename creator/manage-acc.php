@@ -265,5 +265,16 @@
             </form>
         </div>
     </main>
+
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <h2 id="acc-del-title">Confirm Account Deletion</h2>
+            <p class="acc-del-desc">Enter your password for confirmation</p>
+            <input type="password" class="acc-del-inputs" placeholder="Enter your password" />
+            <p class="acc-del-desc">Type the word "DELETE" to proceed</p>
+            <input type="text" class="acc-del-inputs" placeholder="DELETE" />
+            <button id="confirm-delete-btn">Confirm</button>
+        </div>
+    </div>
 </body>
 </html>

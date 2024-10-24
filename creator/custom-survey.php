@@ -36,6 +36,9 @@
     }
 
     if(isset($_POST['save-btn'])){
+        echo '<pre>';
+        print_r($_POST);
+        echo '</pre>';
         $survey_title = $_POST['survey-title'];
         $survey_desc = $_POST['survey-desc'];
 
