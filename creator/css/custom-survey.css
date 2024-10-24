@@ -416,6 +416,14 @@ main, .main {
     cursor: pointer;
 }
 
+.save-btn{
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
 /* dark mode */
 body {
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -497,12 +505,4 @@ body.dark-mode .image-upload-container {
 
 body.dark-mode ::placeholder {
     color: #D3D2D2;
-}
-
-.save-btn{
-    display: flex;
-    align-items: center;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
 }
