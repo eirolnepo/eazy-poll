@@ -50,7 +50,7 @@
     <nav id="nav-bar">
         <div id="nav-left-side">
             <img src="../imgs/logo.png" alt="Eazypoll logo" id="nav-logo">
-             <input type="text" id="nav-title" value="Untitled Survey" readonly>
+            <input type="text" id="nav-title" value="Untitled Survey" readonly>
         </div>
         <div id="nav-center">
             <div id="links-container">

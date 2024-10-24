@@ -47,16 +47,68 @@ for (let i = 0; i < textareas.length; i++) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+    const darkModeButton = document.getElementById("nav-dark-mode");
+    const profileOptionsButton = document.getElementById("nav-profile-img");
+    const navInfoButton = document.getElementById("nav-info");
+    const profileOptionsImage = document.getElementById("profile-options-img");
+    const homeImage = document.getElementById("nav-home-btn");
     const addQuestionBtn = document.querySelector("#add-question-btn");
     const surveyContainer = document.querySelector("#survey-container");
     const addOptionsBtn = document.querySelector("#add-options-btn");
     const addOptionsContainer = document.querySelector("#add-options-container");
     const addTdBtn = document.querySelector("#add-td-btn");
     const addImageBtn = document.querySelector("#add-image-btn");
+    const addSaveImage = document.getElementById("add-save-btn");
 
     addOptionsContainer.style.display = "none";
     addOptionsContainer.style.opacity = 0;
     addOptionsContainer.style.transform = "scale(0.9)";
+
+    function updateImagesForDarkMode() {
+        const darkModeEnabled = localStorage.getItem("darkMode") === "enabled";
+
+        const addChoiceBtns = document.getElementsByClassName("add-choice-btn");
+        const deleteChoiceBtns = document.getElementsByClassName("delete-choice-btn");
+        const deleteSectionBtns = document.getElementsByClassName("delete-section-btn");
+        const deleteQuestionBtns = document.getElementsByClassName("delete-question-btn");
+        const deleteUploadBtns = document.getElementsByClassName("delete-upload-btn");
+
+        darkModeButton.src = darkModeEnabled ? "../imgs/dark-mode-white.png" : "../imgs/dark-mode-green.png";
+        profileOptionsButton.src = darkModeEnabled ? "../imgs/default_profile_image_dark.svg" : "../imgs/default_profile_image_light.svg";
+        navInfoButton.src = darkModeEnabled ? "../imgs/info_button_dark.svg" : "../imgs/info_button_light.svg";
+        profileOptionsImage.src = darkModeEnabled ? "../imgs/default_profile_image_dark.svg" : "../imgs/default_profile_image_light.svg";
+        homeImage.src = darkModeEnabled ? "../imgs/home_dark.svg" : "../imgs/home.svg";
+        addQuestionBtn.src = darkModeEnabled ? "../imgs/plus_choices_dark.svg" : "../imgs/plus_choices.svg";
+        addTdBtn.src = darkModeEnabled ? "../imgs/text_dark.svg" : "../imgs/text_logo.svg";
+        addImageBtn.src = darkModeEnabled ? "../imgs/image_dark.svg" : "../imgs/image_logo.svg";
+        addSaveImage.src = darkModeEnabled ? "../imgs/save_dark.svg" : "../imgs/save.svg";
+
+        const deleteChoiceSrc = darkModeEnabled ? "../imgs/close_dark.svg" : "../imgs/close.svg";
+        const plusSrc = darkModeEnabled ? "../imgs/plus_choices_dark.svg" : "../imgs/plus_choices.svg";
+        const deleteSrc = darkModeEnabled ? "../imgs/delete_dark.svg" : "../imgs/delete.svg";
+
+        for (let img of addChoiceBtns) img.src = plusSrc;
+        for (let img of deleteChoiceBtns) img.src = deleteChoiceSrc;
+        for (let img of deleteSectionBtns) img.src = deleteSrc;
+        for (let img of deleteQuestionBtns) img.src = deleteSrc;
+        for (let img of deleteUploadBtns) img.src = deleteSrc;
+    }
+
+    if (localStorage.getItem("darkMode") === "enabled") {
+        document.body.classList.add("dark-mode");
+        updateImagesForDarkMode();
+    }
+
+    darkModeButton.addEventListener("click", function () {
+        document.body.classList.toggle("dark-mode");
+
+        if (document.body.classList.contains("dark-mode")) {
+            localStorage.setItem("darkMode", "enabled");
+        } else {
+            localStorage.setItem("darkMode", "disabled");
+        }
+        updateImagesForDarkMode();
+    });
 
     function handleChoices(questionDiv) {
         const questionType = questionDiv.querySelector(".question-type");
@@ -88,6 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
             choiceDiv.appendChild(inputText);
             choiceDiv.appendChild(deleteImg);
             choicesContainer.insertBefore(choiceDiv, addChoiceBtn);
+            updateImagesForDarkMode();
         }
 
         function addDropdownChoices() {
@@ -168,12 +221,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    const existingQuestions = document.querySelectorAll(".question-container");
-    existingQuestions.forEach(questionDiv => {
-        handleChoices(questionDiv);
-        questionDiv.classList.add("show");
-    });
-
     function addQuestion() {
         const questionDiv = document.createElement("div");
         questionDiv.classList.add("question-container");
@@ -197,6 +244,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         surveyContainer.appendChild(questionDiv);
         handleChoices(questionDiv);
+        updateImagesForDarkMode();
 
         setTimeout(() => {
             questionDiv.classList.add("show");
@@ -248,6 +296,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <img src="../imgs/delete.svg" alt="Delete section button" class="delete-section-btn">
         `;
         surveyContainer.appendChild(titleDescContainer);
+        updateImagesForDarkMode();
 
         const newTextarea = titleDescContainer.querySelector(".survey-desc");
         newTextarea.style.resize = "none";
@@ -305,9 +354,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     imageUploadDiv.appendChild(img);
     
                     const deleteBtn = document.createElement("img");
-                    deleteBtn.src = "../imgs/delete.svg";
-                    deleteBtn.alt = "Delete button";
                     deleteBtn.classList.add("delete-upload-btn");
+    
+                    const darkModeEnabled = localStorage.getItem("darkMode") === "enabled";
+                    deleteBtn.src = darkModeEnabled ? "../imgs/delete_dark.svg" : "../imgs/delete.svg";
+                    deleteBtn.alt = "Delete button";
     
                     deleteBtn.addEventListener("click", function (event) {
                         event.stopPropagation();
@@ -335,8 +386,16 @@ document.addEventListener("DOMContentLoaded", function () {
     
         surveyContainer.appendChild(imageUploadDiv);
     
+        updateImagesForDarkMode();
+    
         setTimeout(() => {
             imageUploadDiv.classList.add("show");
         }, 10);
-    });      
+    });
+    
+    const existingQuestions = document.querySelectorAll(".question-container");
+    existingQuestions.forEach(questionDiv => {
+        handleChoices(questionDiv);
+        questionDiv.classList.add("show");
+    });     
 });
