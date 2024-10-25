@@ -63,11 +63,22 @@
 
 #nav-right-side {
     display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+#nav-profile-img-container {
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
 }
 
 #nav-profile-img {
-    width: 2.7rem;
-    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 #profile-container {
@@ -103,8 +114,17 @@
     transform: translateY(0);
 }
 
+#profile-options-img-container {
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
 #profile-options-img {
-    width: 3rem;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 #profile-options-btns-container {
@@ -143,7 +163,6 @@
 
 #nav-info {
     width: 2.7rem;
-    margin-left: 2rem;
     cursor: pointer;
 }
 

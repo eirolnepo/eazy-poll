@@ -182,7 +182,10 @@
         </div>
 
         <div id="profile-content">
-            <img src="../imgs/default_profile_image_light.svg" alt="User's profile picture" id="profile-img">
+            <div id="profile-img-container">
+                <img src="../imgs/default_profile_image_light.svg" alt="User's profile picture" id="profile-img">
+                <input type="file" id="image-input" accept="image/*" style="display: none;" />
+            </div>
             <button id="change-img-btn">Change Profile Picture</button>
             <?php
                     if (isset($_SESSION['errorProfile'])) {

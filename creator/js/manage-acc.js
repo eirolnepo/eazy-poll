@@ -138,3 +138,21 @@ window.onclick = function (event) {
         hideModal(modal);
     }
 };
+
+function triggerFileInput() {
+    document.getElementById("image-input").click();
+}
+
+document.getElementById("profile-img-container").addEventListener("click", triggerFileInput);
+document.getElementById("change-img-btn").addEventListener("click", triggerFileInput);
+
+document.getElementById("image-input").addEventListener("change", function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById("profile-img").src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+});

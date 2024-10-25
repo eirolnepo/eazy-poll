@@ -130,9 +130,13 @@
                 <img src="../imgs/dark-mode-green.png" alt="Dark mode button" id="nav-dark-mode">
             </button>
             <div id="profile-container">
-                <img src="../imgs/default_profile_image_light.svg" alt="User's profile picture" id="nav-profile-img">
+                <div id="nav-profile-img-container">
+                    <img src="../imgs/default_profile_image_light.svg" alt="User's profile picture" id="nav-profile-img">
+                </div>
                 <div id="profile-options" class="hidden">
-                    <img src="../imgs/default_profile_image_light.svg" alt="User's profile picture" id="profile-options-img">
+                    <div id="profile-options-img-container">
+                        <img src="../imgs/default_profile_image_light.svg" alt="User's profile picture" id="profile-options-img">
+                    </div>
                     <p>Hi, <?php echo $fname; ?>!</p>
                     <form action="" method="post">
                         <button class="profile-options-btns" id="manage-acc-btn" name="manage-acc"><img src="../imgs/manage_accounts.svg" alt="" class="profile-options-btns-imgs">Manage Account</button>
