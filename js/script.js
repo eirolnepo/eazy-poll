@@ -137,3 +137,83 @@ var check = function() {
       document.getElementById("change-message").innerHTML = "| Not matching";
     }
 }
+
+emailjs.init("U0z2EKZx9cUmVo5Tt");
+
+let sentCode = "";
+
+document.getElementById("get-code-btn").addEventListener("click", function(event) {
+  event.preventDefault();
+  const email = document.getElementById("change-pass-email").value;
+
+  if (validateEmail(email) && email.length !== 0) {
+    document.getElementById("forgot-pass-email-error-msg").style.display = "none"
+    document.getElementById("forgot-pass-email-error-msg").textContent = ""
+
+    sentCode = generateCode();
+
+    emailjs.send("service_117moyx", "template_y4nsav5", {
+      to_email: email,
+      code: sentCode,
+    }).then(
+      function(response) {
+        console.log("Email sent successfully!", response.status, response.text);
+      },
+      function(error) {
+        console.log("Failed to send email:", error);
+      }
+    );
+  } else {
+    document.getElementById("forgot-pass-email-error-msg").style.display = "block"
+    document.getElementById("forgot-pass-email-error-msg").textContent = "Please enter a valid email address."
+  }
+});
+
+document.getElementById("verify-code").addEventListener("click", function(event) {
+  event.preventDefault();
+
+  const userInputCode = document.getElementById("verification-code").value;
+
+  if (userInputCode === sentCode && userInputCode.length !== 0) {
+    console.log("Verification successful!");
+    document.getElementById("forgot-pass-error-msg").style.display = "none"
+    document.getElementById("forgot-pass-error-msg").textContent = ""
+    replaceModalContent();
+  } else {
+    document.getElementById("forgot-pass-error-msg").style.display = "block"
+    document.getElementById("forgot-pass-error-msg").textContent = "Verification failed. The codes do not match."
+  }
+});
+
+function replaceModalContent() {
+    const modalContent = document.getElementById("forgot-pass-modal-content");
+    modalContent.innerHTML = `
+      <h2 id="change-pass-modal-title">Forgot Password</h2>
+      <form id="change-pass-form" action="" method="post">
+          <label for="change-pass-password" class="change-pass-modal-label">New Password</label>
+          <input type="password" id="change-password" name="password" placeholder="Enter your new password" onkeyup='check();' required>
+          <label for="confirm-password" class="change-pass-modal-label">Confirm New Password <span id="change-message"></span></label>
+          <input type="password" id="confirm-change-password" name="confirm-password" placeholder="Confirm your new password" onkeyup='check();' required>
+          <button type="submit" name="change" class="forgot-pass-btns">Change Password</button><br>
+          <a href="" class="change-pass-modal-links" id="change-pass-in-btn">Sign In</a>
+      </form>
+    `;
+    const changePassInBtn2 = document.getElementById("change-pass-in-btn");
+    changePassInBtn2.addEventListener("click", function(event) {
+        event.preventDefault();
+        hideModal(changePassModal);
+    
+        setTimeout(() => {
+            showModal(modal);
+        }, 300);
+    });
+}
+
+function generateCode() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+function validateEmail(email) {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email);
+}

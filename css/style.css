@@ -288,7 +288,17 @@ input {
     border-radius: 0.7rem;
 }
 
-#get-code-btn {
+#forgot-pass-email-error-msg {
+    display: none;
+    color: red;
+}
+
+#forgot-pass-error-msg {
+    display: none;
+    color: red;
+}
+
+.forgot-pass-btns {
     width: 12rem;
     font-size: 1.1rem;
     background-color: #02897a;
@@ -300,24 +310,7 @@ input {
     align-self: center;
 }
 
-#get-code-btn:hover {
-    background-color: #006156;
-    cursor: pointer;
-}
-
-#modal-change-pass-btn {
-    width: 12rem;
-    font-size: 1.1rem;
-    background-color: #02897a;
-    color: #fff;
-    padding: 0.6rem;
-    border: none;
-    border-radius: 1rem;
-
-    align-self: center;
-}
-
-#modal-change-pass-btn:hover {
+.forgot-pass-btns:hover {
     background-color: #006156;
     cursor: pointer;
 }
@@ -413,13 +406,4 @@ body.dark-mode input:focus {
 
 body.dark-mode .modal-content {
     background-color: #173a56;
-}
-
-body.dark-mode #modal-change-pass-btn {
-    background-color: #02897a;
-    color: #fff;
-}
-
-body.dark-mode #modal-change-pass-btn:hover {
-    background-color: #006156;
 }

@@ -155,6 +155,9 @@
     <link rel="stylesheet" href="css/style.css">
     <script src="js/script.js" defer></script>
     <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
 </head>
 <body>
     <nav id="nav-bar">
@@ -213,7 +216,7 @@
                 ?>
             </button><br>
             <p id="no-account-text">Don't have an account?&nbsp;<a href="#" class="sign-in-modal-links" id="sign-in-up-btn">Sign Up</a></p>
-            <a href="#" class="sign-in-modal-links" id="forgot-pass-link">Forgot password?</a>
+            <a href="" class="sign-in-modal-links" id="forgot-pass-link">Forgot password?</a>
           </form>
         </div>
     </div>
@@ -246,46 +249,24 @@
                     }
                 ?>
                 <button type="submit" name="submit" id="modal-sign-up-btn">Sign Up</button><br>
-                <p id="have-account-text">Already have an account?&nbsp;<a href="#" class="sign-up-modal-links" id="sign-up-in-btn">Sign In</a></p>
+                <p id="have-account-text">Already have an account?&nbsp;<a href="" class="sign-up-modal-links" id="sign-up-in-btn">Sign In</a></p>
             </form>
         </div>
     </div>
 
     <div id="change-pass-modal" class="modal">
-        <div class="modal-content" id="sign-up-modal-content">
+        <div class="modal-content" id="forgot-pass-modal-content">
             <h2 id="change-pass-modal-title">Forgot Password</h2>
             <form id="change-pass-form" action="" method="post">
                 <label for="change-pass-email" class="change-pass-modal-label">Email</label>
                 <input type="email" id="change-pass-email" name="email" placeholder="Write your email" required>
-                <button id="get-code-btn">Get Code</button>
-                <label for="change-pass-password" class="change-pass-modal-label">Verification Code</label>
-                <input type="password" id="change-password" name="password" placeholder="Enter Code" onkeyup='check();'  required>
-                <!-- 
-                    <label for="change-pass-password" class="change-pass-modal-label">New Password</label>
-                    <input type="password" id="change-password" name="password" placeholder="Enter your new password" onkeyup='check();'  required>
-                    <label for="confirm-password" class="change-pass-modal-label">Confirm New Password <span id="change-message"></span></label>
-                    <input type="password" id="confirm-change-password" name="confirm-password" placeholder="Confirm your new password" onkeyup='check();' required>
-                    <?php 
-                        $passwordChangeFormHasErrors = false;
-                        $passwordChangeSuccess = false;
-
-                        if (isset($errorchange)) {
-                            foreach ($errorchange as $errorchanges) {
-                                echo '<span class="error-msg">' . $errorchanges . '</span>';
-                            }
-                            $passwordChangeFormHasErrors = true;
-                        } 
-
-                        if (isset($sucess)) {
-                            foreach ($sucess as $sucess) {
-                                echo '<span class="success-msg">' . $sucess . '</span>';
-                            }
-                            $passwordChangeSuccess = true;
-                        }
-                    ?>  
-                -->
-                <button type="submit" name="change" id="modal-change-pass-btn">Verify</button><br>
-                <a href="#" class="change-pass-modal-links" id="change-pass-in-btn">Sign In</a>
+                <p id="forgot-pass-email-error-msg"></p>
+                <button id="get-code-btn" class="forgot-pass-btns">Get Code</button>
+                <label for="verification-code" class="change-pass-modal-label">Verification Code</label>
+                <input type="text" id="verification-code" name="verification-code" placeholder="Enter Code" onkeyup='check();'>
+                <p id="forgot-pass-error-msg"></p>
+                <button type="submit" name="change" id="verify-code" class="forgot-pass-btns">Verify</button><br>
+                <a href="" class="change-pass-modal-links" id="change-pass-in-btn">Sign In</a>
             </form>
         </div>
     </div>
