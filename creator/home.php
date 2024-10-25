@@ -34,6 +34,12 @@
         header("location: custom-survey.php?id=$id");
         exit;
     }
+
+    if(isset($_POST['custom-div-btn'])){
+        $survey_id = $_POST['custom-div-btn'];
+        header("location: custom-view.php?id=$id&survey_id=$survey_id");
+        exit;
+    }
 ?>
 
 <!DOCTYPE html>
@@ -123,8 +129,25 @@
                     </form>
                 </div>
                 <div class="custom-divs-container">
-                    <div class="custom-divs"></div>
-                    <p class="custom-texts">Sample Title</p>
+                    <form method="post" class="custom-divs-container">
+                        <?php
+                            $select_survey = " SELECT * FROM survey_db.surveys WHERE user_id = '$id' ";
+                            $result_survey = mysqli_query($conn, $select_survey);
+                            if(mysqli_num_rows($result_survey) > 0){
+                                while($row = mysqli_fetch_array($result_survey)){
+                                    $survey_id = $row['survey_id'];
+                                    $survey_title = $row['title'];
+
+                                    echo   '<div class="custom-section">
+                                                <button class = "custom-div-btn" name = "custom-div-btn" value="'.$survey_id.'">
+                                                    <div class="custom-divs"></div>
+                                                </button>
+                                                <p class="custom-texts">'.$survey_title.'</p>
+                                        </div>';
+                                }
+                            }
+                        ?>
+                    </form>
                 </div>
             </div>
         </div>

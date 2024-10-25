@@ -12,6 +12,13 @@
     header("Pragma: no-cache");
 
     $id = $_GET['id'];
+    $survey_id = $_GET['survey_id'];
+
+    $select = " SELECT * FROM survey_db.surveys WHERE survey_id = '$survey_id' ";
+    $result = mysqli_query($conn, $select);
+    while($row = mysqli_fetch_array($result)){
+        $survey_title = $row['title'];
+    }
 
     $select = " SELECT fname FROM survey_db.users WHERE user_id = '$id' ";
     $result = mysqli_query($conn, $select);
@@ -123,7 +130,7 @@
     <nav id="nav-bar">
         <div id="nav-left-side">
             <img src="../imgs/logo.png" alt="Eazypoll logo" id="nav-logo">
-            <input type="text" id="nav-title" value="Untitled Survey" readonly>
+            <input type="text" id="nav-title" value="<?php echo $survey_title;?>" readonly>
         </div>
         <div id="nav-center">
             <div id="links-container">
@@ -171,7 +178,7 @@
     <main>
         <form action="" method="post" class="main">
             <div class="title-desc-container">
-                <input type="text" name="survey-title" class="survey-title" id="nav-survey-title" value="Untitled Survey">
+                <input type="text" name="survey-title" class="survey-title" id="nav-survey-title" value="<?php echo $survey_title;?>">
                 <textarea name="survey-desc" class="survey-desc" placeholder="Survey Description"></textarea>
             </div>
 

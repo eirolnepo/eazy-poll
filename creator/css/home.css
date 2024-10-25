@@ -225,10 +225,10 @@ main {
     border: 0.1rem solid transparent;
     border-radius: 0rem;
     transition: border 0.3s ease, border-radius 0.3s ease;
-
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 2rem;
 }
 
 #add-custom-div:hover {
@@ -248,12 +248,21 @@ main {
 }
 
 .custom-divs-container {
-    cursor: pointer;
+    display: flex;
+    gap: 2rem;
+}
+
+.custom-section{
     transition: transform 0.3s ease-in-out;
 }
 
-.custom-divs-container:hover {
+.custom-section:hover{
     transform: scale(1.05);
+}
+
+.custom-div-btn{
+    background-color: transparent;
+    border: none;
 }
 
 .custom-divs {
@@ -261,6 +270,7 @@ main {
     height: 12rem;
     border: 0.1rem solid #000;
     border-radius: 1rem;
+    cursor: pointer;
 }
 
 .custom-texts{
