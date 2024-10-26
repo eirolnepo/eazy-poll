@@ -324,7 +324,6 @@ body.dark-mode {
 body.dark-mode #nav-title {
     background-color: #173a56;
     color: #fff;
-    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body.dark-mode .nav-links {

@@ -53,6 +53,7 @@
     white-space: nowrap;
     direction: rtl;
     text-align: left;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 #nav-center {
@@ -255,6 +256,7 @@ main, .main {
     font-size: 1.5rem;
     border: none;
     outline: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .survey-desc {
@@ -265,6 +267,7 @@ main, .main {
     border: none;
     overflow: hidden;
     outline: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .survey-title:focus, .survey-desc:focus {
@@ -297,6 +300,7 @@ main, .main {
     border-bottom: 0.1rem solid #173a56;
     margin-right: 0.5rem;
     outline: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .question-type {
@@ -305,6 +309,7 @@ main, .main {
     border: 0.1rem solid #173a56;
     border-radius: 1rem;
     outline: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .question-choices-container {
@@ -325,6 +330,7 @@ main, .main {
     border-bottom: 0.1rem solid #173a56;
     margin: 0.5rem;
     outline: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .dropdown-choices {
@@ -334,6 +340,7 @@ main, .main {
     border-radius: 0.5rem;
     margin: 1rem;
     outline: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .short-answer-input {
@@ -342,6 +349,7 @@ main, .main {
     border-bottom: 0.1rem solid #173a56;
     margin: 1rem;
     outline: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .paragraph-textarea {
@@ -352,6 +360,7 @@ main, .main {
     margin: 1rem;
     overflow: hidden;
     outline: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .add-choice-btn, .delete-choice-btn, .delete-question-btn, .delete-section-btn, .delete-upload-btn, .upload-image-btn {
