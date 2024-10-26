@@ -27,7 +27,7 @@ CREATE TABLE `choices` (
   `question_id` int(11) NOT NULL,
   `choice_text` varchar(255) NOT NULL,
   PRIMARY KEY (`choice_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +36,7 @@ CREATE TABLE `choices` (
 
 LOCK TABLES `choices` WRITE;
 /*!40000 ALTER TABLE `choices` DISABLE KEYS */;
-INSERT INTO `choices` VALUES (1,1,'1'),(2,1,'2'),(3,1,'3'),(4,1,'4'),(5,2,'1'),(6,2,'2'),(7,2,'3');
+INSERT INTO `choices` VALUES (1,1,'1'),(2,1,'2'),(3,1,'3'),(4,2,'1'),(5,2,'2'),(6,2,'3'),(7,3,'1'),(8,3,'2'),(9,3,'3'),(10,4,'1'),(11,4,'2'),(12,4,'3');
 /*!40000 ALTER TABLE `choices` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -53,7 +53,7 @@ CREATE TABLE `questions` (
   `question_text` varchar(255) NOT NULL,
   `question_type` varchar(255) NOT NULL,
   PRIMARY KEY (`question_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,7 +62,7 @@ CREATE TABLE `questions` (
 
 LOCK TABLES `questions` WRITE;
 /*!40000 ALTER TABLE `questions` DISABLE KEYS */;
-INSERT INTO `questions` VALUES (1,1,'Test Question1','Multiple Choice'),(2,2,'Test Question1','Multiple Choice'),(3,2,'Test Question2','Short Answer');
+INSERT INTO `questions` VALUES (1,1,'Test Question1','Multiple Choice'),(2,1,'Test Question2','Checkboxes'),(3,2,'Test Question1','Multiple Choice'),(4,2,'Test Question2','Checkboxes'),(5,2,'Test Question3','Dropdown'),(6,2,'Test Question4','Short Answer'),(7,2,'Test Question5','Paragraph');
 /*!40000 ALTER TABLE `questions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -89,7 +89,7 @@ CREATE TABLE `surveys` (
 
 LOCK TABLES `surveys` WRITE;
 /*!40000 ALTER TABLE `surveys` DISABLE KEYS */;
-INSERT INTO `surveys` VALUES (1,1,'Survey 1','','2024-10-26 05:53:17'),(2,1,'Survey 2','','2024-10-26 05:53:59');
+INSERT INTO `surveys` VALUES (1,1,'Radio,Checkbox Test','testing if the input type will display correctly for Multiple Choice and Checkboxes','2024-10-27 04:50:10'),(2,1,'All Type of Questions Test','Testing the display of all data if all types of questions are present','2024-10-27 04:51:21');
 /*!40000 ALTER TABLE `surveys` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -131,4 +131,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-10-26  5:56:14
+-- Dump completed on 2024-10-27  4:53:16
