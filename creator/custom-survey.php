@@ -128,7 +128,7 @@
         <div id="nav-center">
             <div id="links-container">
                 <a href="#" class="nav-links">Questions</a>
-                <a href="#" class="nav-links">Responses</a>
+                <a href="responses.html" class="nav-links">Responses</a>
             </div>
         </div>
         <div id="nav-right-side">
