@@ -68,7 +68,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function updateImagesForDarkMode() {
         const darkModeEnabled = localStorage.getItem("darkMode") === "enabled";
-
         const addChoiceBtns = document.getElementsByClassName("add-choice-btn");
         const deleteChoiceBtns = document.getElementsByClassName("delete-choice-btn");
         const deleteSectionBtns = document.getElementsByClassName("delete-section-btn");
@@ -129,6 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
             inputText.type = "text";
             inputText.classList.add("choice-input-text");
             inputText.placeholder = "Option text";
+            inputText.required = true;
             inputText.name = `choice[${questionCounter-1}][]`;
 
             const deleteImg = document.createElement("img");
@@ -169,23 +169,25 @@ document.addEventListener("DOMContentLoaded", function () {
             shortAnswerInput.type = "text";
             shortAnswerInput.classList.add("short-answer-input");
             shortAnswerInput.placeholder = "Your answer";
+            shortAnswerInput.readOnly = true;
             choicesContainer.appendChild(shortAnswerInput);
         }
-
+        
         function addParagraph() {
             const paragraphTextarea = document.createElement("textarea");
             paragraphTextarea.classList.add("paragraph-textarea");
             paragraphTextarea.placeholder = "Your answer";
             paragraphTextarea.rows = 4;
             paragraphTextarea.style.resize = "none";
-
+            paragraphTextarea.readOnly = true;
+        
             paragraphTextarea.addEventListener("input", function () {
                 this.style.height = "auto";
                 this.style.height = this.scrollHeight + "px";
             });
-
+        
             choicesContainer.appendChild(paragraphTextarea);
-        }
+        }        
 
         addChoice();
         addChoice();
@@ -230,7 +232,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         questionDiv.innerHTML = `
             <div class="question-upper">
-                <input type="text" name="question-title[${questionCounter}]" class="question-title" placeholder="Untitled Question">
+                <input type="text" name="question-title[${questionCounter}]" class="question-title" placeholder="Untitled Question" required>
                 <select name="question-type[${questionCounter}]" class="question-type">
                     <option value="Multiple Choice">Multiple Choice</option>
                     <option value="Checkboxes">Checkboxes</option>

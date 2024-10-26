@@ -178,7 +178,7 @@
             <div id="survey-container">
                 <div class="question-container">
                     <div class="question-upper">
-                        <input type="text" name="question-title[0]" class="question-title" placeholder="Untitled Question">
+                        <input type="text" name="question-title[0]" class="question-title" placeholder="Untitled Question" required>
                         <select name="question-type[0]" class="question-type">
                             <option value="Multiple Choice">Multiple Choice</option>
                             <option value="Checkboxes">Checkboxes</option>
