@@ -160,6 +160,7 @@
     </script>
 </head>
 <body>
+    <script src="js/check-dark.js"></script>
     <nav id="nav-bar">
         <img src="imgs/logo.png" alt="EazyPoll logo" id="nav-logo">
         <h1 id="nav-title">EazyPoll</h1>

@@ -53,6 +53,7 @@
     <script src="js/home.js" defer></script>
 </head>
 <body>
+    <script src="../js/check-dark.js"></script>
     <nav id="nav-bar">
         <div id="nav-left-side">
             <img src="../imgs/logo.png" alt="Eazypoll logo" id="nav-logo">
