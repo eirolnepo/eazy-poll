@@ -551,3 +551,11 @@ body.dark-mode .image-upload-container {
 body.dark-mode ::placeholder {
     color: #D3D2D2;
 }
+
+.delete-question-btn,
+.remove-option-btn{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    width: 1.5rem;
+}

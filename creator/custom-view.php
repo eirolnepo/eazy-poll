@@ -44,9 +44,6 @@
     }
 
     if(isset($_POST['save-btn'])){
-        echo '<pre>';
-        print_r($_POST);
-        echo '</pre>';
         $survey_title = $_POST['survey-title'];
         $survey_desc = $_POST['description'];
 
@@ -115,6 +112,20 @@
             header("Location: home.php?id=$id");
         }
     }
+
+    if(isset($_POST['remove-option-btn'])){
+        $option_id = $_POST['remove-option-btn'];
+
+        $delete_option = "DELETE FROM survey_db.choices WHERE choice_id = '$option_id'";
+        $delete_sql = (mysqli_query($conn,$delete_option));
+    }
+
+    if(isset($_POST['delete-question-btn'])){
+        $question_id = $_POST['delete-question-btn'];
+
+        $delete_question = "DELETE FROM survey_db.questions WHERE question_id = '$question_id'";
+        $delete_sql = (mysqli_query($conn,$delete_question));
+    }
 ?>
 
 <!DOCTYPE html>
@@ -177,7 +188,7 @@
     </nav>
 
     <main>
-        <form action="" method="post" class="main">
+        <form method="post" class="main">
             <div class="title-desc-container">
                 <input type="text" name="survey-title" class="survey-title" id="nav-survey-title" value="<?php echo $survey_title;?>">
                 <textarea name="survey-desc" class="survey-desc" placeholder="Survey Description"><?php echo $survey_description;?></textarea>
@@ -210,6 +221,8 @@
                                     $RESULT_CHOICES = mysqli_query($conn, $SELECT_CHOICES);
                                     while($row = mysqli_fetch_array($RESULT_CHOICES)){
                                         $choice_text = $row['choice_text'];
+                                        $choice_id = $row['choice_id'];
+
                                         if ($question_type == "Checkboxes"){
                                             $inputType = "checkbox";
                                         }else{
@@ -219,17 +232,24 @@
                                         echo    '<div class="choice-container">
                                                     <input type="'.$inputType.'" name="multiple-choice">
                                                     <input type="text" class="choice-input-text" placeholder="Option text" name="choice" value="'.$choice_text.'" required>
+                                                    <button class="remove-option-btn" name="remove-option-btn" value="'.$choice_id.'">
+                                                        <img src="../imgs/close.svg" alt="Remove option" class="delete-choice-btn">
+                                                    </button>
                                                 </div>';
                                     }
                                 echo         '<img src="../imgs/plus_choices.svg" alt="Add choice button" class="add-choice-btn">
                                         </div>
-                                            <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn">
+                                            <button class="delete-question-btn" name="delete-question-btn" value="'.$question_id.'">
+                                                <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn">
+                                            </button>
                                 </div>';
                             }elseif ($question_type == "Short Answer") {
                                 echo   '<div class="question-choices-container">
                                             <input type="text" class="short-answer-input" placeholder="Your answer" readonly>
                                         </div>
-                                            <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn">
+                                            <button class="delete-question-btn" name="delete-question-btn" value="'.$question_id.'">
+                                                <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn">
+                                            </button>
                                 </div>';
                             }elseif ($question_type == "Dropdown") {
                                 echo   '<div class="question-choices-container">
@@ -238,13 +258,17 @@
                                                 <option value="False">False</option>
                                             </select>
                                         </div>
-                                            <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn">
+                                            <button class="delete-question-btn" name="delete-question-btn" value="'.$question_id.'">
+                                                <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn">
+                                            </button>
                                 </div>';
                             }elseif ($question_type == "Paragraph") {
                                 echo   '<div class="question-choices-container">
                                             <textarea name="" class="paragraph-textarea" placeholder="Your answer" rows="4" style="resize:none;" readonly></textarea>
                                         </div>
-                                            <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn">
+                                            <button class="delete-question-btn" name="delete-question-btn" value="'.$question_id.'">
+                                                <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn">
+                                            </button>
                                 </div>';
                             }
 
