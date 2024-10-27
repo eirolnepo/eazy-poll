@@ -193,10 +193,45 @@ main {
 }
 
 input {
+    width: 21rem;
     padding: 0.5rem;
     margin-bottom: 0.625rem;
     border: 0.1rem solid #000;
-    border-radius: 0.7rem;
+    border-radius: 0.5rem;
+}
+
+.pass-container {
+    position: relative;
+}
+
+#show-pass-img {
+    position: absolute;
+    right: 0.625rem;
+    top: 50%;
+    transform: translateY(-65%);
+    height: 1.25rem;
+    width: auto;
+    cursor: pointer;
+}
+
+#show-signup-pass-img {
+    position: absolute;
+    right: 0.625rem;
+    top: 50%;
+    transform: translateY(-65%);
+    height: 1.25rem;
+    width: auto;
+    cursor: pointer;
+}
+
+#show-forgot-pass-img {
+    position: absolute;
+    right: 0.625rem;
+    top: 50%;
+    transform: translateY(-65%);
+    height: 1.25rem;
+    width: auto;
+    cursor: pointer;
 }
 
 #modal-sign-in-btn {
@@ -252,7 +287,7 @@ input {
     padding: 0.5rem;
     margin-bottom: 0.625rem;
     border: 0.1rem solid #000;
-    border-radius: 0.7rem;
+    border-radius: 0.5rem;
 }
 
 #modal-sign-up-btn {
@@ -303,7 +338,7 @@ input {
     padding: 0.5rem;
     margin-bottom: 0.625rem;
     border: 0.1rem solid #000;
-    border-radius: 0.7rem;
+    border-radius: 0.5rem;
 }
 
 #forgot-pass-email-error-msg {

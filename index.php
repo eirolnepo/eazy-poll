@@ -193,7 +193,10 @@
             <label for="email" class="sign-in-modal-label">Email</label>
             <input type="email" id="email" name="email" placeholder="Write your email" required>
             <label for="password" class="sign-in-modal-label">Password</label>
-            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            <div class="pass-container">
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                <img src="imgs/eye_close_light.svg" alt="" id="show-pass-img">
+            </div>
             <?php
                 $formHasErrors = false;
                 if(isset($errorlogin)){
@@ -233,7 +236,10 @@
                 <label for="sign-up-lname" class="sign-up-modal-label">Last Name</label>
                 <input type="text" id="sign-up-lname" name="sign-up-lname" placeholder="Write your last name" required>
                 <label for="sign-up-password" class="sign-up-modal-label">Password</label>
-                <input type="password" id="sign-up-password" name="password" placeholder="Enter your password" onkeyup='check();' required>
+                <div class="pass-container">
+                    <input type="password" id="sign-up-password" name="password" placeholder="Enter your password" onkeyup='check();' required>
+                    <img src="imgs/eye_close_light.svg" alt="" id="show-signup-pass-img">
+                </div>
                 <label for="confirm-password" class="sign-up-modal-label">Confirm Password <span id="sign-up-message"></span></label>
                 <input type="password" id="sign-up-confirm-password" name="confirm-password" placeholder="Confirm your password" onkeyup='check();' required>
                 <?php

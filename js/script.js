@@ -8,6 +8,12 @@ const changePassModal = document.getElementById("change-pass-modal");
 const forgotPassLink = document.getElementById("forgot-pass-link");
 const changePassInBtn = document.getElementById("change-pass-in-btn");
 const darkModeButton = document.getElementById("nav-dark-mode");
+const passwordVisible = localStorage.getItem("passwordVisible") === "true";
+const showPassImage = document.getElementById("show-pass-img");
+const showSignUpPassImage = document.getElementById("show-signup-pass-img");
+const signInPass = document.getElementById("password");
+const signUpPass = document.getElementById("sign-up-password");
+const confirmSignUpPass = document.getElementById("sign-up-confirm-password");
 
 if (localStorage.getItem("darkMode") === "enabled") {
     document.body.classList.add("dark-mode");
@@ -16,9 +22,25 @@ if (localStorage.getItem("darkMode") === "enabled") {
     darkModeButton.src = "imgs/dark-mode-green.png";
 }
 
+signInPass.type = "password";
+signUpPass.type = "password";
+confirmSignUpPass.type = "password";
+
+function updateEyeImage(inputField, eyeImage) {
+    const isDarkMode = document.body.classList.contains("dark-mode");
+    const isVisible = inputField.type === "text";
+
+    eyeImage.src = isDarkMode
+        ? (isVisible ? "imgs/eye_open_dark.svg" : "imgs/eye_close_dark.svg")
+        : (isVisible ? "imgs/eye_open_light.svg" : "imgs/eye_close_light.svg");
+}
+
+updateEyeImage(signInPass, showPassImage);
+updateEyeImage(signUpPass, showSignUpPassImage);
+
 darkModeButton.addEventListener("click", function() {
     document.body.classList.toggle("dark-mode");
-    
+
     if (document.body.classList.contains("dark-mode")) {
         localStorage.setItem("darkMode", "enabled");
         darkModeButton.src = "imgs/dark-mode-white.png";
@@ -26,6 +48,28 @@ darkModeButton.addEventListener("click", function() {
         localStorage.setItem("darkMode", "disabled");
         darkModeButton.src = "imgs/dark-mode-green.png";
     }
+
+    updateEyeImage(signInPass, showPassImage);
+    updateEyeImage(signUpPass, showSignUpPassImage);
+    updateEyeImage(confirmSignUpPass, showConfirmPassImage);
+});
+
+function togglePasswordVisibility(inputField, eyeImage) {
+    const isCurrentlyVisible = inputField.type === "text";
+    inputField.type = isCurrentlyVisible ? "password" : "text";
+
+    updateEyeImage(inputField, eyeImage);
+
+    localStorage.setItem("passwordVisible", inputField.type === "text" ? "true" : "false");
+}
+
+showPassImage.addEventListener("click", function () {
+    togglePasswordVisibility(signInPass, showPassImage);
+});
+
+showSignUpPassImage.addEventListener("click", function () {
+    togglePasswordVisibility(signUpPass, showSignUpPassImage);
+    togglePasswordVisibility(confirmSignUpPass, showSignUpPassImage);
 });
 
 function showModal(modal) {
@@ -186,27 +230,45 @@ document.getElementById("verify-code").addEventListener("click", function(event)
 });
 
 function replaceModalContent() {
-    const modalContent = document.getElementById("forgot-pass-modal-content");
-    modalContent.innerHTML = `
-      <h2 id="change-pass-modal-title">Forgot Password</h2>
-      <form id="change-pass-form" action="" method="post">
-          <label for="change-pass-password" class="change-pass-modal-label">New Password</label>
+  const modalContent = document.getElementById("forgot-pass-modal-content");
+  modalContent.innerHTML = `
+    <h2 id="change-pass-modal-title">Forgot Password</h2>
+    <form id="change-pass-form" action="" method="post">
+        <label for="change-pass-password" class="change-pass-modal-label">New Password</label>
+        <div class="pass-container">
           <input type="password" id="change-password" name="password" placeholder="Enter your new password" onkeyup='check();' required>
-          <label for="confirm-password" class="change-pass-modal-label">Confirm New Password <span id="change-message"></span></label>
-          <input type="password" id="confirm-change-password" name="confirm-password" placeholder="Confirm your new password" onkeyup='check();' required>
-          <button type="submit" name="change" class="forgot-pass-btns">Change Password</button><br>
-          <a href="" class="change-pass-modal-links" id="change-pass-in-btn">Sign In</a>
-      </form>
-    `;
-    const changePassInBtn2 = document.getElementById("change-pass-in-btn");
-    changePassInBtn2.addEventListener("click", function(event) {
-        event.preventDefault();
-        hideModal(changePassModal);
-    
-        setTimeout(() => {
-            showModal(modal);
-        }, 300);
-    });
+          <img src="imgs/eye_close_light.svg" alt="" id="show-forgot-pass-img">
+        </div>
+        <label for="confirm-password" class="change-pass-modal-label">Confirm New Password <span id="change-message"></span></label>
+        <input type="password" id="confirm-change-password" name="confirm-password" placeholder="Confirm your new password" onkeyup='check();' required>
+        <button type="submit" name="change" class="forgot-pass-btns">Change Password</button><br>
+        <a href="" class="change-pass-modal-links" id="change-pass-in-btn">Sign In</a>
+    </form>
+  `;
+
+  const changePassInBtn2 = document.getElementById("change-pass-in-btn");
+  changePassInBtn2.addEventListener("click", function(event) {
+      event.preventDefault();
+      hideModal(changePassModal);
+  
+      setTimeout(() => {
+          showModal(modal);
+      }, 300);
+  });
+
+  const changePasswordInput = document.getElementById("change-password");
+  const confirmChangePasswordInput = document.getElementById("confirm-change-password");
+  const showForgotPassImage = document.getElementById("show-forgot-pass-img");
+
+  changePasswordInput.type = "password";
+  confirmChangePasswordInput.type = "password";
+
+  updateEyeImage(changePasswordInput, showForgotPassImage);
+  
+  showForgotPassImage.addEventListener("click", function () {
+      togglePasswordVisibility(changePasswordInput, showForgotPassImage);
+      togglePasswordVisibility(confirmChangePasswordInput, showForgotPassImage);
+  });
 }
 
 function generateCode() {
