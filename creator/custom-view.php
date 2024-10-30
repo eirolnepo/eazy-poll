@@ -234,6 +234,7 @@
     </script>
 </head>
 <body>
+    <script src="../js/check-dark.js"></script>
     <nav id="nav-bar">
         <div id="nav-left-side">
             <img src="../imgs/logo.png" alt="Eazypoll logo" id="nav-logo">
@@ -287,6 +288,7 @@
             <div class="title-desc-container">
                 <input type="text" name="survey-title" class="survey-title" id="nav-survey-title" value="<?php echo $survey_title;?>">
                 <textarea name="survey-desc" class="survey-desc" placeholder="Survey Description"><?php echo $survey_description;?></textarea>
+                <p class="date-created-text">Date created: October 30, 2024</p>
             </div>
 
             <div id="survey-container">

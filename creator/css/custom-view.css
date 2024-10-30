@@ -274,6 +274,10 @@ main, .main {
     border-bottom: 0.1rem solid #173a56;
 }
 
+.date-created-text {
+    font-size: 0.7rem;
+}
+
 .question-container {
     width: 35rem;
     padding: 1rem;
