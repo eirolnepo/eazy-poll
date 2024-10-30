@@ -100,7 +100,7 @@
                     <div class="templates-divs"></div>
                     <p class="templates-texts">Multiple-Choice Survey</p>
                 </div>
-                <div class="templates-divs-container">
+                <div class="templates-divs-container" id="true-false-btn">
                     <div class="templates-divs"></div>
                     <p class="templates-texts">True or False Survey</p>
                 </div>

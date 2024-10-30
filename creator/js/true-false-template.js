@@ -73,6 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const deleteSectionBtns = document.getElementsByClassName("delete-section-btn");
         const deleteQuestionBtns = document.getElementsByClassName("delete-question-btn");
         const deleteUploadBtns = document.getElementsByClassName("delete-upload-btn");
+        const uploadImageBtns = document.getElementsByClassName("upload-image-btn");
 
         darkModeButton.src = darkModeEnabled ? "../imgs/dark-mode-white.png" : "../imgs/dark-mode-green.png";
         profileOptionsButton.src = darkModeEnabled ? "../imgs/default_profile_image_dark.svg" : "../imgs/default_profile_image_light.svg";
@@ -85,14 +86,15 @@ document.addEventListener("DOMContentLoaded", function () {
         addSaveImage.src = darkModeEnabled ? "../imgs/save_dark.svg" : "../imgs/save.svg";
 
         const deleteChoiceSrc = darkModeEnabled ? "../imgs/close_dark.svg" : "../imgs/close.svg";
-        const plusSrc = darkModeEnabled ? "../imgs/plus_choices_dark.svg" : "../imgs/plus_choices.svg";
         const deleteSrc = darkModeEnabled ? "../imgs/delete_dark.svg" : "../imgs/delete.svg";
+        const uploadSrc = darkModeEnabled ? "../imgs/upload_dark.svg" : "../imgs/upload.svg";
 
-        for (let img of addChoiceBtns) img.src = plusSrc;
+        for (let img of addChoiceBtns) img.src = "../imgs/plus_choices.svg";
         for (let img of deleteChoiceBtns) img.src = deleteChoiceSrc;
         for (let img of deleteSectionBtns) img.src = deleteSrc;
         for (let img of deleteQuestionBtns) img.src = deleteSrc;
         for (let img of deleteUploadBtns) img.src = deleteSrc;
+        for (let img of uploadImageBtns) img.src = uploadSrc;
     }
 
     if (localStorage.getItem("darkMode") === "enabled") {
@@ -115,45 +117,27 @@ document.addEventListener("DOMContentLoaded", function () {
         const choicesContainer = questionDiv.querySelector(".question-choices-container");
         const addChoiceBtn = questionDiv.querySelector(".add-choice-btn");
 
-        function addChoice(inputType = "radio") {
-            const choiceDiv = document.createElement("div");
-            choiceDiv.classList.add("choice-container");
+        function addChoice() {
+            const dropdown = document.createElement("select");
+            dropdown.classList.add("dropdown-choices");
 
-            const inputOption = document.createElement("input");
-            inputOption.type = inputType;
-            inputOption.name = `multiple-choice-${questionCounter}`;
-            inputOption.addEventListener("click", (event) => {
-                event.preventDefault();
-            });
+            const trueOption = document.createElement("option");
+            trueOption.value = "True";
+            trueOption.text = "True";
 
-            const inputText = document.createElement("input");
-            inputText.type = "text";
-            inputText.classList.add("choice-input-text");
-            inputText.placeholder = "Option text";
-            inputText.required = true;
-            inputText.name = `choice[${questionCounter - 1}][]`;
+            const falseOption = document.createElement("option");
+            falseOption.value = "False";
+            falseOption.text = "False";
 
-            const deleteImg = document.createElement("img");
-            deleteImg.src = "../imgs/close.svg";
-            deleteImg.alt = "Remove option";
-            deleteImg.classList.add("delete-choice-btn");
-            deleteImg.addEventListener("click", function () {
-                choiceDiv.remove();
-            });
+            dropdown.appendChild(trueOption);
+            dropdown.appendChild(falseOption);
 
-            choiceDiv.appendChild(inputOption);
-            choiceDiv.appendChild(inputText);
-            choiceDiv.appendChild(deleteImg);
-            choicesContainer.insertBefore(choiceDiv, addChoiceBtn);
-            updateImagesForDarkMode();
+            choicesContainer.appendChild(dropdown);
         }
 
         addChoice();
-        addChoice();
 
-        addChoiceBtn.addEventListener("click", function () {
-            addChoice("radio");
-        });
+        addChoiceBtn.style.display = "none";
 
         const deleteQuestionBtn = questionDiv.querySelector(".delete-question-btn");
         deleteQuestionBtn.addEventListener("click", function () {
@@ -174,7 +158,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <input type="text" name="question-title[${questionCounter}]" class="question-title" placeholder="Untitled Question" required>
             </div>
             <div class="question-choices-container">
-                <img src="../imgs/plus_choices.svg" alt="Add choice button" class="add-choice-btn">
+                <img src="../imgs/plus_choices.svg" alt="Add choice button" class="add-choice-btn" style="display: none;">
             </div>
             <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn">
         `;
@@ -346,5 +330,5 @@ document.addEventListener("DOMContentLoaded", function () {
     existingQuestions.forEach(questionDiv => {
         handleChoices(questionDiv);
         questionDiv.classList.add("show");
-    });     
+    });
 });

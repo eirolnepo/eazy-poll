@@ -67,3 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
 document.getElementById("multiple-choice-btn").addEventListener("click", function() {
     window.location.href = "multiple-choice-template.php";
 });
+
+document.getElementById("true-false-btn").addEventListener("click", function() {
+    window.location.href = "true-false-template.php";
+});

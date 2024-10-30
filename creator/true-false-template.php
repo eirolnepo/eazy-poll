@@ -25,8 +25,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EazyPoll</title>
     <link rel="icon" href="../imgs/logo.png">
-    <link rel="stylesheet" href="css/multiple-choice-template.css">
-    <script src="js/multiple-choice-template.js" defer></script>
+    <link rel="stylesheet" href="css/true-false-template.css">
+    <script src="js/true-false-template.js" defer></script>
 </head>
 <body>
     <script src="../js/check-dark.js"></script>
