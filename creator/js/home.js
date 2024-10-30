@@ -63,3 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 });
+
+document.getElementById("multiple-choice-btn").addEventListener("click", function() {
+    window.location.href = "multiple-choice-template.php";
+});

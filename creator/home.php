@@ -96,7 +96,7 @@
         <div id="templates-container">
             <h3 class="containers-title">Templates</h3>
             <div class="divs-container">
-                <div class="templates-divs-container">
+                <div class="templates-divs-container" id="multiple-choice-btn">
                     <div class="templates-divs"></div>
                     <p class="templates-texts">Multiple-Choice Survey</p>
                 </div>
