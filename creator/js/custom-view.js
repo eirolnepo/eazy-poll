@@ -33,6 +33,11 @@ const navTitleInput = document.getElementById("nav-title");
 
 surveyInput.addEventListener("input", function() {
     navTitleInput.value = surveyInput.value || "Untitled Survey";
+    navTitleInput.scrollLeft = navTitleInput.scrollWidth;
+});
+
+surveyInput.addEventListener("blur", function() {
+    navTitleInput.scrollLeft = 0;
 });
 
 const textareas = document.getElementsByClassName("survey-desc");
