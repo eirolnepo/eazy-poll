@@ -126,6 +126,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const inputOption = document.createElement("input");
             inputOption.type = inputType;
             inputOption.name = "multiple-choice";
+            inputOption.addEventListener("click", (event) => {
+                event.preventDefault();
+            });
 
             const inputText = document.createElement("input");
             inputText.type = "text";
@@ -241,6 +244,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const inputOption = document.createElement("input");
             inputOption.type = inputType;
             inputOption.name = "multiple-choice";
+            inputOption.addEventListener("click", (event) => {
+                event.preventDefault();
+            });
 
             const inputText = document.createElement("input");
             inputText.type = "text";
@@ -532,6 +538,13 @@ document.addEventListener("DOMContentLoaded", function () {
         const questionType = questionDiv.querySelector(".question-type").value;
         if (questionType === "Multiple Choice" || questionType === "Checkboxes") {
             handleExistingChoices(questionDiv);
+
+            const inputs = questionDiv.querySelectorAll("input[type='radio'], input[type='checkbox']");
+            inputs.forEach(input => {
+                input.addEventListener("click", (event) => {
+                    event.preventDefault();
+                });
+            });
         }
     });
 });
