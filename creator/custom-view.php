@@ -19,6 +19,9 @@
     while($row = mysqli_fetch_array($result)){
         $survey_title = $row['title'];
         $survey_description = $row['description'];
+        $datetime = $row['created_at'];
+        $date = new DateTime($datetime);
+        $formattedDateTime = $date->format('F j, Y | H:i:s');
     }
 
     $select = " SELECT fname FROM survey_db.users WHERE user_id = '$id' ";
@@ -332,7 +335,7 @@
             <div class="title-desc-container">
                 <input type="text" name="survey-title" class="survey-title" id="nav-survey-title" value="<?php echo $survey_title;?>">
                 <textarea name="survey-desc" class="survey-desc" placeholder="Survey Description"><?php echo $survey_description;?></textarea>
-                <p class="date-created-text">Date created: October 30, 2024</p>
+                <p class="date-created-text">Date created: <?php echo $formattedDateTime;?></p>
             </div>
 
             <div id="survey-container">
