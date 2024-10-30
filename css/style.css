@@ -460,3 +460,60 @@ body.dark-mode input:focus {
 body.dark-mode .modal-content {
     background-color: #173a56;
 }
+
+/* Design min-width: 425px Mobile View */
+@media only screen and (min-width: 425px) and (max-width: 767px) {
+    #nav-bar {
+        flex-direction: row;
+    }
+    #nav-title {
+       margin-right: .3rem;
+    }
+    #nav-logo {
+        margin-right: 1.5rem;
+    }
+    #nav-dark-mode {
+      width: 1.65rem; 
+      margin-right: 10px;
+    }
+    #nav-btns-container {
+        display: none;
+    }
+    main {
+        height: 80vh;
+        flex-direction: column;
+        gap: .5rem;
+        
+    }
+    #home-left-container {
+        width: 20rem;
+        margin-top: 5rem;
+    }
+    #home-title {
+        font-size: 1.3rem;
+    }
+    br {
+        display: none;
+    }
+    #home-desc {
+        font-size: 1rem;
+    }
+    #get-started-btn {
+        margin-top: .7rem;
+        padding: 0.6rem .8rem;
+        size: 40px;
+    }
+    #home-triangle {
+        margin-top: 1rem;
+        width: 1.6rem;
+    }
+    #home-link {
+        margin-top: 1rem;
+        font-size: 1.1rem;
+    }
+    #home-img{
+        width: 17rem;
+        margin-top: 1rem;
+        margin-bottom: 11rem;
+    }
+}
