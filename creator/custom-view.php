@@ -27,6 +27,8 @@
         $fname = $row['fname'];
     }
 
+    
+    
 
     if (isset($_SESSION['Deleted_Options']) || isset($_SESSION['Deleted_Questions'])) {
         $OptionsToDelete = json_decode($_SESSION['Deleted_Options'], true);
@@ -157,11 +159,53 @@
     }
 
     if(isset($_POST['save-btn'])){
-        $_SESSION['Deleted_Questions'] = $_POST['hiddenQuestions'];
-        $_SESSION['Deleted_Options'] = $_POST['hiddenOptions'];
+        $questionCount = count($_POST['question-title']);
 
-        header('Location: '.$_SERVER['PHP_SELF'].'?id='.$id.'&survey_id='.$survey_id);
-        exit();
+        // Loop through the array and echo each question title
+        for ($i = 0; $i < $questionCount; $i++) {
+            $question_id = $_POST['question-id'][$i];
+            $Select_Question = "SELECT * FROM survey_db.questions WHERE question_id = '$question_id'";
+            $Result_Question = mysqli_query($conn, $Select_Question);
+            while($row = mysqli_fetch_array($Result_Question)){
+                $question_text = $row['question_text'];
+                $question_type = $row['question_type'];
+
+                if ($question_text != $_POST['question-title'][$i]){
+                    $new_question = $_POST['question-title'][$i];
+                    $update_question = "UPDATE survey_db.questions SET question_text = '$new_question' WHERE question_id = '$question_id'";
+                    $query_update = (mysqli_query($conn,$update_question));
+                }
+
+                if (($question_type == "Multiple Choice" || $question_type == "Checkboxes") && ($_POST['question-type'][$i] == "Multiple Choice" || $_POST['question-type'][$i] == "Checkboxes")){
+                    for ($j = 0; $j < $questionCount; $j++) {
+                        $choice_id = $_POST['choice-id'][$i][$j];
+                        $Select_Option = "SELECT * FROM survey_db.choices WHERE choice_id = '$choice_id'";
+                        $Result_Option = mysqli_query($conn, $Select_Option);
+                        while($row = mysqli_fetch_array($Result_Option)){
+                            $choice_text = $row['choice_text'];
+
+                            if ($choice_text != $_POST['choice'][$i][$j]){
+                                $new_option = $_POST['choice'][$i][$j];
+                                $update_option = "UPDATE survey_db.choices SET choice_text = '$new_option' WHERE choice_id = '$choice_id'";
+                                $query_update = (mysqli_query($conn,$update_option));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!empty($_POST['hiddenQuestions']) || !empty($_POST['hiddenOptions'])) {
+            $_SESSION['Deleted_Questions'] = $_POST['hiddenQuestions'];    
+            $_SESSION['Deleted_Options'] = $_POST['hiddenOptions']; 
+            header('Location: '.$_SERVER['PHP_SELF'].'?id='.$id.'&survey_id='.$survey_id);
+            exit();
+        }else{
+            unset($_SESSION['Deleted_Options'], $_SESSION['Deleted_Questions']);
+            header('Location: home.php?id=' . $id);
+            exit();
+        }
+        
     }
     
 
@@ -223,8 +267,8 @@
         console.log("Id of Hidden Questions to be Deleted:", hiddenQuestions);
         console.log("Id of Hidden Options to be Deleted:", hiddenOptions);
 
-        document.getElementById("hiddenQuestionsInput").value = JSON.stringify(hiddenQuestions);
-        document.getElementById("hiddenOptionsInput").value = JSON.stringify(hiddenOptions);
+        document.getElementById("hiddenQuestionsInput").value = hiddenQuestions.length > 0 ? JSON.stringify(hiddenQuestions) : "";
+        document.getElementById("hiddenOptionsInput").value = hiddenOptions.length > 0 ? JSON.stringify(hiddenOptions) : "";
 
         console.log("Hidden Questions Input Value:", document.getElementById("hiddenQuestionsInput").value);
         console.log("Hidden Options Input Value:", document.getElementById("hiddenOptionsInput").value);
@@ -295,14 +339,17 @@
                 <?php 
                     $SELECT_DATA = " SELECT * FROM survey_db.questions WHERE survey_id = '$survey_id'";
                     $RESULT_DATA = mysqli_query($conn, $SELECT_DATA);
+                    $questionCounter = 0;
                     while($row = mysqli_fetch_array($RESULT_DATA)){
                         $question_id = $row['question_id'];
                         $question_text = $row['question_text'];
                         $question_type = $row['question_type'];
+                        
                         echo    '<div class="question-container" id="question'.$question_id.'">
                                     <div class="question-upper">
-                                        <input type="text" name="question-title[0]" class="question-title" placeholder="Untitled Question" value="',$question_text,'">
-                                        <select name="question-type[0]" class="question-type">
+                                        <input type="text" name="question-title['.$questionCounter.']" class="question-title" placeholder="Untitled Question" value="'.$question_text.'">
+                                        <input type="hidden" name="question-id['.$questionCounter.']" value="'.$question_id.'">
+                                        <select name="question-type['.$questionCounter.']" class="question-type">
                                             <option value="Multiple Choice" ' . ($question_type == "Multiple Choice" ? ' selected' : '') . '>Multiple Choice</option>
                                             <option value="Checkboxes" ' . ($question_type == "Checkboxes" ? ' selected' : '') . '>Checkboxes</option>
                                             <option value="Dropdown" ' . ($question_type == "Dropdown" ? ' selected' : '') . '>Dropdown</option>
@@ -310,12 +357,14 @@
                                             <option value="Paragraph" ' . ($question_type == "Paragraph" ? ' selected' : '') . '>Paragraph</option>
                                         </select>
                                     </div>';
+                        
                                     
                             if($question_type == "Multiple Choice" || $question_type == "Checkboxes"){
                                 echo   '<div class="question-choices-container">';
 
                                     $SELECT_CHOICES = " SELECT * FROM survey_db.choices WHERE question_id = '$question_id'";
                                     $RESULT_CHOICES = mysqli_query($conn, $SELECT_CHOICES);
+                                    $choiceCounter=0;
                                     while($row = mysqli_fetch_array($RESULT_CHOICES)){
                                         $choice_text = $row['choice_text'];
                                         $choice_id = $row['choice_id'];
@@ -328,9 +377,11 @@
 
                                         echo    '<div class="choice-container" id="option'.$choice_id.'">
                                                     <input type="'.$inputType.'" name="multiple-choice">
-                                                    <input type="text" class="choice-input-text" placeholder="Option text" name="choice" value="'.$choice_text.'" required>
+                                                    <input type="text" name="choice['.$questionCounter.']['.$choiceCounter.']" class="choice-input-text" placeholder="Option text" value="'.$choice_text.'" required>
+                                                    <input type="hidden" name="choice-id['.$questionCounter.']['.$choiceCounter.']" value="'.$choice_id.'">
                                                     <img src="../imgs/close.svg" alt="Remove option" class="delete-choice-btn" onclick="hideOption('.$choice_id.')">
                                                 </div>';
+                                        $choiceCounter++;
                                     }
                                 echo         '<img src="../imgs/plus_choices.svg" alt="Add choice button" class="add-choice-btn">
                                         </div>
@@ -358,7 +409,7 @@
                                                 <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn" onclick="hideQuestion('.$question_id.')">
                                 </div>';
                             }
-
+                            $questionCounter++;
                     }
                 ?>
             </div>
