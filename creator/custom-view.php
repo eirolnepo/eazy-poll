@@ -33,11 +33,10 @@
         $QuestionsToDelete = json_decode($_SESSION['Deleted_Questions'], true);
 
         if ((is_array($OptionsToDelete) && !empty($OptionsToDelete)) || (is_array($QuestionsToDelete) && !empty($QuestionsToDelete))) {
-            // Build query strings if there are items to delete
+            
             $OptionsString = !empty($OptionsToDelete) ? implode(',', array_map('intval', $OptionsToDelete)) : '';
             $QuestionsString = !empty($QuestionsToDelete) ? implode(',', array_map('intval', $QuestionsToDelete)) : '';
 
-            // Execute delete queries conditionally
             if (!empty($OptionsString)) {
                 $delete_option = "DELETE FROM survey_db.choices WHERE choice_id IN ($OptionsString)";
                 $delete_choices = mysqli_query($conn, $delete_option);
@@ -56,38 +55,11 @@
                 }
             }
 
-            // Clear session variables after deletion
             unset($_SESSION['Deleted_Options'], $_SESSION['Deleted_Questions']);
             header('Location: home.php?id=' . $id);
             exit();
         }
     }
-
-
-    
-    
-    
-
-    /*if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Assuming you have a database connection established
-    
-        $hiddenQuestions = json_decode($_POST['hiddenQuestionsInput'], true);
-        $hiddenOptions = json_decode($_POST['hiddenOptionsInput'], true);
-    
-        // Prepare the DELETE statement for questions
-        if (!empty($hiddenQuestions)) {
-            $questionIds = implode(',', array_map('intval', $hiddenQuestions));
-            $stmt = $conn->prepare("DELETE FROM survey_db.questions WHERE question_id IN ($questionIds)");
-            $stmt->execute();
-        }
-    
-        /* Prepare the DELETE statement for options
-        if (!empty($hiddenOptions)) {
-            $optionIds = implode(',', array_map('intval', $hiddenOptions));
-            $stmt = $conn->prepare("DELETE FROM options WHERE id IN ($optionIds)");
-            $stmt->execute();
-        }*/
-    /*}*/
 
     if(isset($_POST['sign-out'])){
         session_destroy();
@@ -178,16 +150,10 @@
 
     if(isset($_POST['remove-option-btn'])){
         $option_id = $_POST['remove-option-btn'];
-
-        //$delete_option = "DELETE FROM survey_db.choices WHERE choice_id = '$option_id'";
-        //$delete_sql = (mysqli_query($conn,$delete_option));
     }
 
     if(isset($_POST['delete-question-btn'])){
         $question_id = $_POST['delete-question-btn'];
-
-        //$delete_question = "DELETE FROM survey_db.questions WHERE question_id = '$question_id'";
-        //$delete_sql = (mysqli_query($conn,$delete_question));
     }
 
     if(isset($_POST['save-btn'])){
@@ -215,11 +181,10 @@
                     const question = document.getElementById("question"+questionId);
                     if (question) {
                         question.style.display = "none";
-                        saveHiddenQuestion(questionId); // Save hidden state in localStorage
+                        saveHiddenQuestion(questionId);
                     }
                 }
 
-                // Function to save the hidden state of an element in localStorage
                 function saveHiddenQuestion(questionId) {
                     let hiddenQuestions = JSON.parse(localStorage.getItem("hiddenQuestions")) || [];
                     if (!hiddenQuestions.includes(questionId)) {
@@ -232,11 +197,10 @@
                     const option = document.getElementById("option"+optionId);
                     if (option) {
                         option.style.display = "none";
-                        saveHiddenOption(optionId); // Save hidden state in localStorage
+                        saveHiddenOption(optionId);
                     }
                 }
 
-                // Function to save the hidden state of an element in localStorage
                 function saveHiddenOption(optionId) {
                     let hiddenOptions = JSON.parse(localStorage.getItem("hiddenOptions")) || [];
                     if (!hiddenOptions.includes(optionId)) {
@@ -256,18 +220,15 @@
         const hiddenQuestions = JSON.parse(localStorage.getItem("hiddenQuestions")) || [];
         const hiddenOptions = JSON.parse(localStorage.getItem("hiddenOptions")) || [];
 
-        // Debugging logs
         console.log("Id of Hidden Questions to be Deleted:", hiddenQuestions);
         console.log("Id of Hidden Options to be Deleted:", hiddenOptions);
 
-        // Set hidden inputs values
         document.getElementById("hiddenQuestionsInput").value = JSON.stringify(hiddenQuestions);
         document.getElementById("hiddenOptionsInput").value = JSON.stringify(hiddenOptions);
 
         console.log("Hidden Questions Input Value:", document.getElementById("hiddenQuestionsInput").value);
         console.log("Hidden Options Input Value:", document.getElementById("hiddenOptionsInput").value);
 
-        // Submit the form
         document.getElementById("myForm").submit();
     }
     </script>
