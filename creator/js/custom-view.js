@@ -85,11 +85,12 @@ document.addEventListener("DOMContentLoaded", function () {
         addImageBtn.src = darkModeEnabled ? "../imgs/image_dark.svg" : "../imgs/image_logo.svg";
         addSaveImage.src = darkModeEnabled ? "../imgs/save_dark.svg" : "../imgs/save.svg";
 
+        const addChoiceSrc = darkModeEnabled ? "../imgs/plus_choices_dark.svg" : "../imgs/plus_choices.svg";
         const deleteChoiceSrc = darkModeEnabled ? "../imgs/close_dark.svg" : "../imgs/close.svg";
         const deleteSrc = darkModeEnabled ? "../imgs/delete_dark.svg" : "../imgs/delete.svg";
         const uploadSrc = darkModeEnabled ? "../imgs/upload_dark.svg" : "../imgs/upload.svg";
 
-        for (let img of addChoiceBtns) img.src = "../imgs/plus_choices.svg";
+        for (let img of addChoiceBtns) img.src = addChoiceSrc;
         for (let img of deleteChoiceBtns) img.src = deleteChoiceSrc;
         for (let img of deleteSectionBtns) img.src = deleteSrc;
         for (let img of deleteQuestionBtns) img.src = deleteSrc;
