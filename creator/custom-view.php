@@ -27,6 +27,68 @@
         $fname = $row['fname'];
     }
 
+
+    if (isset($_SESSION['Deleted_Options']) || isset($_SESSION['Deleted_Questions'])) {
+        $OptionsToDelete = json_decode($_SESSION['Deleted_Options'], true);
+        $QuestionsToDelete = json_decode($_SESSION['Deleted_Questions'], true);
+
+        if ((is_array($OptionsToDelete) && !empty($OptionsToDelete)) || (is_array($QuestionsToDelete) && !empty($QuestionsToDelete))) {
+            // Build query strings if there are items to delete
+            $OptionsString = !empty($OptionsToDelete) ? implode(',', array_map('intval', $OptionsToDelete)) : '';
+            $QuestionsString = !empty($QuestionsToDelete) ? implode(',', array_map('intval', $QuestionsToDelete)) : '';
+
+            // Execute delete queries conditionally
+            if (!empty($OptionsString)) {
+                $delete_option = "DELETE FROM survey_db.choices WHERE choice_id IN ($OptionsString)";
+                $delete_choices = mysqli_query($conn, $delete_option);
+                
+                if (!$delete_choices) {
+                    echo "Error deleting choices: " . mysqli_error($conn);
+                }
+            }
+
+            if (!empty($QuestionsString)) {
+                $delete_question = "DELETE FROM survey_db.questions WHERE question_id IN ($QuestionsString)";
+                $delete_questions = mysqli_query($conn, $delete_question);
+                
+                if (!$delete_questions) {
+                    echo "Error deleting questions: " . mysqli_error($conn);
+                }
+            }
+
+            // Clear session variables after deletion
+            unset($_SESSION['Deleted_Options'], $_SESSION['Deleted_Questions']);
+            header('Location: home.php?id=' . $id);
+            exit();
+        }
+    }
+
+
+    
+    
+    
+
+    /*if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Assuming you have a database connection established
+    
+        $hiddenQuestions = json_decode($_POST['hiddenQuestionsInput'], true);
+        $hiddenOptions = json_decode($_POST['hiddenOptionsInput'], true);
+    
+        // Prepare the DELETE statement for questions
+        if (!empty($hiddenQuestions)) {
+            $questionIds = implode(',', array_map('intval', $hiddenQuestions));
+            $stmt = $conn->prepare("DELETE FROM survey_db.questions WHERE question_id IN ($questionIds)");
+            $stmt->execute();
+        }
+    
+        /* Prepare the DELETE statement for options
+        if (!empty($hiddenOptions)) {
+            $optionIds = implode(',', array_map('intval', $hiddenOptions));
+            $stmt = $conn->prepare("DELETE FROM options WHERE id IN ($optionIds)");
+            $stmt->execute();
+        }*/
+    /*}*/
+
     if(isset($_POST['sign-out'])){
         session_destroy();
         header("location: ../index.php");
@@ -43,7 +105,7 @@
         exit;
     }
 
-    if(isset($_POST['save-btn'])){
+    /*if(isset($_POST['save-btn'])){
         $survey_title = $_POST['survey-title'];
         $survey_desc = $_POST['description'];
 
@@ -111,21 +173,32 @@
             }
             header("Location: home.php?id=$id");
         }
-    }
+    }*/
+
 
     if(isset($_POST['remove-option-btn'])){
         $option_id = $_POST['remove-option-btn'];
 
-        $delete_option = "DELETE FROM survey_db.choices WHERE choice_id = '$option_id'";
-        $delete_sql = (mysqli_query($conn,$delete_option));
+        //$delete_option = "DELETE FROM survey_db.choices WHERE choice_id = '$option_id'";
+        //$delete_sql = (mysqli_query($conn,$delete_option));
     }
 
     if(isset($_POST['delete-question-btn'])){
         $question_id = $_POST['delete-question-btn'];
 
-        $delete_question = "DELETE FROM survey_db.questions WHERE question_id = '$question_id'";
-        $delete_sql = (mysqli_query($conn,$delete_question));
+        //$delete_question = "DELETE FROM survey_db.questions WHERE question_id = '$question_id'";
+        //$delete_sql = (mysqli_query($conn,$delete_question));
     }
+
+    if(isset($_POST['save-btn'])){
+        $_SESSION['Deleted_Questions'] = $_POST['hiddenQuestions'];
+        $_SESSION['Deleted_Options'] = $_POST['hiddenOptions'];
+
+        header('Location: '.$_SERVER['PHP_SELF'].'?id='.$id.'&survey_id='.$survey_id);
+        exit();
+    }
+    
+
 ?>
 
 <!DOCTYPE html>
@@ -137,6 +210,67 @@
     <link rel="icon" href="../imgs/logo.png">
     <link rel="stylesheet" href="css/custom-view.css">
     <script src="js/custom-view.js" defer></script>
+    <script defer>
+                function hideQuestion(questionId) {
+                    const question = document.getElementById("question"+questionId);
+                    if (question) {
+                        question.style.display = "none";
+                        saveHiddenQuestion(questionId); // Save hidden state in localStorage
+                    }
+                }
+
+                // Function to save the hidden state of an element in localStorage
+                function saveHiddenQuestion(questionId) {
+                    let hiddenQuestions = JSON.parse(localStorage.getItem("hiddenQuestions")) || [];
+                    if (!hiddenQuestions.includes(questionId)) {
+                        hiddenQuestions.push(questionId);
+                        localStorage.setItem("hiddenQuestions", JSON.stringify(hiddenQuestions));
+                    }
+                }
+
+                function hideOption(optionId) {
+                    const option = document.getElementById("option"+optionId);
+                    if (option) {
+                        option.style.display = "none";
+                        saveHiddenOption(optionId); // Save hidden state in localStorage
+                    }
+                }
+
+                // Function to save the hidden state of an element in localStorage
+                function saveHiddenOption(optionId) {
+                    let hiddenOptions = JSON.parse(localStorage.getItem("hiddenOptions")) || [];
+                    if (!hiddenOptions.includes(optionId)) {
+                        hiddenOptions.push(optionId);
+                        localStorage.setItem("hiddenOptions", JSON.stringify(hiddenOptions));
+                    }
+                }
+
+                window.onload = function() {
+                    localStorage.removeItem("hiddenQuestions");
+                    localStorage.removeItem("hiddenOptions");
+                };
+    </script>
+
+    <script defer>
+    function submitHiddenQuestions() {
+        const hiddenQuestions = JSON.parse(localStorage.getItem("hiddenQuestions")) || [];
+        const hiddenOptions = JSON.parse(localStorage.getItem("hiddenOptions")) || [];
+
+        // Debugging logs
+        console.log("Id of Hidden Questions to be Deleted:", hiddenQuestions);
+        console.log("Id of Hidden Options to be Deleted:", hiddenOptions);
+
+        // Set hidden inputs values
+        document.getElementById("hiddenQuestionsInput").value = JSON.stringify(hiddenQuestions);
+        document.getElementById("hiddenOptionsInput").value = JSON.stringify(hiddenOptions);
+
+        console.log("Hidden Questions Input Value:", document.getElementById("hiddenQuestionsInput").value);
+        console.log("Hidden Options Input Value:", document.getElementById("hiddenOptionsInput").value);
+
+        // Submit the form
+        document.getElementById("myForm").submit();
+    }
+    </script>
 </head>
 <body>
     <nav id="nav-bar">
@@ -188,7 +322,7 @@
     </nav>
 
     <main>
-        <form method="post" class="main">
+        <form id="hiddenDataForm" method="post" class="main" action="custom-view.php?id=<?php echo $id;?>&survey_id=<?php echo $survey_id;?>">
             <div class="title-desc-container">
                 <input type="text" name="survey-title" class="survey-title" id="nav-survey-title" value="<?php echo $survey_title;?>">
                 <textarea name="survey-desc" class="survey-desc" placeholder="Survey Description"><?php echo $survey_description;?></textarea>
@@ -202,7 +336,7 @@
                         $question_id = $row['question_id'];
                         $question_text = $row['question_text'];
                         $question_type = $row['question_type'];
-                        echo    '<div class="question-container">
+                        echo    '<div class="question-container" id="question'.$question_id.'">
                                     <div class="question-upper">
                                         <input type="text" name="question-title[0]" class="question-title" placeholder="Untitled Question" value="',$question_text,'">
                                         <select name="question-type[0]" class="question-type">
@@ -229,27 +363,21 @@
                                             $inputType = "radio";
                                         }
 
-                                        echo    '<div class="choice-container">
+                                        echo    '<div class="choice-container" id="option'.$choice_id.'">
                                                     <input type="'.$inputType.'" name="multiple-choice">
                                                     <input type="text" class="choice-input-text" placeholder="Option text" name="choice" value="'.$choice_text.'" required>
-                                                    <button class="remove-option-btn" name="remove-option-btn" value="'.$choice_id.'">
-                                                        <img src="../imgs/close.svg" alt="Remove option" class="delete-choice-btn">
-                                                    </button>
+                                                    <img src="../imgs/close.svg" alt="Remove option" class="delete-choice-btn" onclick="hideOption('.$choice_id.')">
                                                 </div>';
                                     }
                                 echo         '<img src="../imgs/plus_choices.svg" alt="Add choice button" class="add-choice-btn">
                                         </div>
-                                            <button class="delete-question-btn" name="delete-question-btn" value="'.$question_id.'">
-                                                <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn">
-                                            </button>
+                                                <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn" onclick="hideQuestion('.$question_id.')">
                                 </div>';
                             }elseif ($question_type == "Short Answer") {
                                 echo   '<div class="question-choices-container">
                                             <input type="text" class="short-answer-input" placeholder="Your answer" readonly>
                                         </div>
-                                            <button class="delete-question-btn" name="delete-question-btn" value="'.$question_id.'">
-                                                <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn">
-                                            </button>
+                                                <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn" onclick="hideQuestion('.$question_id.')">
                                 </div>';
                             }elseif ($question_type == "Dropdown") {
                                 echo   '<div class="question-choices-container">
@@ -258,17 +386,13 @@
                                                 <option value="False">False</option>
                                             </select>
                                         </div>
-                                            <button class="delete-question-btn" name="delete-question-btn" value="'.$question_id.'">
-                                                <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn">
-                                            </button>
+                                                <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn" onclick="hideQuestion('.$question_id.')">
                                 </div>';
                             }elseif ($question_type == "Paragraph") {
                                 echo   '<div class="question-choices-container">
                                             <textarea name="" class="paragraph-textarea" placeholder="Your answer" rows="4" style="resize:none;" readonly></textarea>
                                         </div>
-                                            <button class="delete-question-btn" name="delete-question-btn" value="'.$question_id.'">
-                                                <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn">
-                                            </button>
+                                                <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn" onclick="hideQuestion('.$question_id.')">
                                 </div>';
                             }
 
@@ -276,17 +400,33 @@
                 ?>
             </div>
 
+            <?php if (isset($option_id)): ?>
+                <script>
+                    const optionIdToHide = <?php echo json_encode($option_id); ?>;
+                </script>
+            <?php endif; ?>
+
+            <?php if (isset($question_id)): ?>
+                <script>
+                    const questionIdToHide = <?php echo json_encode($question_id); ?>;
+                </script>
+            <?php endif; ?>
+
+            <input type="hidden" id="hiddenQuestionsInput" name="hiddenQuestions">
+            <input type="hidden" id="hiddenOptionsInput" name="hiddenOptions">
+
             <img src="../imgs/plus.svg" alt="Add options button" id="add-options-btn">
 
             <div id="add-options-container">
                 <img src="../imgs/plus_choices.svg" alt="Add question button" id="add-question-btn" class="add-options-btns">
                 <img src="../imgs/text_logo.svg" alt="Add title and description button" id="add-td-btn" class="add-options-btns">
                 <img src="../imgs/image_logo.svg" alt="Add image logo" id="add-image-btn" class="add-options-btns">
-                <button class="save-btn" name="save-btn">
+                <button class="save-btn" name="save-btn" onclick="submitHiddenQuestions()">
                     <img src="../imgs/save.svg" alt="Add image logo" id="add-save-btn" class="add-options-btns">
                 </button>       
             </div>
         </form>
     </main>
+
 </body>
 </html>
