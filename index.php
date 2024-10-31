@@ -108,37 +108,31 @@
            }
     }
 
-    /* if(isset($_POST['change'])){
-
-        $email = $_POST['email'];
+    if (isset($_POST['change'])) {
+        $email =$_POST['email']; 
         $npass = $_POST['password'];
         $cpass = $_POST['confirm-password'];
         $encpass = md5($npass);
-
+        
         $uppercase = preg_match('@[A-Z]@', $npass);
         $lowercase = preg_match('@[a-z]@', $npass);
         $number    = preg_match('@[0-9]@', $npass);
-     
-           $select = " SELECT * FROM survey_db.users WHERE email = '$email' ";
-           $result = mysqli_query($conn, $select);
-           if(mysqli_num_rows($result) > 0){
-                if($npass != $cpass){
-                    $errorchange[] = 'Passwords do not match!';
-                }else{
-                    if (!$uppercase || !$lowercase || !$number || strlen($npass) < 8) {
-                        $errorchange[] = 'Password should be atleast 8 characters in length and should include at least one upper case letter, and one number.';
-                      }else{
-                            $update = "UPDATE survey_db.users SET pass = '$encpass' WHERE email = '$email'";
-                            $update_query = mysqli_query($conn, $update);
-                            if($update_query){
-                                $sucess[] = "Password changed sucessfully";
-                            }
-                        }    
-                }
-           }else{
-               $errorchange[] = 'Incorrect email or password!';
-           }
-    } */
+        
+        if ($npass != $cpass) {
+            $errorchange[] = 'Passwords do not match!';
+        } elseif (!$uppercase || !$lowercase || !$number || strlen($npass) < 8) {
+            $errorchange[] = 'Password must be at least 8 characters long and include at least one uppercase letter and one number.';
+        } else {
+    
+            $update = "UPDATE survey_db.users SET pass = '$encpass' WHERE email = '$email'";
+            if (mysqli_query($conn, $update)) {
+                $success[] = "Password changed successfully!";
+            } else {
+                $errorchange[] = "Error updating password: " . mysqli_error($conn);
+            }
+        }
+    }
+    
 
 ?>
 
@@ -272,25 +266,28 @@
                 <label for="verification-code" class="change-pass-modal-label">Verification Code</label>
                 <input type="text" id="verification-code" name="verification-code" placeholder="Enter Code" onkeyup='check();'>
                 <p id="forgot-pass-error-msg"></p>
-                <button type="submit" name="change" id="verify-code" class="forgot-pass-btns">Verify</button><br>
+                <button type="submit" name="verify" id="verify-code" class="forgot-pass-btns">Verify</button><br>
                 <a href="" class="change-pass-modal-links" id="change-pass-in-btn">Sign In</a>
             </form>
         </div>
     </div>
 
     <script>
+        const formHasErrors = <?php echo json_encode($formHasErrors); ?>;
+        const signUpFormHasErrors = <?php echo json_encode($signUpFormHasErrors); ?>;
+        const passwordChangeFormHasErrors = <?php echo json_encode($passwordChangeFormHasErrors ?? false); ?>;
+        const passwordChangeSuccess = <?php echo json_encode($passwordChangeSuccess ?? false); ?>;
+
         window.addEventListener('load', function() {
-            <?php if ($formHasErrors) : ?>
+            if (formHasErrors) {
                 showModal(document.getElementById('sign-in-modal'));
-            <?php endif; ?>
-
-            <?php if ($signUpFormHasErrors) : ?>
+            }
+            if (signUpFormHasErrors) {
                 showModal(document.getElementById('sign-up-modal'));
-            <?php endif; ?>
-
-            <?php if ($passwordChangeFormHasErrors || $passwordChangeSuccess) : ?>
+            }
+            if (passwordChangeFormHasErrors || passwordChangeSuccess) {
                 showModal(document.getElementById('change-pass-modal'));
-            <?php endif; ?>
+            }
         });
     </script>
 

@@ -142,6 +142,29 @@
             }
         }
     }
+
+    if(isset($_POST['confirm-delete-btn'])){
+        $pass_del = $_POST['acc-del-password'];
+        $confirm_del = $_POST['acc-del-confirm'];
+        $encpass = md5($pass_del);
+
+        $select = " SELECT pass FROM survey_db.users WHERE user_id = '$id' ";
+        $result = mysqli_query($conn, $select);
+        while($row = mysqli_fetch_array($result)){
+            $pass = $row['pass'];
+
+            if ($pass == $encpass && $confirm_del == "DELETE"){
+                $delete_sql = "DELETE FROM survey_db.users WHERE user_id = '$id'";
+                $delete_result = mysqli_query($conn, $delete_sql);
+                if($delete_result){
+                    header("Location: ../index.php");
+                    exit;
+                }
+            }else{
+                echo "Invalid Inputs!";
+            }
+        }
+    }
     
 ?>
 
@@ -265,19 +288,21 @@
                 </div>
                 <span id="matched-message"></span>
                 <button class="save-btns account-btns" id="account-save-pass-btn" name="save-password">Save Changes</button>
-                <button class="save-btns account-btns" id="account-delete-btn">Delete Account</button>
+                <button class="save-btns account-btns" id="account-delete-btn" name="account-delete-btn">Delete Account</button>
             </form>
         </div>
     </main>
 
     <div id="deleteModal" class="modal">
         <div class="modal-content">
-            <h2 id="acc-del-title">Confirm Account Deletion</h2>
-            <p class="acc-del-desc">Enter your password for confirmation</p>
-            <input type="password" class="acc-del-inputs" placeholder="Enter your password" />
-            <p class="acc-del-desc">Type the word "DELETE" to proceed</p>
-            <input type="text" class="acc-del-inputs" placeholder="DELETE" />
-            <button id="confirm-delete-btn">Confirm</button>
+            <form action="" method="post">
+                <h2 id="acc-del-title">Confirm Account Deletion</h2>
+                <p class="acc-del-desc">Enter your password for confirmation</p>
+                <input type="password" name="acc-del-password" class="acc-del-inputs" placeholder="Enter your password" />
+                <p class="acc-del-desc">Type the word "DELETE" to proceed</p>
+                <input type="text" name="acc-del-confirm" class="acc-del-inputs" placeholder="DELETE" />
+                <button id="confirm-delete-btn" name="confirm-delete-btn">Confirm</button>
+            </form>
         </div>
     </div>
 </body>

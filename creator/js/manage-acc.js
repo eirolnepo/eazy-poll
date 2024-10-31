@@ -129,7 +129,8 @@ function hideModal(modal) {
     }, 300);
 }
 
-deleteBtn.onclick = function () {
+deleteBtn.onclick = function (event) {
+    event.preventDefault();
     showModal(modal);
 };
 

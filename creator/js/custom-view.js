@@ -65,7 +65,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const addImageBtn = document.querySelector("#add-image-btn");
     const addSaveImage = document.getElementById("add-save-btn");
 
-    let questionCounter = 1;
+    const existingQuestionCount = document.getElementById("question_count").value;
+    let questionCounter = existingQuestionCount;
 
     addOptionsContainer.style.display = "none";
     addOptionsContainer.style.opacity = 0;
@@ -237,7 +238,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    function handleExistingChoices(questionDiv) {
+    function handleExistingChoices(questionDiv, existingquestionCounter) {
         const questionType = questionDiv.querySelector(".question-type");
         const choicesContainer = questionDiv.querySelector(".question-choices-container");
         const addChoiceBtn = questionDiv.querySelector(".add-choice-btn");
@@ -258,7 +259,7 @@ document.addEventListener("DOMContentLoaded", function () {
             inputText.classList.add("choice-input-text");
             inputText.placeholder = "Option text";
             inputText.required = true;
-            inputText.name = `choice[${questionCounter-1}][]`;
+            inputText.name = `choice[${existingquestionCounter}][]`;
 
             const deleteImg = document.createElement("img");
             deleteImg.src = "../imgs/close.svg";
@@ -537,12 +538,13 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     
     const existingQuestions = document.querySelectorAll(".question-container");
+    let existingquestionCounter = 0;
     existingQuestions.forEach(questionDiv => {
         questionDiv.classList.add("show");
 
         const questionType = questionDiv.querySelector(".question-type").value;
         if (questionType === "Multiple Choice" || questionType === "Checkboxes") {
-            handleExistingChoices(questionDiv);
+            handleExistingChoices(questionDiv,existingquestionCounter);
 
             const inputs = questionDiv.querySelectorAll("input[type='radio'], input[type='checkbox']");
             inputs.forEach(input => {
@@ -551,5 +553,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
             });
         }
+        existingquestionCounter++;
     });
 });

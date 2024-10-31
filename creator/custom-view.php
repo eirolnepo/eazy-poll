@@ -342,12 +342,13 @@
                 <?php 
                     $SELECT_DATA = " SELECT * FROM survey_db.questions WHERE survey_id = '$survey_id'";
                     $RESULT_DATA = mysqli_query($conn, $SELECT_DATA);
+                    $question_count = mysqli_num_rows($RESULT_DATA);
                     $questionCounter = 0;
+                    echo '<input type="hidden" id="question_count" value="'.$question_count.'">';
                     while($row = mysqli_fetch_array($RESULT_DATA)){
                         $question_id = $row['question_id'];
                         $question_text = $row['question_text'];
                         $question_type = $row['question_type'];
-                        
                         echo    '<div class="question-container" id="question'.$question_id.'">
                                     <div class="question-upper">
                                         <input type="text" name="question-title['.$questionCounter.']" class="question-title" placeholder="Untitled Question" value="'.$question_text.'">

@@ -215,36 +215,38 @@ document.getElementById("get-code-btn").addEventListener("click", function(event
 
 document.getElementById("verify-code").addEventListener("click", function(event) {
   event.preventDefault();
-
+  const email = document.getElementById("change-pass-email").value;
   const userInputCode = document.getElementById("verification-code").value;
 
   if (userInputCode === sentCode && userInputCode.length !== 0) {
     console.log("Verification successful!");
     document.getElementById("forgot-pass-error-msg").style.display = "none"
     document.getElementById("forgot-pass-error-msg").textContent = ""
-    replaceModalContent();
+    console.log("Email to be sent:", email);
+    replaceModalContent(email);
   } else {
     document.getElementById("forgot-pass-error-msg").style.display = "block"
     document.getElementById("forgot-pass-error-msg").textContent = "Verification failed. The codes do not match."
   }
 });
 
-function replaceModalContent() {
+function replaceModalContent(email) {
   const modalContent = document.getElementById("forgot-pass-modal-content");
   modalContent.innerHTML = `
     <h2 id="change-pass-modal-title">Forgot Password</h2>
     <form id="change-pass-form" action="" method="post">
-        <label for="change-pass-password" class="change-pass-modal-label">New Password</label>
-        <div class="pass-container">
+      <input type="hidden" name="email" value="${email}">
+      <label for="change-pass-password" class="change-pass-modal-label">New Password</label>
+      <div class="pass-container">
           <input type="password" id="change-password" name="password" placeholder="Enter your new password" onkeyup='check();' required>
           <img src="imgs/eye_close_light.svg" alt="" id="show-forgot-pass-img">
-        </div>
-        <label for="confirm-password" class="change-pass-modal-label">Confirm New Password <span id="change-message"></span></label>
-        <input type="password" id="confirm-change-password" name="confirm-password" placeholder="Confirm your new password" onkeyup='check();' required>
-        <button type="submit" name="change" class="forgot-pass-btns">Change Password</button><br>
-        <a href="" class="change-pass-modal-links" id="change-pass-in-btn">Sign In</a>
+      </div>
+      <label for="confirm-password" class="change-pass-modal-label">Confirm New Password <span id="change-message"></span></label>
+      <input type="password" id="confirm-change-password" name="confirm-password" placeholder="Confirm your new password" onkeyup='check();' required>
+      <button type="submit" name="change" class="forgot-pass-btns">Change Password</button><br>
+      <a href="" class="change-pass-modal-links" id="change-pass-in-btn">Sign In</a>
     </form>
-  `;
+`;
 
   const changePassInBtn2 = document.getElementById("change-pass-in-btn");
   changePassInBtn2.addEventListener("click", function(event) {
