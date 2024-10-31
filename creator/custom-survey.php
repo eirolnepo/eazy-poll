@@ -186,6 +186,7 @@
                             <option value="Dropdown">Dropdown</option>
                             <option value="Short Answer">Short Answer</option>
                             <option value="Paragraph">Paragraph</option>
+                            <option value="Multiple Choice Grid">Multiple Choice Grid</option>
                         </select>
                     </div>
                     <div class="question-choices-container">

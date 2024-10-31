@@ -124,25 +124,28 @@ document.addEventListener("DOMContentLoaded", function () {
         const questionType = questionDiv.querySelector(".question-type");
         const choicesContainer = questionDiv.querySelector(".question-choices-container");
         const addChoiceBtn = questionDiv.querySelector(".add-choice-btn");
-
+    
+        let addColumnBtn;
+        let columnsContainer;
+    
         function addChoice(inputType = "radio") {
             const choiceDiv = document.createElement("div");
             choiceDiv.classList.add("choice-container");
-
+    
             const inputOption = document.createElement("input");
             inputOption.type = inputType;
             inputOption.name = "multiple-choice";
             inputOption.addEventListener("click", (event) => {
                 event.preventDefault();
             });
-
+    
             const inputText = document.createElement("input");
             inputText.type = "text";
             inputText.classList.add("choice-input-text");
             inputText.placeholder = "Option text";
             inputText.required = true;
-            inputText.name = `choice[${questionCounter-1}][]`;
-
+            inputText.name = `choice[${questionCounter - 1}][]`;
+    
             const deleteImg = document.createElement("img");
             deleteImg.src = "../imgs/close.svg";
             deleteImg.alt = "Remove option";
@@ -150,32 +153,120 @@ document.addEventListener("DOMContentLoaded", function () {
             deleteImg.addEventListener("click", function () {
                 choiceDiv.remove();
             });
-
+    
             choiceDiv.appendChild(inputOption);
             choiceDiv.appendChild(inputText);
             choiceDiv.appendChild(deleteImg);
             choicesContainer.insertBefore(choiceDiv, addChoiceBtn);
             updateImagesForDarkMode();
         }
-
+    
+        function addRow(rowNumber = 1) {
+            const rowDiv = document.createElement("div");
+            rowDiv.classList.add("choice-container");
+    
+            const rowInputText = document.createElement("input");
+            rowInputText.type = "text";
+            rowInputText.classList.add("grid-row-input-text");
+            rowInputText.placeholder = `Row ${rowNumber}`;
+            rowInputText.required = true;
+            rowInputText.name = `grid-row-text[${questionCounter - 1}][]`;
+    
+            const deleteRowImg = document.createElement("img");
+            deleteRowImg.src = "../imgs/close.svg";
+            deleteRowImg.alt = "Remove row";
+            deleteRowImg.classList.add("delete-choice-btn");
+            deleteRowImg.addEventListener("click", function () {
+                rowDiv.remove();
+                updateRowPlaceholders();
+            });
+    
+            rowDiv.appendChild(rowInputText);
+            rowDiv.appendChild(deleteRowImg);
+            choicesContainer.insertBefore(rowDiv, addChoiceBtn);
+        }
+    
+        function addColumn(columnNumber = 1) {
+            if (!columnsContainer) {
+                columnsContainer = document.createElement("div");
+                columnsContainer.classList.add("columns-container");
+                choicesContainer.appendChild(columnsContainer);
+            }
+    
+            const columnDiv = document.createElement("div");
+            columnDiv.classList.add("column-container");
+    
+            const columnRadio = document.createElement("input");
+            columnRadio.type = "radio";
+            columnRadio.name = "grid-column-choice";
+    
+            const columnInputText = document.createElement("input");
+            columnInputText.type = "text";
+            columnInputText.classList.add("grid-column-input-text");
+            columnInputText.placeholder = `Column ${columnNumber}`;
+            columnInputText.required = true;
+            columnInputText.name = `grid-column-text[${questionCounter - 1}][]`;
+    
+            const deleteColumnImg = document.createElement("img");
+            deleteColumnImg.src = "../imgs/close.svg";
+            deleteColumnImg.alt = "Remove column";
+            deleteColumnImg.classList.add("delete-choice-btn");
+            deleteColumnImg.addEventListener("click", function () {
+                columnDiv.remove();
+                updateColumnPlaceholders();
+            });
+    
+            columnDiv.appendChild(columnRadio);
+            columnDiv.appendChild(columnInputText);
+            columnDiv.appendChild(deleteColumnImg);
+            columnsContainer.appendChild(columnDiv);
+        }
+    
+        function updateRowPlaceholders() {
+            const rowInputs = choicesContainer.querySelectorAll(".grid-row-input-text");
+            rowInputs.forEach((input, index) => {
+                input.placeholder = `Row ${index + 1}`;
+            });
+        }
+    
+        function updateColumnPlaceholders() {
+            const columnInputs = columnsContainer.querySelectorAll(".grid-column-input-text");
+            columnInputs.forEach((input, index) => {
+                input.placeholder = `Column ${index + 1}`;
+            });
+        }
+    
+        function createAddColumnBtn() {
+            addColumnBtn = document.createElement("img");
+            addColumnBtn.src = "../imgs/plus_choices.svg";
+            addColumnBtn.classList.add("add-choice-btn")
+            addColumnBtn.alt = "Add column";
+            addColumnBtn.classList.add("add-column-btn");
+            addColumnBtn.addEventListener("click", function () {
+                const columnCount = columnsContainer ? columnsContainer.querySelectorAll(".column-container").length + 1 : 1;
+                addColumn(columnCount);
+            });
+            choicesContainer.appendChild(addColumnBtn);
+        }
+    
         function addDropdownChoices() {
             const dropdown = document.createElement("select");
             dropdown.classList.add("dropdown-choices");
-
+    
             const trueOption = document.createElement("option");
             trueOption.value = "True";
             trueOption.text = "True";
-
+    
             const falseOption = document.createElement("option");
             falseOption.value = "False";
             falseOption.text = "False";
-
+    
             dropdown.appendChild(trueOption);
             dropdown.appendChild(falseOption);
-
+    
             choicesContainer.appendChild(dropdown);
         }
-
+    
         function addShortAnswer() {
             const shortAnswerInput = document.createElement("input");
             shortAnswerInput.type = "text";
@@ -184,7 +275,7 @@ document.addEventListener("DOMContentLoaded", function () {
             shortAnswerInput.readOnly = true;
             choicesContainer.appendChild(shortAnswerInput);
         }
-        
+    
         function addParagraph() {
             const paragraphTextarea = document.createElement("textarea");
             paragraphTextarea.classList.add("paragraph-textarea");
@@ -192,20 +283,23 @@ document.addEventListener("DOMContentLoaded", function () {
             paragraphTextarea.rows = 4;
             paragraphTextarea.style.resize = "none";
             paragraphTextarea.readOnly = true;
-        
+    
             paragraphTextarea.addEventListener("input", function () {
                 this.style.height = "auto";
                 this.style.height = this.scrollHeight + "px";
             });
-        
+    
             choicesContainer.appendChild(paragraphTextarea);
-        }        
-
-        addChoice();
-        addChoice();
-
+        }
+    
+        addChoice("radio");
+        addChoice("radio");
+    
         questionType.addEventListener("change", function (e) {
             choicesContainer.innerHTML = "";
+            columnsContainer = null;
+            addColumnBtn = null;
+    
             if (e.target.value === "Multiple Choice") {
                 choicesContainer.appendChild(addChoiceBtn);
                 addChoice("radio");
@@ -220,23 +314,35 @@ document.addEventListener("DOMContentLoaded", function () {
                 addShortAnswer();
             } else if (e.target.value === "Paragraph") {
                 addParagraph();
+            } else if (e.target.value === "Multiple Choice Grid") {
+                choicesContainer.appendChild(addChoiceBtn);
+                addRow(1);
+                addRow(2);
+                addColumn(1);
+                addColumn(2);
+                createAddColumnBtn();
             }
         });
-
+    
         addChoiceBtn.addEventListener("click", function () {
-            const inputType = questionType.value === "Multiple Choice" ? "radio" : "checkbox";
-            addChoice(inputType);
+            if (questionType.value === "Multiple Choice") {
+                addChoice("radio");
+            } else if (questionType.value === "Checkboxes") {
+                addChoice("checkbox");
+            } else if (questionType.value === "Multiple Choice Grid") {
+                addRow(choicesContainer.querySelectorAll(".grid-row-input-text").length + 1);
+            }
         });
-
+    
         const deleteQuestionBtn = questionDiv.querySelector(".delete-question-btn");
         deleteQuestionBtn.addEventListener("click", function () {
             questionDiv.classList.remove("show");
-
+    
             setTimeout(function () {
                 questionDiv.remove();
             }, 300);
         });
-    }
+    }    
 
     function addQuestion() {
         const questionDiv = document.createElement("div");
