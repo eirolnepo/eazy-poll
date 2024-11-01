@@ -334,20 +334,6 @@ main, .main {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.grid-row-input-text, .grid-column-input-text {
-    width: 10rem;
-    border: none;
-    border-bottom: 0.1rem solid #173a56;
-    margin: 0.5rem;
-    outline: none;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.column-container {
-    display: flex;
-    align-items: center;
-}
-
 .dropdown-choices {
     width: 30rem;
     font-size: 1rem;
