@@ -120,29 +120,30 @@ document.addEventListener("DOMContentLoaded", function () {
         updateImagesForDarkMode();
     });
 
-    function handleChoices(questionDiv) {
+    function handleChoices(questionDiv, question_num) {
         const questionType = questionDiv.querySelector(".question-type");
         const choicesContainer = questionDiv.querySelector(".question-choices-container");
         const addChoiceBtn = questionDiv.querySelector(".add-choice-btn");
-
-        function addChoice(inputType = "radio") {
+    
+        function addChoice(inputType = "radio", textValue = "") {
             const choiceDiv = document.createElement("div");
             choiceDiv.classList.add("choice-container");
-
+    
             const inputOption = document.createElement("input");
             inputOption.type = inputType;
             inputOption.name = "multiple-choice";
             inputOption.addEventListener("click", (event) => {
                 event.preventDefault();
             });
-
+    
             const inputText = document.createElement("input");
             inputText.type = "text";
             inputText.classList.add("choice-input-text");
             inputText.placeholder = "Option text";
             inputText.required = true;
-            inputText.name = `choice[${questionCounter-1}][]`;
-
+            inputText.name = `add_choice[${question_num}][]`;
+            inputText.value = textValue;
+    
             const deleteImg = document.createElement("img");
             deleteImg.src = "../imgs/close.svg";
             deleteImg.alt = "Remove option";
@@ -150,32 +151,32 @@ document.addEventListener("DOMContentLoaded", function () {
             deleteImg.addEventListener("click", function () {
                 choiceDiv.remove();
             });
-
+    
             choiceDiv.appendChild(inputOption);
             choiceDiv.appendChild(inputText);
             choiceDiv.appendChild(deleteImg);
             choicesContainer.insertBefore(choiceDiv, addChoiceBtn);
             updateImagesForDarkMode();
         }
-
+    
         function addDropdownChoices() {
             const dropdown = document.createElement("select");
             dropdown.classList.add("dropdown-choices");
-
+    
             const trueOption = document.createElement("option");
             trueOption.value = "True";
             trueOption.text = "True";
-
+    
             const falseOption = document.createElement("option");
             falseOption.value = "False";
             falseOption.text = "False";
-
+    
             dropdown.appendChild(trueOption);
             dropdown.appendChild(falseOption);
-
+    
             choicesContainer.appendChild(dropdown);
         }
-
+    
         function addShortAnswer() {
             const shortAnswerInput = document.createElement("input");
             shortAnswerInput.type = "text";
@@ -184,7 +185,7 @@ document.addEventListener("DOMContentLoaded", function () {
             shortAnswerInput.readOnly = true;
             choicesContainer.appendChild(shortAnswerInput);
         }
-        
+    
         function addParagraph() {
             const paragraphTextarea = document.createElement("textarea");
             paragraphTextarea.classList.add("paragraph-textarea");
@@ -192,46 +193,55 @@ document.addEventListener("DOMContentLoaded", function () {
             paragraphTextarea.rows = 4;
             paragraphTextarea.style.resize = "none";
             paragraphTextarea.readOnly = true;
-        
+    
             paragraphTextarea.addEventListener("input", function () {
                 this.style.height = "auto";
                 this.style.height = this.scrollHeight + "px";
             });
-        
+    
             choicesContainer.appendChild(paragraphTextarea);
-        }        
-
-        addChoice();
-        addChoice();
-
-        questionType.addEventListener("change", function (e) {
+        }
+    
+        function updateChoiceType(inputType) {
+            const currentChoices = Array.from(choicesContainer.querySelectorAll(".choice-container"));
             choicesContainer.innerHTML = "";
+            choicesContainer.appendChild(addChoiceBtn);
+    
+            currentChoices.forEach((choice) => {
+                const textValue = choice.querySelector(".choice-input-text").value;
+                addChoice(inputType, textValue);
+            });
+        }
+    
+        addChoice();
+        addChoice();
+    
+        questionType.addEventListener("change", function (e) {
             if (e.target.value === "Multiple Choice") {
-                choicesContainer.appendChild(addChoiceBtn);
-                addChoice("radio");
-                addChoice("radio");
+                updateChoiceType("radio");
             } else if (e.target.value === "Checkboxes") {
-                choicesContainer.appendChild(addChoiceBtn);
-                addChoice("checkbox");
-                addChoice("checkbox");
-            } else if (e.target.value === "Dropdown") {
-                addDropdownChoices();
-            } else if (e.target.value === "Short Answer") {
-                addShortAnswer();
-            } else if (e.target.value === "Paragraph") {
-                addParagraph();
+                updateChoiceType("checkbox");
+            } else {
+                choicesContainer.innerHTML = "";
+                if (e.target.value === "Dropdown") {
+                    addDropdownChoices();
+                } else if (e.target.value === "Short Answer") {
+                    addShortAnswer();
+                } else if (e.target.value === "Paragraph") {
+                    addParagraph();
+                }
             }
         });
-
+    
         addChoiceBtn.addEventListener("click", function () {
             const inputType = questionType.value === "Multiple Choice" ? "radio" : "checkbox";
             addChoice(inputType);
         });
-
+    
         const deleteQuestionBtn = questionDiv.querySelector(".delete-question-btn");
         deleteQuestionBtn.addEventListener("click", function () {
             questionDiv.classList.remove("show");
-
+    
             setTimeout(function () {
                 questionDiv.remove();
             }, 300);
