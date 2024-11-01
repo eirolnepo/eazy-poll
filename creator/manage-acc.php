@@ -154,11 +154,23 @@
             $pass = $row['pass'];
 
             if ($pass == $encpass && $confirm_del == "DELETE"){
-                $delete_sql = "DELETE FROM survey_db.users WHERE user_id = '$id'";
-                $delete_result = mysqli_query($conn, $delete_sql);
-                if($delete_result){
-                    header("Location: ../index.php");
-                    exit;
+                $delete_user = "DELETE FROM survey_db.users WHERE user_id = '$id'";
+                $user_result = mysqli_query($conn, $delete_user);
+                if($user_result){
+                    $delete_survey = "DELETE FROM survey_db.surveys WHERE user_id = '$id'";
+                    $survey_result = mysqli_query($conn, $delete_survey);
+                    if($survey_result){
+                        $delete_question = "DELETE FROM survey_db.questions WHERE user_id = '$id'";
+                        $question_result = mysqli_query($conn, $delete_question);
+                        if($question_result){
+                            $delete_choice = "DELETE FROM survey_db.choices WHERE user_id = '$id'";
+                            $choice_result = mysqli_query($conn, $delete_choice);
+                            if($choice_result){
+                                header("Location: ../index.php");
+                                exit; 
+                            }
+                        }
+                    }
                 }
             }else{
                 echo "Invalid Inputs!";

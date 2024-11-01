@@ -38,11 +38,12 @@
     if(isset($_POST['save-btn'])){
         $survey_title = $_POST['survey-title'];
         $survey_desc = $_POST['survey-desc'];
+        $status = "ACCEPTING";
 
-        $insert_survey = "INSERT INTO survey_db.surveys (user_id,title,description) VALUES(?,?,?)";
+        $insert_survey = "INSERT INTO survey_db.surveys (user_id,title,description,status) VALUES(?,?,?,?)";
                     
         $stmt = $conn -> prepare ($insert_survey);
-        $stmt -> bind_param('iss',$id,$survey_title,$survey_desc);
+        $stmt -> bind_param('isss',$id,$survey_title,$survey_desc, $status);
             
         if($stmt->execute()){
             $survey_id = $stmt->insert_id;
@@ -55,10 +56,10 @@
                     if($questions==""){
                         break;
                     }else{
-                        $insert_question = "INSERT INTO survey_db.questions (survey_id,question_text,question_type) VALUES(?,?,?)";
+                        $insert_question = "INSERT INTO survey_db.questions (user_id,survey_id,question_text,question_type) VALUES(?,?,?,?)";
                                 
                         $stmt = $conn -> prepare ($insert_question);
-                        $stmt -> bind_param('iss',$survey_id,$question,$type);
+                        $stmt -> bind_param('iiss',$id,$survey_id,$question,$type);
                         
                             if($stmt->execute()){
 
@@ -87,9 +88,9 @@
                                                 $choice = $_POST['choice'][$i][$j];
                     
                                                 if(!empty($choice)) {
-                                                    $insert_choice = "INSERT INTO survey_db.choices (question_id, choice_text) VALUES (?, ?)";
+                                                    $insert_choice = "INSERT INTO survey_db.choices (user_id,question_id, choice_text) VALUES (?,?, ?)";
                                                     $stmt = $conn->prepare($insert_choice);
-                                                    $stmt->bind_param('is', $question_id, $choice);
+                                                    $stmt->bind_param('iis',$id, $question_id, $choice);
                                                     $stmt->execute();
                                                 }
                                             }
@@ -126,7 +127,7 @@
         <div id="nav-center">
             <div id="links-container">
                 <a href="#" class="nav-links">Questions</a>
-                <a href="responses.php?id=<?php echo $id; ?>&&survey_id<?php echo $survey_id; ?>" class="nav-links">Responses</a>
+                <a href="responses.php?id=<?php echo $id; ?>&&survey_id=<?php echo $survey_id; ?>" class="nav-links">Responses</a>
             </div>
         </div>
         <div id="nav-right-side">

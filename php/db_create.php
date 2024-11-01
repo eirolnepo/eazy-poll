@@ -44,7 +44,8 @@ $sql_create_table_survey = "CREATE TABLE IF NOT EXISTS surveys (
     user_id INT NOT NULL,
     title VARCHAR(255) NOT NULL,
     description text NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(255) NOT NULL
 )";
 
 if ($conn->query($sql_create_table_survey) === TRUE) {
@@ -58,6 +59,7 @@ if ($conn->query($sql_create_table_survey) === TRUE) {
 
 $sql_create_table_question = "CREATE TABLE IF NOT EXISTS questions (
     question_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
     survey_id INT NOT NULL,
     question_text VARCHAR(255) NOT NULL,
     question_type VARCHAR(255) NOT NULL
@@ -74,6 +76,7 @@ if ($conn->query($sql_create_table_question) === TRUE) {
 
 $sql_create_table_choices = "CREATE TABLE IF NOT EXISTS choices (
     choice_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
     question_id INT NOT NULL,
     choice_text VARCHAR(255) NOT NULL
 )";

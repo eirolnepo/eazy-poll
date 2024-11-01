@@ -358,7 +358,7 @@
         <div id="nav-center">
             <div id="links-container">
                 <a href="#" class="nav-links">Questions</a>
-                <a href="responses.php?id=<?php echo $id; ?>&&survey_id<?php echo $survey_id; ?>" class="nav-links">Responses</a>
+                <a href="responses.php?id=<?php echo $id; ?>&&survey_id=<?php echo $survey_id; ?>" class="nav-links">Responses</a>
             </div>
         </div>
         <div id="nav-right-side">

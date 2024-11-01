@@ -1,3 +1,48 @@
+<?php
+    session_start();
+    include '../php/db_connect.php';
+
+    if (!isset($_SESSION['loggedin'])) {
+        header("Location: ../index.php");
+        exit;
+    }
+
+    header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+    header("Cache-Control: post-check=0, pre-check=0", false);
+    header("Pragma: no-cache");
+
+    $id = $_GET['id'];
+    $survey_id = $_GET['survey_id'];
+
+    $select = " SELECT * FROM survey_db.surveys WHERE survey_id = '$survey_id' ";
+    $result = mysqli_query($conn, $select);
+    while($row = mysqli_fetch_array($result)){
+        $survey_title = $row['title'];
+    }
+
+    $select = " SELECT fname FROM survey_db.users WHERE user_id = '$id' ";
+    $result = mysqli_query($conn, $select);
+    while($row = mysqli_fetch_array($result)){
+        $fname = $row['fname'];
+    }
+
+    if(isset($_POST['sign-out'])){
+        session_destroy();
+        header("location: ../index.php");
+        exit;
+    }
+
+    if(isset($_POST['manage-acc'])){
+        header("location: manage-acc.php?id=$id");
+        exit;
+    }
+
+    if(isset($_POST['custom-btn'])){
+        header("location: custom-survey.php?id=$id");
+        exit;
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +58,7 @@
     <nav id="nav-bar">
         <div id="nav-left-side">
             <img src="../imgs/logo.png" alt="Eazypoll logo" id="nav-logo">
-            <input type="text" id="nav-title" value="Untitled Survey" readonly>
+            <input type="text" id="nav-title" value="<?php echo $survey_title;?>" readonly>
         </div>
         <div id="nav-center">
             <div id="links-container">
@@ -60,6 +105,7 @@
 
     <main>
         <div id="responses-container">
+            <input type="text" value="<?php echo $survey_title;?>" readonly>
             <p id="responses-text">0 responses</p>
             <div id="accept-response-container">
                 <label class="switch">
@@ -70,9 +116,9 @@
             </div>
         </div>
 
-        <div id="survey-title-container">
-            <p>Untitled Survey</p>
-        </div>
+        <!--<div id="survey-title-container">
+            
+        </div>-->
     </main>
 </body>
 </html>
