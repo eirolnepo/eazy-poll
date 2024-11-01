@@ -112,9 +112,9 @@
                     <div class="templates-divs"></div>
                     <p class="templates-texts">Short Answer Survey</p>
                 </div>
-                <div class="templates-divs-container" id="long-answer-btn">
+                <div class="templates-divs-container" id="paragraph-btn">
                     <div class="templates-divs"></div>
-                    <p class="templates-texts">Long Answer Survey</p>
+                    <p class="templates-texts">Paragraph Survey</p>
                 </div>
             </div>
         </div>
