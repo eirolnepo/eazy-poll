@@ -17,7 +17,7 @@
         </div>
         <div id="nav-center">
             <div id="links-container">
-                <a href="custom-survey.php" class="nav-links">Questions</a>
+                <a href="custom-view.php?id=<?php echo $id;?>&&survey_id=<?php echo $survey_id;?>" class="nav-links">Questions</a>
                 <a href="#" class="nav-links">Responses</a>
             </div>
         </div>

@@ -65,8 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const addImageBtn = document.querySelector("#add-image-btn");
     const addSaveImage = document.getElementById("add-save-btn");
 
-    const existingQuestionCount = document.getElementById("question_count").value;
-    let questionCounter = existingQuestionCount;
+    let questionCounter = 0;
 
     addOptionsContainer.style.display = "none";
     addOptionsContainer.style.opacity = 0;
@@ -120,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
         updateImagesForDarkMode();
     });
 
-    function handleChoices(questionDiv) {
+    function handleChoices(questionDiv, question_num) {
         const questionType = questionDiv.querySelector(".question-type");
         const choicesContainer = questionDiv.querySelector(".question-choices-container");
         const addChoiceBtn = questionDiv.querySelector(".add-choice-btn");
@@ -141,7 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
             inputText.classList.add("choice-input-text");
             inputText.placeholder = "Option text";
             inputText.required = true;
-            inputText.name = `choice[${questionCounter-1}][]`;
+            inputText.name = `add_choice[${question_num}][]`;
 
             const deleteImg = document.createElement("img");
             deleteImg.src = "../imgs/close.svg";
@@ -259,7 +258,8 @@ document.addEventListener("DOMContentLoaded", function () {
             inputText.classList.add("choice-input-text");
             inputText.placeholder = "Option text";
             inputText.required = true;
-            inputText.name = `choice[${existingquestionCounter}][]`;
+            inputText.id = existingquestionCounter;
+            inputText.name = `more_choice[${existingquestionCounter}][]`;
 
             const deleteImg = document.createElement("img");
             deleteImg.src = "../imgs/close.svg";
@@ -359,8 +359,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         questionDiv.innerHTML = `
             <div class="question-upper">
-                <input type="text" name="question-title[${questionCounter}]" class="question-title" placeholder="Untitled Question" required>
-                <select name="question-type[${questionCounter}]" class="question-type">
+                <input type="text" name="question-add-title[${questionCounter}]" class="question-title" placeholder="Untitled Question" required>
+                <select name="question-add-type[${questionCounter}]" class="question-type">
                     <option value="Multiple Choice">Multiple Choice</option>
                     <option value="Checkboxes">Checkboxes</option>
                     <option value="Dropdown">Dropdown</option>
@@ -375,13 +375,16 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
 
         surveyContainer.appendChild(questionDiv);
+        
+        handleChoices(questionDiv, questionCounter);
         questionCounter++;
-        handleChoices(questionDiv);
         updateImagesForDarkMode();
-
+          
         setTimeout(() => {
             questionDiv.classList.add("show");
         }, 10);
+
+       
     }
 
     addOptionsBtn.addEventListener("click", function () {

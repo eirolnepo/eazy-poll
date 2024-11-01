@@ -162,13 +162,20 @@
     }
 
     if(isset($_POST['save-btn'])){
+        $survey_title = $_POST['survey-title'];
+        $survey_desc = $_POST['survey-desc'];
         $questionCount = count($_POST['question-title']);
+
+        $countExisting = "SELECT * FROM survey_db.questions WHERE survey_id = '$survey_id'";
+        $countQuery = mysqli_query($conn, $countExisting);
+        $existingCount = mysqli_num_rows($countQuery);
 
         // Loop through the array and echo each question title
         for ($i = 0; $i < $questionCount; $i++) {
             $question_id = $_POST['question-id'][$i];
             $Select_Question = "SELECT * FROM survey_db.questions WHERE question_id = '$question_id'";
             $Result_Question = mysqli_query($conn, $Select_Question);
+
             while($row = mysqli_fetch_array($Result_Question)){
                 $question_text = $row['question_text'];
                 $question_type = $row['question_type'];
@@ -180,19 +187,80 @@
                 }
 
                 if (($question_type == "Multiple Choice" || $question_type == "Checkboxes") && ($_POST['question-type'][$i] == "Multiple Choice" || $_POST['question-type'][$i] == "Checkboxes")){
-                    for ($j = 0; $j < $questionCount; $j++) {
-                        $choice_id = $_POST['choice-id'][$i][$j];
-                        $Select_Option = "SELECT * FROM survey_db.choices WHERE choice_id = '$choice_id'";
-                        $Result_Option = mysqli_query($conn, $Select_Option);
-                        while($row = mysqli_fetch_array($Result_Option)){
-                            $choice_text = $row['choice_text'];
+                        for ($j = 0; $j < $questionCount; $j++) {
+                            $choice_id = $_POST['choice-id'][$i][$j];
+                            $Select_Option = "SELECT * FROM survey_db.choices WHERE choice_id = '$choice_id'";
+                            $Result_Option = mysqli_query($conn, $Select_Option);
+                            while($row = mysqli_fetch_array($Result_Option)){
+                                $choice_text = $row['choice_text'];
 
-                            if ($choice_text != $_POST['choice'][$i][$j]){
-                                $new_option = $_POST['choice'][$i][$j];
-                                $update_option = "UPDATE survey_db.choices SET choice_text = '$new_option' WHERE choice_id = '$choice_id'";
-                                $query_update = (mysqli_query($conn,$update_option));
+                                if ($choice_text != $_POST['choice'][$i][$j]){
+                                    $new_option = $_POST['choice'][$i][$j];
+                                    $update_option = "UPDATE survey_db.choices SET choice_text = '$new_option' WHERE choice_id = '$choice_id'";
+                                    $query_update = (mysqli_query($conn,$update_option));
+                                }
                             }
+                        
+                    }
+                }
+
+                if($_POST['question-type'][$i] == "Multiple Choice" || $_POST['question-type'][$i] == "Checkboxes"){
+                    if ($_POST['more_choice'][$i]){
+                        $count_options = count($_POST['more_choice'][$i]);
+                        for($j = 0; $j < $count_options; $j++) {
+                            $choice = $_POST['more_choice'][$i][$j];
+                            $insert_choice = "INSERT INTO survey_db.choices (question_id, choice_text) VALUES (?, ?)";
+                            $stmt = $conn->prepare($insert_choice);
+                            $stmt->bind_param('is', $question_id, $choice);
+                            $stmt->execute();
                         }
+                    }
+                }
+
+                if ($_POST['question-add-title'][$i]){
+                    $add_question = $_POST['question-add-title'][$i]; 
+                    $add_type = $_POST['question-add-type'][$i];
+
+                    $insert_question = "INSERT INTO survey_db.questions (survey_id,question_text,question_type) VALUES(?,?,?)";
+                                
+                    $stmt = $conn -> prepare ($insert_question);
+                    $stmt -> bind_param('iss',$survey_id,$add_question,$add_type);
+                        
+                    if($stmt->execute()){
+                        if (isset($_POST['add_choice'][$i]) && is_array($_POST['add_choice'][$i])) {
+                            $count_choices = count($_POST['add_choice'][$i]);
+                        } else {
+                            $count_choices = 0;
+                        }
+
+                        if($count_choices == 0){
+                            continue;
+                        }else{
+                            if($add_type == "Multiple Choice" || $add_type == "Checkboxes"){
+                                if(isset($_POST['add_choice'][$i]) && is_array($_POST['add_choice'][$i])) {
+                                    $count_choices = count($_POST['add_choice'][$i]); 
+                                    
+                                    $select = "SELECT LAST_INSERT_ID() AS question_id"; 
+                                    $query = mysqli_query($conn, $select);
+
+                                    if ($query) {
+                                        $row = mysqli_fetch_array($query);
+                                        $question_id = $row['question_id'];
+                                    }
+                                    
+                                    for($j = 0; $j < $count_choices; $j++) {
+                                        $choice = $_POST['add_choice'][$i][$j];
+            
+                                        if(!empty($choice)) {
+                                            $insert_choice = "INSERT INTO survey_db.choices (question_id, choice_text) VALUES (?, ?)";
+                                            $stmt = $conn->prepare($insert_choice);
+                                            $stmt->bind_param('is', $question_id, $choice);
+                                            $stmt->execute();
+                                        }
+                                    }
+                                }
+                            }
+                        }   
                     }
                 }
             }
@@ -290,7 +358,7 @@
         <div id="nav-center">
             <div id="links-container">
                 <a href="#" class="nav-links">Questions</a>
-                <a href="#" class="nav-links">Responses</a>
+                <a href="responses.php?id=<?php echo $id; ?>&&survey_id<?php echo $survey_id; ?>" class="nav-links">Responses</a>
             </div>
         </div>
         <div id="nav-right-side">
