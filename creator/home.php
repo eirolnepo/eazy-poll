@@ -100,21 +100,21 @@
                     <div class="templates-divs"></div>
                     <p class="templates-texts">Multiple-Choice Survey</p>
                 </div>
+                <div class="templates-divs-container" id="checkboxes-btn">
+                    <div class="templates-divs"></div>
+                    <p class="templates-texts">Checkboxes Survey</p>
+                </div>
                 <div class="templates-divs-container" id="true-false-btn">
                     <div class="templates-divs"></div>
                     <p class="templates-texts">True or False Survey</p>
                 </div>
-                <div class="templates-divs-container">
+                <div class="templates-divs-container" id="short-answer-btn">
                     <div class="templates-divs"></div>
-                    <p class="templates-texts">Satisfaction Survey</p>
+                    <p class="templates-texts">Short Answer Survey</p>
                 </div>
-                <div class="templates-divs-container">
+                <div class="templates-divs-container" id="long-answer-btn">
                     <div class="templates-divs"></div>
-                    <p class="templates-texts">Rating Scale Survey</p>
-                </div>
-                <div class="templates-divs-container">
-                    <div class="templates-divs"></div>
-                    <p class="templates-texts">Pulse Survey</p>
+                    <p class="templates-texts">Long Answer Survey</p>
                 </div>
             </div>
         </div>

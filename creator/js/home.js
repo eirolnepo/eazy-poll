@@ -68,6 +68,10 @@ document.getElementById("multiple-choice-btn").addEventListener("click", functio
     window.location.href = "multiple-choice-template.php";
 });
 
+document.getElementById("checkboxes-btn").addEventListener("click", function() {
+    window.location.href = "checkboxes-template.php";
+});
+
 document.getElementById("true-false-btn").addEventListener("click", function() {
     window.location.href = "true-false-template.php";
 });
