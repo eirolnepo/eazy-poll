@@ -280,7 +280,7 @@ main, .main {
 
 .question-container {
     width: 35rem;
-    padding: 1rem;
+    padding: 1rem 0;
     border: 0.1rem solid #173a56;
     border-radius: 0.5rem;
     margin: 1rem;
@@ -299,9 +299,10 @@ main, .main {
 }
 
 .question-title {
-    width: 62%;
+    padding: 0 1rem;
+    padding-bottom: 0.5rem;
+    width: 100%;
     border: none;
-    border-bottom: 0.1rem solid #173a56;
     margin-right: 0.5rem;
     outline: none;
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -314,6 +315,10 @@ main, .main {
     border-radius: 1rem;
     outline: none;
     transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.question-upper{
+    border-bottom: 0.1rem solid #173a56;
 }
 
 .question-choices-container {
@@ -331,7 +336,6 @@ main, .main {
 .choice-input-text {
     width: 30rem;
     border: none;
-    border-bottom: 0.1rem solid #173a56;
     margin: 0.5rem;
     outline: none;
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -473,6 +477,32 @@ main, .main {
     cursor: pointer;
 }
 
+.survey-btn{
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    width: 100%;
+}
+
+.submit-btn {
+    background-color: #4CAF50;  
+    color: white; 
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.clear-btn {
+    background-color: #f44336;
+    color: white; 
+    border: none;         
+    padding: 10px 20px;        
+    cursor: pointer;            
+    border-radius: 4px;  
+}
+
 /* dark mode */
 body {
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -527,10 +557,18 @@ body.dark-mode .question-container {
     border: 0.1rem solid #fff;
 }
 
-body.dark-mode .question-title,
+body.dark-mode .question-title{
+    background-color: #173a56;
+    color: white;
+}
+
 body.dark-mode .short-answer-input {
     background-color: #173a56;
     color: white;
+    border-bottom: 0.1rem solid #fff;
+}
+
+body.dark-mode .question-upper{
     border-bottom: 0.1rem solid #fff;
 }
 
@@ -544,7 +582,6 @@ body.dark-mode .dropdown-choices {
 body.dark-mode .choice-input-text {
     background-color: #173a56;
     color: white;
-    border-bottom: 0.1rem solid #fff;
 }
 
 body.dark-mode #add-options-container,
@@ -555,3 +592,4 @@ body.dark-mode .image-upload-container {
 body.dark-mode ::placeholder {
     color: #D3D2D2;
 }
+

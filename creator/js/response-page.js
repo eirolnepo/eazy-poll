@@ -119,124 +119,6 @@ document.addEventListener("DOMContentLoaded", function () {
         updateImagesForDarkMode();
     });
 
-    function handleChoices(questionDiv, question_num) {
-        const questionType = questionDiv.querySelector(".question-type");
-        const choicesContainer = questionDiv.querySelector(".question-choices-container");
-        const addChoiceBtn = questionDiv.querySelector(".add-choice-btn");
-
-        function addChoice(inputType = "radio") {
-            const choiceDiv = document.createElement("div");
-            choiceDiv.classList.add("choice-container");
-
-            const inputOption = document.createElement("input");
-            inputOption.type = inputType;
-            inputOption.name = "multiple-choice";
-            inputOption.addEventListener("click", (event) => {
-                event.preventDefault();
-            });
-
-            const inputText = document.createElement("input");
-            inputText.type = "text";
-            inputText.classList.add("choice-input-text");
-            inputText.placeholder = "Option text";
-            inputText.required = true;
-            inputText.name = `add_choice[${question_num}][]`;
-
-            const deleteImg = document.createElement("img");
-            deleteImg.src = "../imgs/close.svg";
-            deleteImg.alt = "Remove option";
-            deleteImg.classList.add("delete-choice-btn");
-            deleteImg.addEventListener("click", function () {
-                choiceDiv.remove();
-            });
-
-            choiceDiv.appendChild(inputOption);
-            choiceDiv.appendChild(inputText);
-            choiceDiv.appendChild(deleteImg);
-            choicesContainer.insertBefore(choiceDiv, addChoiceBtn);
-            updateImagesForDarkMode();
-        }
-
-        function addDropdownChoices() {
-            const dropdown = document.createElement("select");
-            dropdown.classList.add("dropdown-choices");
-
-            const trueOption = document.createElement("option");
-            trueOption.value = "True";
-            trueOption.text = "True";
-
-            const falseOption = document.createElement("option");
-            falseOption.value = "False";
-            falseOption.text = "False";
-
-            dropdown.appendChild(trueOption);
-            dropdown.appendChild(falseOption);
-
-            choicesContainer.appendChild(dropdown);
-        }
-
-        function addShortAnswer() {
-            const shortAnswerInput = document.createElement("input");
-            shortAnswerInput.type = "text";
-            shortAnswerInput.classList.add("short-answer-input");
-            shortAnswerInput.placeholder = "Your answer";
-            shortAnswerInput.readOnly = true;
-            choicesContainer.appendChild(shortAnswerInput);
-        }
-        
-        function addParagraph() {
-            const paragraphTextarea = document.createElement("textarea");
-            paragraphTextarea.classList.add("paragraph-textarea");
-            paragraphTextarea.placeholder = "Your answer";
-            paragraphTextarea.rows = 4;
-            paragraphTextarea.style.resize = "none";
-            paragraphTextarea.readOnly = true;
-        
-            paragraphTextarea.addEventListener("input", function () {
-                this.style.height = "auto";
-                this.style.height = this.scrollHeight + "px";
-            });
-        
-            choicesContainer.appendChild(paragraphTextarea);
-        }        
-
-        addChoice();
-        addChoice();
-
-        questionType.addEventListener("change", function (e) {
-            choicesContainer.innerHTML = "";
-            if (e.target.value === "Multiple Choice") {
-                choicesContainer.appendChild(addChoiceBtn);
-                addChoice("radio");
-                addChoice("radio");
-            } else if (e.target.value === "Checkboxes") {
-                choicesContainer.appendChild(addChoiceBtn);
-                addChoice("checkbox");
-                addChoice("checkbox");
-            } else if (e.target.value === "Dropdown") {
-                addDropdownChoices();
-            } else if (e.target.value === "Short Answer") {
-                addShortAnswer();
-            } else if (e.target.value === "Paragraph") {
-                addParagraph();
-            }
-        });
-
-        addChoiceBtn.addEventListener("click", function () {
-            const inputType = questionType.value === "Multiple Choice" ? "radio" : "checkbox";
-            addChoice(inputType);
-        });
-
-        const deleteQuestionBtn = questionDiv.querySelector(".delete-question-btn");
-        deleteQuestionBtn.addEventListener("click", function () {
-            questionDiv.classList.remove("show");
-
-            setTimeout(function () {
-                questionDiv.remove();
-            }, 300);
-        });
-    }
-
     function handleExistingChoices(questionDiv, existingquestionCounter) {
         const questionType = questionDiv.querySelector(".question-type");
         const choicesContainer = questionDiv.querySelector(".question-choices-container");
@@ -250,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
             inputOption.type = inputType;
             inputOption.name = "multiple-choice";
             inputOption.addEventListener("click", (event) => {
-                event.preventDefault();
+                
             });
 
             const inputText = document.createElement("input");
@@ -352,84 +234,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }, 300);
         });
     }
-
-    function addQuestion() {
-        const questionDiv = document.createElement("div");
-        questionDiv.classList.add("question-container");
-
-        questionDiv.innerHTML = `
-            <div class="question-upper">
-                <input type="text" name="question-add-title[${questionCounter}]" class="question-title" placeholder="Untitled Question" required>
-                <select name="question-add-type[${questionCounter}]" class="question-type">
-                    <option value="Multiple Choice">Multiple Choice</option>
-                    <option value="Checkboxes">Checkboxes</option>
-                    <option value="Dropdown">Dropdown</option>
-                    <option value="Short Answer">Short Answer</option>
-                    <option value="Paragraph">Paragraph</option>
-                </select>
-            </div>
-            <div class="question-choices-container">
-                <img src="../imgs/plus_choices.svg" alt="Add choice button" class="add-choice-btn">
-            </div>
-            <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn">
-        `;
-
-        surveyContainer.appendChild(questionDiv);
-        
-        handleChoices(questionDiv, questionCounter);
-        questionCounter++;
-        updateImagesForDarkMode();
-          
-        setTimeout(() => {
-            questionDiv.classList.add("show");
-        }, 10);
-
-       
-    }
-
-    addOptionsBtn.addEventListener("click", function () {
-        addOptionsContainer.classList.toggle("show");
-    
-        if (addOptionsContainer.classList.contains("show")) {
-            addOptionsContainer.style.display = "flex";
-            setTimeout(() => {
-                addOptionsContainer.style.opacity = 1;
-                addOptionsContainer.style.transform = "scale(1)";
-                scrollToBottom();
-            }, 10);
-        } else {
-            addOptionsContainer.style.opacity = 0;
-            addOptionsContainer.style.transform = "scale(0.9)";
-            setTimeout(() => {
-                addOptionsContainer.style.display = "none";
-            }, 300);
-        }
-    });
-    
-    function scrollToBottom() {
-        window.scrollTo({
-            top: document.body.scrollHeight,
-            behavior: "smooth"
-        });
-    }
-
-    document.addEventListener("click", function (event) {
-        if (!addOptionsContainer.contains(event.target) && event.target !== addOptionsBtn) {
-            if (addOptionsContainer.classList.contains("show")) {
-                addOptionsContainer.style.opacity = 0;
-                addOptionsContainer.style.transform = "scale(0.9)";
-                setTimeout(() => {
-                    addOptionsContainer.style.display = "none";
-                }, 300);
-                addOptionsContainer.classList.remove("show");
-            }
-        }
-    });
-
-    addQuestionBtn.addEventListener("click", function () {
-        addQuestion();
-        scrollToBottom();
-    });
 
     addTdBtn.addEventListener("click", function () {
         const titleDescContainer = document.createElement("div");
@@ -548,14 +352,25 @@ document.addEventListener("DOMContentLoaded", function () {
         const questionType = questionDiv.querySelector(".question-type").value;
         if (questionType === "Multiple Choice" || questionType === "Checkboxes") {
             handleExistingChoices(questionDiv,existingquestionCounter);
-
-            const inputs = questionDiv.querySelectorAll("input[type='radio'], input[type='checkbox']");
-            inputs.forEach(input => {
-                input.addEventListener("click", (event) => {
-                    event.preventDefault();
-                });
-            });
         }
         existingquestionCounter++;
+    });
+
+    const form = document.getElementById("survey-form");
+
+    form.addEventListener("submit", function(event) {
+        const checkboxes = document.querySelectorAll('input[name^="checkbox"]');
+        let checked = false;
+
+        checkboxes.forEach((checkbox) => {
+            if (checkbox.checked) {
+                checked = true;
+            }
+        });
+
+        if (!checked) {
+            event.preventDefault();
+            alert("Please select at least one checkbox.");
+        }
     });
 });
