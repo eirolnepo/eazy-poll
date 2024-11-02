@@ -344,11 +344,13 @@ input {
 #forgot-pass-email-error-msg {
     display: none;
     color: red;
+    margin-bottom: 0.5rem;
 }
 
 #forgot-pass-error-msg {
     display: none;
     color: red;
+    margin-bottom: 0.5rem;
 }
 
 .forgot-pass-btns {
@@ -366,6 +368,10 @@ input {
 .forgot-pass-btns:hover {
     background-color: #006156;
     cursor: pointer;
+}
+
+#change-password-btn {
+    margin-top: 0.5rem;
 }
 
 .change-pass-modal-links {
