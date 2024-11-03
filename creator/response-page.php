@@ -71,6 +71,20 @@
 
                 if($question_type == "Multiple Choice"){
                     $response_text = $_POST['multiple-choice'][$i];
+                    $countChoice = count($_POST['choice-id'][$i]);
+                    for($j = 0; $j < $countChoice; $j++){
+                        $choice_id = $_POST['choice-id'][$i][$j];
+                        if($response_text != ""){
+                            $insert = "INSERT INTO survey_db.responses(respondent_id,question_id,choice_id,response_text) VALUES(?,?,?,?)";
+                            
+                            $stmt = $conn -> prepare ($insert);
+                            $stmt -> bind_param('iiis',$respondent_id,$question_id,$choice_id,$response_text);
+                            
+                            $stmt->execute();
+                        }
+                    }
+                    continue;
+                   
                 }elseif($question_type == "Checkboxes"){
                     $numcheckbox = $_POST['count-choices'];
                     
