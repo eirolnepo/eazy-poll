@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
         var form = document.getElementById('surveyForm');
     
         // Determine the new status based on the switch state
-        var newStatus = this.checked ? 'accepting' : 'not accepting';
+        var newStatus = this.checked ? 'ACCEPTING' : 'NOT ACCEPTING';
     
         // Create a hidden input to store the status
         var statusInput = document.createElement('input');

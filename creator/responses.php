@@ -20,9 +20,9 @@
         $survey_title = $row['title'];
         $status1 = $row['status'];
 
-        if($status1 == "accepting"){
+        if($status1 == "ACCEPTING"){
             $status2 = "checked";
-        }elseif($status1 == "not accepting"){
+        }elseif($status1 == "NOT ACCEPTING"){
             $status2 = "unchecked";
         }
     }
