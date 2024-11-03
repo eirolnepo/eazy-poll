@@ -1,45 +1,3 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const options = document.getElementById("profile-options");
-    const img = document.getElementById("nav-profile-img");
-
-    img.onclick = () => {
-        if (!options.classList.contains("show")) {
-            options.style.display = "flex";
-            options.style.pointerEvents = "auto";
-            options.offsetHeight;
-        } else {
-            options.style.pointerEvents = "none";
-            setTimeout(() => {
-                options.style.display = "none";
-            }, 300);
-        }
-        
-        options.classList.toggle("show");
-    };
-
-    window.onclick = (event) => {
-        if (!img.contains(event.target) && !options.contains(event.target)) {
-            options.classList.remove("show");
-            options.style.pointerEvents = "none";
-            setTimeout(() => {
-                options.style.display = "none";
-            }, 300);
-        }
-    };
-});
-
-const surveyInput = document.getElementById("nav-survey-title");
-const navTitleInput = document.getElementById("nav-title");
-
-surveyInput.addEventListener("input", function() {
-    navTitleInput.value = surveyInput.value || "Untitled Survey";
-    navTitleInput.scrollLeft = navTitleInput.scrollWidth;
-});
-
-surveyInput.addEventListener("blur", function() {
-    navTitleInput.scrollLeft = 0;
-});
-
 const textareas = document.getElementsByClassName("survey-desc");
 
 for (let i = 0; i < textareas.length; i++) {
@@ -53,10 +11,6 @@ for (let i = 0; i < textareas.length; i++) {
 
 document.addEventListener("DOMContentLoaded", function () {
     const darkModeButton = document.getElementById("nav-dark-mode");
-    const profileOptionsButton = document.getElementById("nav-profile-img");
-    const navInfoButton = document.getElementById("nav-info");
-    const profileOptionsImage = document.getElementById("profile-options-img");
-    const homeImage = document.getElementById("nav-home-btn");
     const addQuestionBtn = document.querySelector("#add-question-btn");
     const surveyContainer = document.querySelector("#survey-container");
     const addOptionsBtn = document.querySelector("#add-options-btn");
@@ -81,10 +35,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const uploadImageBtns = document.getElementsByClassName("upload-image-btn");
 
         darkModeButton.src = darkModeEnabled ? "../imgs/dark-mode-white.png" : "../imgs/dark-mode-green.png";
-        profileOptionsButton.src = darkModeEnabled ? "../imgs/default_profile_image_dark.svg" : "../imgs/default_profile_image_light.svg";
-        navInfoButton.src = darkModeEnabled ? "../imgs/info_button_dark.svg" : "../imgs/info_button_light.svg";
-        profileOptionsImage.src = darkModeEnabled ? "../imgs/default_profile_image_dark.svg" : "../imgs/default_profile_image_light.svg";
-        homeImage.src = darkModeEnabled ? "../imgs/home_dark.svg" : "../imgs/home.svg";
         addQuestionBtn.src = darkModeEnabled ? "../imgs/plus_choices_dark.svg" : "../imgs/plus_choices.svg";
         addTdBtn.src = darkModeEnabled ? "../imgs/text_dark.svg" : "../imgs/text_logo.svg";
         addImageBtn.src = darkModeEnabled ? "../imgs/image_dark.svg" : "../imgs/image_logo.svg";
