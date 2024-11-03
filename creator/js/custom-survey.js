@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", function () {
         updateImagesForDarkMode();
     });
 
-    function handleChoices(questionDiv, question_num) {
+    function handleChoices(questionDiv) {
         const questionType = questionDiv.querySelector(".question-type");
         const choicesContainer = questionDiv.querySelector(".question-choices-container");
         const addChoiceBtn = questionDiv.querySelector(".add-choice-btn");
@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
             inputText.classList.add("choice-input-text");
             inputText.placeholder = "Option text";
             inputText.required = true;
-            inputText.name = `add_choice[${question_num}][]`;
+            inputText.name = `choice[${questionCounter-1}][]`;
             inputText.value = textValue;
     
             const deleteImg = document.createElement("img");

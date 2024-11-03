@@ -50,44 +50,62 @@
         exit;
     }
 
-    if(isset($_POST['clear-btn'])){
-        header("Location: " . $_SERVER['PHP_SELF'] . "?id=" . $id . "&&survey_id=" . $survey_id);
-        exit(); 
-    }
-
     if(isset($_POST['submit-btn'])){
-        $checkboxResponses = [];
+        $insert = "INSERT INTO survey_db.respondents(survey_id) VALUES(?)";
+                            
+        $stmt = $conn -> prepare ($insert);
+        $stmt -> bind_param('i',$survey_id);
 
-        for($i = 0; $i < $number_of_questions; $i++){
-            $question_id = $_POST['question-id'][$i];
+        if($stmt->execute()){
+            $respondent_id = $conn->insert_id;
+            $checkboxResponses = [];
 
-            $SELECT_DATA = " SELECT question_type FROM survey_db.questions WHERE question_id = '$question_id'";
-            $RESULT_DATA = mysqli_query($conn, $SELECT_DATA);
-            while($row = mysqli_fetch_array($RESULT_DATA)){
-                $question_type = $row['question_type'];
-            }
+            for($i = 0; $i < $number_of_questions; $i++){
+                $question_id = $_POST['question-id'][$i];
 
-            if($question_type == "Multiple Choice"){
-                $response_text = $_POST['multiple-choice'][$i];
-            }elseif($question_type == "Checkboxes"){
-                $response_text = $_POST['checkbox'];
-            }elseif($question_type == "Short Answer"){
-                $response_text = $_POST['short_answer'];
-            }elseif($question_type == "Dropdown"){
-                $response_text = $_POST['dropdown'];
-            }elseif($question_type == "Paragraph"){
-                $response_text = $_POST['paragraph'];
-            }
+                $SELECT_DATA = " SELECT question_type FROM survey_db.questions WHERE question_id = '$question_id'";
+                $RESULT_DATA = mysqli_query($conn, $SELECT_DATA);
+                while($row = mysqli_fetch_array($RESULT_DATA)){
+                    $question_type = $row['question_type'];
+                }
 
-            $insert = "INSERT INTO survey_db.responses(survey_id,user_id,question_id,response_text) VALUES(?,?,?,?)";
+                if($question_type == "Multiple Choice"){
+                    $response_text = $_POST['multiple-choice'][$i];
+                }elseif($question_type == "Checkboxes"){
+                    $numcheckbox = $_POST['count-choices'];
                     
-            $stmt = $conn -> prepare ($insert);
-            $stmt -> bind_param('iiis',$survey_id,$id,$question_id,$response_text);
-            
-            $stmt->execute();
-                
+
+                    for($j = 0; $j <= $numcheckbox; $j++){
+                        $choice_id =  $_POST['choice-id'][$i][$j];
+                        $response_text = $_POST['checkbox'][$i][$j];
+                        if($response_text != ""){
+                            $insert = "INSERT INTO survey_db.responses(respondent_id,question_id,choice_id,response_text) VALUES(?,?,?,?)";
+                            
+                            $stmt = $conn -> prepare ($insert);
+                            $stmt -> bind_param('iiis',$respondent_id,$question_id,$choice_id,$response_text);
+                            
+                            $stmt->execute();
+                        }
+                    }
+                    continue;
+                }elseif($question_type == "Short Answer"){
+                    $response_text = $_POST['short_answer'];
+                }elseif($question_type == "Dropdown"){
+                    $response_text = $_POST['dropdown'];
+                }elseif($question_type == "Paragraph"){
+                    $response_text = $_POST['paragraph'];
+                }
+
+                $insert = "INSERT INTO survey_db.responses(respondent_id,question_id,response_text) VALUES(?,?,?)";
+                        
+                $stmt = $conn -> prepare ($insert);
+                $stmt -> bind_param('iis',$respondent_id,$question_id,$response_text);
+                            
+                $stmt->execute();
+                    
+            }
         }
-            header("Location: ../index.php");
+            header("Location: response-page.php?id=$id&&survey_id=$survey_id");
                 exit;
     }
 
@@ -159,6 +177,8 @@
                 <p class="survey-title" id="nav-survey-title"><?php echo $survey_title;?></p>
                 <p class="survey-desc"><?php echo $survey_description;?></p>
                 <p class="date-created-text">Date created: <?php echo $formattedDateTime;?></p>
+                <input type="hidden" id="user_id" value="<?php echo $id?>">
+                <input type="hidden" id="survey_id" value="<?php echo $survey_id?>">
             </div>
 
             <div id="survey-container">
@@ -217,7 +237,9 @@
                                         
                                         $choiceCounter++;
                                     }
+
                                 echo         '<input type="hidden" class="add-choice-btn">
+                                              <input type="hidden" name="count-choices" value="'.$choiceCounter.'">
                                         </div>
                                             <input type="hidden" class="delete-question-btn">
                                 </div>';
@@ -261,7 +283,7 @@
             
             <div class="survey-btn">
                 <button name="submit-btn" class="submit-btn">Submit</button>
-                <button name="clear-btn" class="clear-btn">Clear Form</button>
+                <button name="clear-btn" class="clear-btn" id="clear-btn">Clear Form</button>          
             </div>
         </form>
     </main>

@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
         updateImagesForDarkMode();
     });
 
-    function handleChoices(questionDiv, question_num) {
+    function handleChoices(questionDiv, questionCounter) {
         const questionType = questionDiv.querySelector(".question-type");
         const choicesContainer = questionDiv.querySelector(".question-choices-container");
         const addChoiceBtn = questionDiv.querySelector(".add-choice-btn");
@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
             inputText.classList.add("choice-input-text");
             inputText.placeholder = "Option text";
             inputText.required = true;
-            inputText.name = `add_choice[${question_num}][]`;
+            inputText.name = `add_choice[${questionCounter}][]`;
             inputText.value = textValue;
     
             const deleteImg = document.createElement("img");
@@ -396,8 +396,7 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
 
         surveyContainer.appendChild(questionDiv);
-        
-        handleChoices(questionDiv, questionCounter);
+        handleChoices(questionDiv,questionCounter);
         questionCounter++;
         updateImagesForDarkMode();
           
@@ -407,6 +406,41 @@ document.addEventListener("DOMContentLoaded", function () {
 
        
     }
+
+    function addQuestion() {
+        const questionDiv = document.createElement("div");
+        questionDiv.classList.add("question-container");
+
+        questionDiv.innerHTML = `
+            <div class="question-upper">
+                <input type="text" name="question-add-title[${questionCounter}]" class="question-title" placeholder="Untitled Question" required>
+                <select name="question-add-type[${questionCounter}]" class="question-type">
+                    <option value="Multiple Choice">Multiple Choice</option>
+                    <option value="Checkboxes">Checkboxes</option>
+                    <option value="Dropdown">Dropdown</option>
+                    <option value="Short Answer">Short Answer</option>
+                    <option value="Paragraph">Paragraph</option>
+                </select>
+            </div>
+            <div class="question-choices-container">
+                <img src="../imgs/plus_choices.svg" alt="Add choice button" class="add-choice-btn">
+            </div>
+            <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn">
+        `;
+
+        surveyContainer.appendChild(questionDiv);
+        handleChoices(questionDiv,questionCounter);
+        questionCounter++;
+        updateImagesForDarkMode();
+          
+        setTimeout(() => {
+            questionDiv.classList.add("show");
+        }, 10);
+
+       
+    }
+
+    
 
     addOptionsBtn.addEventListener("click", function () {
         addOptionsContainer.classList.toggle("show");

@@ -28,7 +28,7 @@ CREATE TABLE `choices` (
   `question_id` int(11) NOT NULL,
   `choice_text` varchar(255) NOT NULL,
   PRIMARY KEY (`choice_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +37,7 @@ CREATE TABLE `choices` (
 
 LOCK TABLES `choices` WRITE;
 /*!40000 ALTER TABLE `choices` DISABLE KEYS */;
-INSERT INTO `choices` VALUES (1,1,1,'1'),(2,1,1,'2'),(3,1,1,'3'),(4,1,1,'4'),(5,1,4,'1'),(6,1,4,'2'),(7,1,4,'3');
+INSERT INTO `choices` VALUES (1,1,1,'1'),(2,1,1,'2'),(3,1,1,'3'),(4,1,2,'asd'),(5,1,2,'asd'),(6,1,2,'asd');
 /*!40000 ALTER TABLE `choices` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -55,7 +55,7 @@ CREATE TABLE `questions` (
   `question_text` varchar(255) NOT NULL,
   `question_type` varchar(255) NOT NULL,
   PRIMARY KEY (`question_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -64,8 +64,58 @@ CREATE TABLE `questions` (
 
 LOCK TABLES `questions` WRITE;
 /*!40000 ALTER TABLE `questions` DISABLE KEYS */;
-INSERT INTO `questions` VALUES (1,1,1,'Test Question1','Multiple Choice'),(2,1,1,'Test Question2','Dropdown'),(3,1,1,'Test Question3','Short Answer'),(4,1,1,'Test Question4','Checkboxes'),(5,1,1,'Test Question5','Paragraph');
+INSERT INTO `questions` VALUES (1,1,1,'Test Question1','Multiple Choice'),(2,1,1,'Test Question2','Checkboxes');
 /*!40000 ALTER TABLE `questions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `respondents`
+--
+
+DROP TABLE IF EXISTS `respondents`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `respondents` (
+  `respondent_id` int(11) NOT NULL AUTO_INCREMENT,
+  `survey_id` int(11) NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`respondent_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `respondents`
+--
+
+LOCK TABLES `respondents` WRITE;
+/*!40000 ALTER TABLE `respondents` DISABLE KEYS */;
+/*!40000 ALTER TABLE `respondents` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `responses`
+--
+
+DROP TABLE IF EXISTS `responses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `responses` (
+  `response_id` int(11) NOT NULL AUTO_INCREMENT,
+  `respondent_id` int(11) NOT NULL,
+  `question_id` int(11) NOT NULL,
+  `choice_id` int(11) NOT NULL,
+  `response_text` text NOT NULL,
+  PRIMARY KEY (`response_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `responses`
+--
+
+LOCK TABLES `responses` WRITE;
+/*!40000 ALTER TABLE `responses` DISABLE KEYS */;
+/*!40000 ALTER TABLE `responses` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -92,7 +142,7 @@ CREATE TABLE `surveys` (
 
 LOCK TABLES `surveys` WRITE;
 /*!40000 ALTER TABLE `surveys` DISABLE KEYS */;
-INSERT INTO `surveys` VALUES (1,1,'Survey 1','Unang survey na aking ginawa','2024-11-02 00:24:41','ACCEPTING');
+INSERT INTO `surveys` VALUES (1,1,'Untitled Survey','','2024-11-04 01:01:29','ACCEPTING');
 /*!40000 ALTER TABLE `surveys` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -134,4 +184,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-02  1:16:22
+-- Dump completed on 2024-11-04  1:01:36

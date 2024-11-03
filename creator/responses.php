@@ -18,7 +18,18 @@
     $result = mysqli_query($conn, $select);
     while($row = mysqli_fetch_array($result)){
         $survey_title = $row['title'];
+        $status1 = $row['status'];
+
+        if($status1 == "accepting"){
+            $status2 = "checked";
+        }elseif($status1 == "not accepting"){
+            $status2 = "unchecked";
+        }
     }
+
+    $select = " SELECT * FROM survey_db.respondents WHERE survey_id = '$survey_id' ";
+    $result = mysqli_query($conn, $select);
+    $count_respondents = mysqli_num_rows($result);
 
     $select = " SELECT fname FROM survey_db.users WHERE user_id = '$id' ";
     $result = mysqli_query($conn, $select);
@@ -41,9 +52,23 @@
         header("location: custom-survey.php?id=$id");
         exit;
     }
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $status = $_POST['status']; 
+    
+        // Update the surveys table
+        $query = "UPDATE survey_db.surveys SET status='$status' WHERE survey_id='$survey_id'";
+        
+        if (mysqli_query($conn, $query)) {
+            header("location: responses.php?id=$id&&survey_id=$survey_id");
+            exit;
+        } else {
+            echo "Error updating status: " . mysqli_error($conn);
+        }
+    }
 ?>
 
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -105,20 +130,39 @@
 
     <main>
         <div id="responses-container">
-            <input type="text" value="<?php echo $survey_title;?>" readonly>
-            <p id="responses-text">0 responses</p>
+            <p class="survey-title" id="nav-survey-title"><?php echo $survey_title;?></p>
+            <p id="responses-text"><?php echo $count_respondents;?> responses</p>
             <div id="accept-response-container">
+            <form id="surveyForm" action="" method="post">
                 <label class="switch">
-                    <input type="checkbox" checked>
+                    <input type="checkbox" id="toggleSwitch" <?php echo $status2?>>
                     <span class="slider"></span>
                 </label>
+                <input type="submit" style="display:none;">
+            </form>
                 <p id="accepting-responses-text">Accepting responses</p>
             </div>
         </div>
 
-        <!--<div id="survey-title-container">
-            
-        </div>-->
+        <div id="survey-header-container">
+            <p>Statistics of All Multiple Choice and Checkboxes Questions</p>
+        </div>
+
+        <?php
+            $SELECT = "SELECT * FROM survey_db.questions WHERE survey_id = '$survey_id'";
+            $RESULT = mysqli_query($conn, $SELECT);
+            while($row = mysqli_fetch_array($RESULT)){
+                $question_type = $row['question_type'];
+
+                if($question_type == "Multiple Choice" || $question_type == "Checkboxes"){
+                    $question_text = $row['question_text'];
+                    echo    '<div id="survey-question-container">
+                                 <p id="question-title" class="question-title">'.$question_text.'</p>
+                            </div>';
+                }
+            }     
+        ?>
+        
     </main>
 </body>
 </html>

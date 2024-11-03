@@ -373,4 +373,10 @@ document.addEventListener("DOMContentLoaded", function () {
             alert("Please select at least one checkbox.");
         }
     });
+
+    document.getElementById('clear-btn').addEventListener('click', function(){
+        const id = document.getElementById("user_id").value;
+        const survey_id = document.getElementById("survey_id").value;
+        window.location.href = `response-page.php?id=${id}&survey_id=${survey_id}`;
+    });
 });

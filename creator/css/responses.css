@@ -303,12 +303,26 @@ input:checked + .slider::before {
     transform: translateX(1.5rem);
 }
 
-#survey-title-container {
+#survey-header-container {
     width: 35rem;
     padding: 1rem;
     border: 0.1rem solid #173a56;
     border-radius: 0.5rem;
+    font-size: 1rem;
+}
+
+#survey-question-container {
+    width: 35rem;
+    padding: 1rem;
+    border: 0.1rem solid #173a56;
+    border-radius: 0.5rem;
+}
+
+.survey-title {
     font-size: 1.5rem;
+    border: none;
+    outline: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* dark mode */
@@ -347,6 +361,10 @@ body.dark-mode .slider::before {
     background-color: #173a56;
 }
 
-body.dark-mode #survey-title-container {
+body.dark-mode #survey-header-container {
+    border: 0.1rem solid #fff;
+}
+
+body.dark-mode #survey-question-container {
     border: 0.1rem solid #fff;
 }

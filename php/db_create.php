@@ -90,11 +90,26 @@ if ($conn->query($sql_create_table_choices) === TRUE) {
     die("Error creating table: " . $conn->error);
 }
 
+$sql_create_table_respondents = "CREATE TABLE IF NOT EXISTS respondents (
+    respondent_id INT AUTO_INCREMENT PRIMARY KEY,
+    survey_id INT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+)";
+
+if ($conn->query($sql_create_table_respondents) === TRUE) {
+    // Check if the table was just created (not if it existed before)
+    if ($conn->query("SHOW TABLES LIKE 'respondents'")->num_rows == 0) {
+        echo "<script>alert('Table \"respondents\" created successfully');</script>";
+    }
+} else {
+    die("Error creating table: " . $conn->error);
+}
+
 $sql_create_table_responses = "CREATE TABLE IF NOT EXISTS responses (
     response_id INT AUTO_INCREMENT PRIMARY KEY,
-    survey_id INT NOT NULL,
-    user_id INT NOT NULL,
+    respondent_id INT NOT NULL,
     question_id INT NOT NULL,
+    choice_id INT NOT NULL,
     response_text TEXT NOT NULL
 )";
 

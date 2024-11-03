@@ -67,4 +67,21 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 300);
         }
     };
+    document.getElementById('toggleSwitch').addEventListener('change', function() {
+        // Get the form
+        var form = document.getElementById('surveyForm');
+    
+        // Determine the new status based on the switch state
+        var newStatus = this.checked ? 'accepting' : 'not accepting';
+    
+        // Create a hidden input to store the status
+        var statusInput = document.createElement('input');
+        statusInput.type = 'hidden';
+        statusInput.name = 'status';
+        statusInput.value = newStatus;
+        form.appendChild(statusInput);
+    
+        // Submit the form
+        form.submit();
+    });
 });
