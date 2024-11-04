@@ -63,23 +63,3 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 });
-
-document.getElementById("multiple-choice-btn").addEventListener("click", function() {
-    window.location.href = "multiple-choice-template.php";
-});
-
-document.getElementById("checkboxes-btn").addEventListener("click", function() {
-    window.location.href = "checkboxes-template.php";
-});
-
-document.getElementById("true-false-btn").addEventListener("click", function() {
-    window.location.href = "true-false-template.php";
-});
-
-document.getElementById("short-answer-btn").addEventListener("click", function() {
-    window.location.href = "short-answer-template.php";
-});
-
-document.getElementById("paragraph-btn").addEventListener("click", function() {
-    window.location.href = "paragraph-template.php";
-});

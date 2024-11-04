@@ -35,6 +35,31 @@
         exit;
     }
 
+    if(isset($_POST['multiple-choice-btn'])){
+        header("location: multiple-choice-template.php?id=$id");
+        exit;
+    }
+
+    if(isset($_POST['checkboxes-btn'])){
+        header("location: checkboxes-template.php?id=$id");
+        exit;
+    }
+
+    if(isset($_POST['true-false-btn'])){
+        header("location: true-false-template.php?id=$id");
+        exit;
+    }
+
+    if(isset($_POST['short-answer-btn'])){
+        header("location: short-answer-template.php?id=$id");
+        exit;
+    }
+
+    if(isset($_POST['paragraph-btn'])){
+        header("location: paragraph-template.php?id=$id");
+        exit;
+    }
+
     if(isset($_POST['custom-div-btn'])){
         $survey_id = $_POST['custom-div-btn'];
         header("location: custom-view.php?id=$id&survey_id=$survey_id");
@@ -91,29 +116,41 @@
 
     <main>
         <div id="templates-container">
-            <h3 class="containers-title">Templates</h3>
-            <div class="divs-container">
-                <div class="templates-divs-container" id="multiple-choice-btn">
-                    <div class="templates-divs"></div>
-                    <p class="templates-texts">Multiple-Choice Survey</p>
+            <form method="post">
+                <h3 class="containers-title">Templates</h3>
+                <div class="divs-container">
+                    <div class="templates-divs-container" id="multiple-choice-btn">
+                        <button class = "multiple-choice-btn" name = "multiple-choice-btn">
+                            <div class="templates-divs"></div>
+                        </button>
+                        <p class="templates-texts">Multiple-Choice Survey</p>
+                    </div>
+                    <div class="templates-divs-container" id="checkboxes-btn">
+                        <button class = "checkboxes-btn" name = "checkboxes-btn">
+                            <div class="templates-divs"></div>
+                        </button>
+                        <p class="templates-texts">Checkboxes Survey</p>
+                    </div>
+                    <div class="templates-divs-container" id="true-false-btn">
+                        <button class = "true-false-btn" name = "true-false-btn">
+                            <div class="templates-divs"></div>
+                        </button>
+                        <p class="templates-texts">True or False Survey</p>
+                    </div>
+                    <div class="templates-divs-container" id="short-answer-btn">
+                        <button class = "short-answer-btn" name = "short-answer-btn">
+                            <div class="templates-divs"></div>
+                        </button>
+                        <p class="templates-texts">Short Answer Survey</p>
+                    </div>
+                    <div class="templates-divs-container" id="paragraph-btn">
+                        <button class = "paragraph-btn" name = "paragraph-btn">
+                            <div class="templates-divs"></div>
+                        </button>
+                        <p class="templates-texts">Paragraph Survey</p>
+                    </div>
                 </div>
-                <div class="templates-divs-container" id="checkboxes-btn">
-                    <div class="templates-divs"></div>
-                    <p class="templates-texts">Checkboxes Survey</p>
-                </div>
-                <div class="templates-divs-container" id="true-false-btn">
-                    <div class="templates-divs"></div>
-                    <p class="templates-texts">True or False Survey</p>
-                </div>
-                <div class="templates-divs-container" id="short-answer-btn">
-                    <div class="templates-divs"></div>
-                    <p class="templates-texts">Short Answer Survey</p>
-                </div>
-                <div class="templates-divs-container" id="paragraph-btn">
-                    <div class="templates-divs"></div>
-                    <p class="templates-texts">Paragraph Survey</p>
-                </div>
-            </div>
+            </form>
         </div>
 
         <div id="custom-container">

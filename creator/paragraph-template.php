@@ -1,5 +1,24 @@
 <?php
+    session_start();
+    include '../php/db_connect.php';
 
+    if (!isset($_SESSION['loggedin'])) {
+        header("Location: ../index.php");
+        exit;
+    }
+
+    header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+    header("Cache-Control: post-check=0, pre-check=0", false);
+    header("Pragma: no-cache");
+
+    $id = $_GET['id'];
+
+    $select = " SELECT fname FROM survey_db.users WHERE user_id = '$id' ";
+    $result = mysqli_query($conn, $select);
+    while($row = mysqli_fetch_array($result)){
+        $fname = $row['fname'];
+    }
+    
     if(isset($_POST['sign-out'])){
         session_destroy();
         header("location: ../index.php");
