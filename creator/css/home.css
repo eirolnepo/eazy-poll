@@ -224,6 +224,7 @@ main {
     height: 12rem;
     border: 0.1rem solid #000;
     border-radius: 1rem;
+    cursor: pointer;
 }
 
 .templates-texts {
@@ -280,12 +281,18 @@ main {
     transform: scale(1.05);
 }
 
-.custom-div-btn{
+.custom-div-btn,
+.multiple-choice-btn,
+.checkboxes-btn,
+.true-false-btn,
+.short-answer-btn,
+.paragraph-btn{
     background-color: transparent;
     border: none;
 }
 
 .custom-divs {
+
     width: 10rem;
     height: 12rem;
     border: 0.1rem solid #000;
