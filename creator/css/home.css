@@ -207,6 +207,12 @@ main {
     margin-left: -3rem;
 }
 
+.containers-title2 {
+    color: #02897a;
+    font-weight: 500;
+    margin-left: -3rem;
+}
+
 .divs-container {
     margin-top: 1rem;
 
@@ -392,6 +398,9 @@ body.dark-mode #add-custom-div:hover {
     }
     .containers-title {
         margin-left: 3rem;
+    }
+    .containers-title2{
+        margin-left: 18rem;
     }
      #add-custom-div {
         width: 20rem;

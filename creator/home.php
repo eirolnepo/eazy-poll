@@ -154,7 +154,7 @@
         </div>
 
         <div id="custom-container">
-            <h3 class="containers-title">Custom Surveys</h3>
+            <h3 class="containers-title2">Custom Surveys</h3>
             <div class="divs-container">
                 <div id="add-custom-div">
                     <form method="post">
