@@ -419,19 +419,19 @@
                                                     <input type="'.$inputType.'" name="multiple-choice">
                                                     <input type="text" name="choice['.$questionCounter.']['.$choiceCounter.']" class="choice-input-text" placeholder="Option text" value="'.$choice_text.'" required>
                                                     <input type="hidden" name="choice-id['.$questionCounter.']['.$choiceCounter.']" value="'.$choice_id.'">
-                                                    <img src="../imgs/close.svg" alt="Remove option" class="delete-choice-btn" onclick="hideOption('.$choice_id.')">
+                                                    <img src="../imgs/close.svg" alt="Remove option" class="delete-choice-btn" onclick="hideOption('.$choice_id.')" title="Delete this choice">
                                                 </div>';
                                         $choiceCounter++;
                                     }
-                                echo         '<img src="../imgs/plus_choices.svg" alt="Add choice button" class="add-choice-btn">
+                                echo         '<img src="../imgs/plus_choices.svg" alt="Add choice button" class="add-choice-btn" title="Add a choice">
                                         </div>
-                                                <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn" onclick="hideQuestion('.$question_id.')">
+                                                <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn" onclick="hideQuestion('.$question_id.')" title="Delete this question">
                                 </div>';
                             }elseif ($question_type == "Short Answer") {
                                 echo   '<div class="question-choices-container">
                                             <input type="text" class="short-answer-input" placeholder="Your answer" readonly>
                                         </div>
-                                                <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn" onclick="hideQuestion('.$question_id.')">
+                                                <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn" onclick="hideQuestion('.$question_id.')" title="Delete this question">
                                 </div>';
                             }elseif ($question_type == "Dropdown") {
                                 echo   '<div class="question-choices-container">
@@ -440,13 +440,13 @@
                                                 <option value="False">False</option>
                                             </select>
                                         </div>
-                                                <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn" onclick="hideQuestion('.$question_id.')">
+                                                <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn" onclick="hideQuestion('.$question_id.')" title="Delete this question">
                                 </div>';
                             }elseif ($question_type == "Paragraph") {
                                 echo   '<div class="question-choices-container">
                                             <textarea name="" class="paragraph-textarea" placeholder="Your answer" rows="4" style="resize:none;" readonly></textarea>
                                         </div>
-                                                <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn" onclick="hideQuestion('.$question_id.')">
+                                                <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn" onclick="hideQuestion('.$question_id.')" title="Delete this question">
                                 </div>';
                             }
                             $questionCounter++;
@@ -472,11 +472,11 @@
             <img src="../imgs/plus.svg" alt="Add options button" id="add-options-btn">
 
             <div id="add-options-container">
-                <img src="../imgs/plus_choices.svg" alt="Add question button" id="add-question-btn" class="add-options-btns">
-                <img src="../imgs/text_logo.svg" alt="Add title and description button" id="add-td-btn" class="add-options-btns">
-                <img src="../imgs/image_logo.svg" alt="Add image logo" id="add-image-btn" class="add-options-btns">
+                <img src="../imgs/plus_choices.svg" alt="Add question button" id="add-question-btn" class="add-options-btns" title="Add a question">
+                <img src="../imgs/text_logo.svg" alt="Add title and description button" id="add-td-btn" class="add-options-btns" title="Add a section">
+                <img src="../imgs/image_logo.svg" alt="Add image logo" id="add-image-btn" class="add-options-btns" title="Add an image">
                 <button class="save-btn" name="save-btn" onclick="submitHiddenQuestions()">
-                    <img src="../imgs/save.svg" alt="Add image logo" id="add-save-btn" class="add-options-btns">
+                    <img src="../imgs/save.svg" alt="Add image logo" id="add-save-btn" class="add-options-btns" title="Save the survey">
                 </button>       
             </div>
         </form>

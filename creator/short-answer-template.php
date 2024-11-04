@@ -139,18 +139,18 @@
                         <input type="text" name="question-title[0]" class="question-title" placeholder="Untitled Question" required>
                     </div>
                     <div class="question-choices-container"></div>
-                    <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn">
+                    <img src="../imgs/delete.svg" alt="Delete question button" class="delete-question-btn" title="Delete this question">
                 </div>
             </div>
 
             <img src="../imgs/plus.svg" alt="Add options button" id="add-options-btn">
 
             <div id="add-options-container">
-                <img src="../imgs/plus_choices.svg" alt="Add question button" id="add-question-btn" class="add-options-btns">
-                <img src="../imgs/text_logo.svg" alt="Add title and description button" id="add-td-btn" class="add-options-btns">
-                <img src="../imgs/image_logo.svg" alt="Add image logo" id="add-image-btn" class="add-options-btns">
+                <img src="../imgs/plus_choices.svg" alt="Add question button" id="add-question-btn" class="add-options-btns" title="Add a question">
+                <img src="../imgs/text_logo.svg" alt="Add title and description button" id="add-td-btn" class="add-options-btns" title="Add a section">
+                <img src="../imgs/image_logo.svg" alt="Add image logo" id="add-image-btn" class="add-options-btns" title="Add an image">
                 <button class="save-btn" name="save-btn">
-                    <img src="../imgs/save.svg" alt="Add image logo" id="add-save-btn" class="add-options-btns">
+                    <img src="../imgs/save.svg" alt="Add image logo" id="add-save-btn" class="add-options-btns" title="Save this survey">
                 </button>       
             </div>
         </form>

@@ -147,6 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const deleteImg = document.createElement("img");
             deleteImg.src = "../imgs/close.svg";
             deleteImg.alt = "Remove option";
+            deleteImg.title = "Delete this choice"
             deleteImg.classList.add("delete-choice-btn");
             deleteImg.addEventListener("click", function () {
                 choiceDiv.remove();
