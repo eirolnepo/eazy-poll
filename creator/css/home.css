@@ -25,6 +25,10 @@
     font-family: Poppins;
 }
 
+body, html{
+    overflow-x: hidden;
+}
+
 #nav-bar {
     margin: 1rem 5rem;
 
@@ -374,14 +378,20 @@ body.dark-mode #add-custom-div:hover {
         gap: .5rem;
     }
     #templates-container {
-        width: 10.5rem;   
+        width: 100%;
     }
     .divs-container{
         overflow-x: scroll;
+        width: 100%;
+    }
+    .divs-container::-webkit-scrollbar {
+        display: none;
+    }
+    #multiple-choice-btn{
+        margin-left: 6rem;
     }
     .containers-title {
-        margin-left: -13rem;
-        text-align: center;
+        margin-left: 3rem;
     }
      #add-custom-div {
         width: 20rem;
