@@ -99,7 +99,7 @@
         $countQuery = mysqli_query($conn, $countExisting);
         $existingCount = mysqli_num_rows($countQuery);
 
-        $UPDATE = "UPDATE survey_db.surveys SET title = '$survey_title', description = '$survey_desc'";
+        $UPDATE = "UPDATE survey_db.surveys SET title = '$survey_title', description = '$survey_desc' WHERE survey_id = '$survey_id'";
         $RESULT = (mysqli_query($conn,$UPDATE));
 
         if (isset($_POST['question-add-title']) && $_POST['question-add-title']) {
@@ -244,7 +244,8 @@
             header('Location: '.$_SERVER['PHP_SELF'].'?id='.$id.'&survey_id='.$survey_id);
             exit();
         }else{
-            
+            header("Location:home.php?id=$id");
+        exit;
         }
         
     }
@@ -366,7 +367,7 @@
     </nav>
 
     <main>
-        <form id="hiddenDataForm" method="post" class="main" action="custom-view.php?id=<?php echo $id;?>&survey_id=<?php echo $survey_id;?>">
+        <form id="hiddenDataForm" method="post" class="main">
             <div class="title-desc-container">
                 <input type="text" name="survey-title" class="survey-title" id="nav-survey-title" value="<?php echo $survey_title;?>">
                 <textarea name="survey-desc" class="survey-desc" placeholder="Survey Description"><?php echo $survey_description;?></textarea>

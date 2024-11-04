@@ -30,9 +30,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const surveyInput = document.getElementById("nav-survey-title");
 const navTitleInput = document.getElementById("nav-title");
+let typingTimeout;
 
 surveyInput.addEventListener("input", function() {
     navTitleInput.value = surveyInput.value || "Untitled Survey";
+    navTitleInput.scrollLeft = navTitleInput.scrollWidth;
+});
+
+surveyInput.addEventListener("blur", function() {
+    navTitleInput.scrollLeft = 0;
 });
 
 const textareas = document.getElementsByClassName("survey-desc");

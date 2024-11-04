@@ -421,6 +421,10 @@ input {
     color: green;
 }
 
+#index-btns-container{
+    display: none;
+}
+
 /* dark mode */
 body {
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -485,6 +489,11 @@ body.dark-mode .modal-content {
     #nav-btns-container {
         display: none;
     }
+    #index-btns-container{
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
     main {
         height: 80vh;
         flex-direction: column;
@@ -520,6 +529,6 @@ body.dark-mode .modal-content {
     #home-img{
         width: 17rem;
         margin-top: 1rem;
-        margin-bottom: 11rem;
+        margin-bottom: 1rem;
     }
 }

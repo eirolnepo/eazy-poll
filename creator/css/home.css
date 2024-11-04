@@ -383,7 +383,7 @@ body.dark-mode #add-custom-div:hover {
         margin-right: 1rem;
         gap: .5rem;
     }
-    #templates-container {
+    #templates-container, #custom-container {
         width: 100%;
     }
     .divs-container{
@@ -396,15 +396,11 @@ body.dark-mode #add-custom-div:hover {
     #multiple-choice-btn{
         margin-left: 6rem;
     }
-    .containers-title {
+    .containers-title, .containers-title2 {
         margin-left: 3rem;
     }
-    .containers-title2{
-        margin-left: 18rem;
+    #add-custom-div{
+        margin-left: 6rem;
+        width: 100%;
     }
-     #add-custom-div {
-        width: 20rem;
-        margin-left: 16.7rem;
-    }
-    
 }

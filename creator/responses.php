@@ -48,6 +48,11 @@
         exit;
     }
 
+    if(isset($_POST['home-btn'])){
+        header("location: home.php?id=$id");
+        exit;
+    }
+
     if(isset($_POST['custom-btn'])){
         header("location: custom-survey.php?id=$id");
         exit;
