@@ -343,3 +343,41 @@ body.dark-mode .custom-divs,
 body.dark-mode #add-custom-div:hover {
     border: 0.1rem solid #fff;
 }
+@media only screen and (min-width: 425px) and (max-width: 767px) {
+    #nav-bar {
+        margin: 1rem 3.5rem; 
+    }
+    #nav-left-side{
+        margin-left: -2rem;
+    }
+    #nav-logo {
+        margin-right: 1rem;
+    }
+    #nav-title {
+        display: none;
+    }
+    #nav-center, #search-containter {
+        width: 14rem;
+    }
+    #nav-dark-mode {
+        margin-left: .4rem;
+    }
+    #nav-right-side{
+        margin-right: 1rem;
+        gap: .5rem;
+    }
+    #templates-container {
+        width: 10.5rem;   
+    }
+    .divs-container{
+        overflow-x: scroll;
+    }
+    .containers-title {
+        margin-left: -13rem;
+        text-align: center;
+    }
+     #add-custom-div {
+        width: 20rem;
+        margin-left: 19rem;
+    }
+}
