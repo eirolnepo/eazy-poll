@@ -58,10 +58,15 @@ if (isset($_POST['custom-btn'])) {
     exit;
 }
 
-    if(isset($_POST['individual-btn'])){
-        header("location: individual-responses-page.php?id=$i&&survey_id=$survey_id");
-        exit;
-    }
+if(isset($_POST['individual-btn'])){
+    header("location: individual-responses-page.php?id=$id&&survey_id=$survey_id");
+    exit;
+}
+
+if(isset($_POST['summary-btn'])){
+    header("location: responses.php?id=$i&&survey_id=$survey_id");
+    exit;
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $status = $_POST['status'];
@@ -150,8 +155,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <p id="accepting-responses-text">Accepting responses</p>
             </div>
             <div class = "responses-btn-section">
-                <form class = "responses-btn-section" action="" method="post">
-                    <button id="summary">Summary</button>
+                <form class = "responses-btn-section" method="post">
+                    <button id="summary" name="summary-btn">Summary</button>
                     <button id="individual-btn" name="individual-btn">Individual</button>
                 </form>
             </div>
@@ -162,77 +167,83 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <?php
-        $SELECT = "SELECT * FROM survey_db.questions WHERE survey_id = '$survey_id'";
-        $RESULT = mysqli_query($conn, $SELECT);
-        while ($row = mysqli_fetch_array($RESULT)) {
-            $question_id = $row['question_id'];
-            $question_type = $row['question_type'];
-            $question_text = $row['question_text'];
+            if($count_respondents == 0){
+                echo '<div id="survey-header-container">
+                        <p>There are No Current Responses</p>
+                    </div>';
+            }else{
+                $SELECT = "SELECT * FROM survey_db.questions WHERE survey_id = '$survey_id'";
+                $RESULT = mysqli_query($conn, $SELECT);
+                while ($row = mysqli_fetch_array($RESULT)) {
+                    $question_id = $row['question_id'];
+                    $question_type = $row['question_type'];
+                    $question_text = $row['question_text'];
 
-            if ($question_type == "Dropdown" || $question_type == "Multiple Choice" || $question_type == "Checkboxes") {
-                echo '<div id="survey-question-container">
-                        <p id="question-title" class="question-title">' . $question_text . '</p>
-                        <canvas class="chart_canvas" id="chart_' . $question_id . '"></canvas>
-                      </div>';
+                    if ($question_type == "Dropdown" || $question_type == "Multiple Choice" || $question_type == "Checkboxes") {
+                        echo '<div id="survey-question-container">
+                                <p id="question-title" class="question-title">' . $question_text . '</p>
+                                <canvas class="chart_canvas" id="chart_' . $question_id . '"></canvas>
+                            </div>';
 
-                $response_query = "SELECT response_text, COUNT(*) as count FROM survey_db.responses WHERE question_id = '$question_id' GROUP BY response_text";
-                $response_result = mysqli_query($conn, $response_query);
-                
-                $labels = [];
-                $data = [];
+                        $response_query = "SELECT response_text, COUNT(*) as count FROM survey_db.responses WHERE question_id = '$question_id' GROUP BY response_text";
+                        $response_result = mysqli_query($conn, $response_query);
+                        
+                        $labels = [];
+                        $data = [];
 
-                while ($response_row = mysqli_fetch_array($response_result)) {
-                    $labels[] = $response_row['response_text'];
-                    $data[] = (int)$response_row['count'];
-                }
-
-                echo '<script>
-                    const ctx_' . $question_id . ' = document.getElementById("chart_' . $question_id . '").getContext("2d");
-                    const chart_' . $question_id . ' = new Chart(ctx_' . $question_id . ', {
-                        type: "pie",
-                        data: {
-                            labels: ' . json_encode($labels) . ',
-                            datasets: [{
-                                data: ' . json_encode($data) . ',
-                                backgroundColor: [
-                                    "#4BC0C0",
-                                    "#FF6384",
-                                    "#36A2EB",
-                                    "#FFCE56",
-                                    "#9966FF",
-                                    "#FF9F40",
-                                ],
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            plugins: {
-                                legend: {
-                                    position: "top",
-                                    labels: {
-                                        font: {
-                                            size: 18
-                                        },
-                                        color: "#02897a"
-                                    }
-                                },
-                                tooltip: {
-                                    titleFont: {
-                                        size: 14
-                                    },
-                                    bodyFont: {
-                                        size: 12
-                                    },
-                                    bodyColor: "#fff",
-                                    titleColor: "#fff"
-                                }
-                            },
-                            color: "#333333"
+                        while ($response_row = mysqli_fetch_array($response_result)) {
+                            $labels[] = $response_row['response_text'];
+                            $data[] = (int)$response_row['count'];
                         }
-                    });
-                </script>';
+
+                        echo '<script>
+                            const ctx_' . $question_id . ' = document.getElementById("chart_' . $question_id . '").getContext("2d");
+                            const chart_' . $question_id . ' = new Chart(ctx_' . $question_id . ', {
+                                type: "pie",
+                                data: {
+                                    labels: ' . json_encode($labels) . ',
+                                    datasets: [{
+                                        data: ' . json_encode($data) . ',
+                                        backgroundColor: [
+                                            "#4BC0C0",
+                                            "#FF6384",
+                                            "#36A2EB",
+                                            "#FFCE56",
+                                            "#9966FF",
+                                            "#FF9F40",
+                                        ],
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    plugins: {
+                                        legend: {
+                                            position: "top",
+                                            labels: {
+                                                font: {
+                                                    size: 18
+                                                },
+                                                color: "#02897a"
+                                            }
+                                        },
+                                        tooltip: {
+                                            titleFont: {
+                                                size: 14
+                                            },
+                                            bodyFont: {
+                                                size: 12
+                                            },
+                                            bodyColor: "#fff",
+                                            titleColor: "#fff"
+                                        }
+                                    },
+                                    color: "#333333"
+                                }
+                            });
+                        </script>';
+                    }
+                }
             }
-        }
         ?>
     </main>
 </body>

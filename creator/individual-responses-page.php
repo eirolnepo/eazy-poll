@@ -59,7 +59,7 @@
     }
 
     if(isset($_POST['summary-btn'])){
-        header("location: responses.php?id=$i&&survey_id=$survey_id");
+        header("location: responses.php?id=$id&&survey_id=$survey_id");
         exit;
     }
 
@@ -157,7 +157,13 @@
                 </form>
             </div>
         </div>
-
+        <?php 
+            if($count_respondents == 0){
+                echo '<div id="survey-header-container">
+                        <p>There are No Current Responses</p>
+                    </div>';
+            }else{
+        ?>
         <div id="survey-container">
                 <?php 
                     $SELECT_DATA = " SELECT * FROM survey_db.questions WHERE survey_id = '$survey_id'";
@@ -237,7 +243,7 @@
                     }
                 ?>
             </div>
-        
+        <?php }?>
     </main>
 </body>
 </html>

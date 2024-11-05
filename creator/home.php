@@ -220,13 +220,14 @@
                                 <p class="templates-texts">Paragraph Survey</p>
                             </div>';
                         }
-                        if ($search!=""){
+                        elseif ($search!=""){
                             $select = "SELECT * FROM survey_db.templates WHERE template_text LIKE '%$search%'";
                             $search_result = (mysqli_query($conn,$select));
                             $count_result = mysqli_num_rows($search_result);
                             if ($search_result != null) {
                                 while ($row = mysqli_fetch_array($search_result)){
-                                    if ($count_result != 0){
+                                    if ($count_result > 0){
+
                                         $template = $row["template_text"];
                                         if($template == "Multiple Choice"){
                                             $btn="multiple-choice-btn";
@@ -270,8 +271,14 @@
                                         </div>';
                                         }
                                         
+                                    }else{
+                                        echo '
+                                            <p class="templates-texts">No Templates Found</p>
+                                        ';
                                     }
                                 }
+                            }else{
+                                echo '<p class="templates-texts">No Templates Found</p>';
                             }
                         }
                     ?>
@@ -325,6 +332,10 @@
                                                     <p class="custom-texts">'.$survey_title.'</p>
                                             </div>';
                                     }
+                                }else{
+                                    echo '
+                                    <p class="templates-texts">No Custom Survey Found</p>
+                                ';
                                 }
                             }
                         ?>
