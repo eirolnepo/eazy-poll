@@ -329,7 +329,7 @@ document.addEventListener("DOMContentLoaded", function () {
         titleDescContainer.classList.add("new-title-desc-container");
 
         titleDescContainer.innerHTML = `
-            <input type="text" name="survey-title" class="survey-title" value="Untitled Section">
+            <input type="text" name="question-title[${questionCounter}]" class="survey-title" value="Untitled Section">
             <textarea name="survey-desc" class="survey-desc" placeholder="Section Description"></textarea>
             <img src="../imgs/delete.svg" alt="Delete section button" class="delete-section-btn">
         `;

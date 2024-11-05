@@ -22,6 +22,7 @@
         $datetime = $row['created_at'];
         $date = new DateTime($datetime);
         $formattedDateTime = $date->format('F j, Y | H:i:s');
+        $status = $row['status'];
     }
 
     $select = " SELECT * FROM survey_db.questions WHERE survey_id = '$survey_id' ";
@@ -152,119 +153,129 @@
     </nav>
 
     <main>
-        <form id="survey-form" method="post" class="main"">
-            <div class="title-desc-container">
-                <p class="survey-title" id="nav-survey-title"><?php echo $survey_title;?></p>
-                <p class="survey-desc"><?php echo $survey_description;?></p>
-                <p class="date-created-text">Date created: <?php echo $formattedDateTime;?></p>
-                <input type="hidden" id="user_id" value="<?php echo $id?>">
-                <input type="hidden" id="survey_id" value="<?php echo $survey_id?>">
-            </div>
+        <form id="survey-form" method="post" class="main">
+            <?php 
+                if($status == "ACCEPTING"){
+            ?>
+                <div class="title-desc-container">
+                    <p class="survey-title" id="nav-survey-title"><?php echo $survey_title;?></p>
+                    <p class="survey-desc"><?php echo $survey_description;?></p>
+                    <p class="date-created-text">Date created: <?php echo $formattedDateTime;?></p>
+                    <input type="hidden" id="user_id" value="<?php echo $id?>">
+                    <input type="hidden" id="survey_id" value="<?php echo $survey_id?>">
+                </div>
 
-            <div id="survey-container">
-                <?php 
-                    $SELECT_DATA = " SELECT * FROM survey_db.questions WHERE survey_id = '$survey_id'";
-                    $RESULT_DATA = mysqli_query($conn, $SELECT_DATA);
-                    $question_count = mysqli_num_rows($RESULT_DATA);
-                    $questionCounter = 0;
-                    echo '<input type="hidden" id="question_count" value="'.$question_count.'">';
-                    while($row = mysqli_fetch_array($RESULT_DATA)){
-                        $question_id = $row['question_id'];
-                        $question_text = $row['question_text'];
-                        $question_type = $row['question_type'];
-                        echo    '<div class="question-container" id="question'.$question_id.'">
-                                    <div class="question-upper">
-                                        <p id="question-title['.$questionCounter.']" class="question-title">'.$question_text.'</p>
-                                        <input type="hidden" name="question-id['.$questionCounter.']" value="'.$question_id.'">
-                                        <select name="question-type['.$questionCounter.']" class="question-type" style="display:none">
-                                            <option value="Multiple Choice" ' . ($question_type == "Multiple Choice" ? ' selected' : '') . '>Multiple Choice</option>
-                                            <option value="Checkboxes" ' . ($question_type == "Checkboxes" ? ' selected' : '') . '>Checkboxes</option>
-                                            <option value="Dropdown" ' . ($question_type == "Dropdown" ? ' selected' : '') . '>Dropdown</option>
-                                            <option value="Short Answer" ' . ($question_type == "Short Answer" ? ' selected' : '') . '>Short Answer</option>
-                                            <option value="Paragraph" ' . ($question_type == "Paragraph" ? ' selected' : '') . '>Paragraph</option>
-                                        </select>
-                                    </div>';
-                        
-                                    
-                            if($question_type == "Multiple Choice" || $question_type == "Checkboxes"){
-                                echo   '<div class="question-choices-container">';
+                <div id="survey-container">
+                    <?php 
+                        $SELECT_DATA = " SELECT * FROM survey_db.questions WHERE survey_id = '$survey_id'";
+                        $RESULT_DATA = mysqli_query($conn, $SELECT_DATA);
+                        $question_count = mysqli_num_rows($RESULT_DATA);
+                        $questionCounter = 0;
+                        echo '<input type="hidden" id="question_count" value="'.$question_count.'">';
+                        while($row = mysqli_fetch_array($RESULT_DATA)){
+                            $question_id = $row['question_id'];
+                            $question_text = $row['question_text'];
+                            $question_type = $row['question_type'];
+                            echo    '<div class="question-container" id="question'.$question_id.'">
+                                        <div class="question-upper">
+                                            <p id="question-title['.$questionCounter.']" class="question-title">'.$question_text.'</p>
+                                            <input type="hidden" name="question-id['.$questionCounter.']" value="'.$question_id.'">
+                                            <select name="question-type['.$questionCounter.']" class="question-type" style="display:none">
+                                                <option value="Multiple Choice" ' . ($question_type == "Multiple Choice" ? ' selected' : '') . '>Multiple Choice</option>
+                                                <option value="Checkboxes" ' . ($question_type == "Checkboxes" ? ' selected' : '') . '>Checkboxes</option>
+                                                <option value="Dropdown" ' . ($question_type == "Dropdown" ? ' selected' : '') . '>Dropdown</option>
+                                                <option value="Short Answer" ' . ($question_type == "Short Answer" ? ' selected' : '') . '>Short Answer</option>
+                                                <option value="Paragraph" ' . ($question_type == "Paragraph" ? ' selected' : '') . '>Paragraph</option>
+                                            </select>
+                                        </div>';
+                            
+                                        
+                                if($question_type == "Multiple Choice" || $question_type == "Checkboxes"){
+                                    echo   '<div class="question-choices-container">';
 
-                                    $SELECT_CHOICES = " SELECT * FROM survey_db.choices WHERE question_id = '$question_id'";
-                                    $RESULT_CHOICES = mysqli_query($conn, $SELECT_CHOICES);
-                                    $choiceCounter=0;
-                                    while($row = mysqli_fetch_array($RESULT_CHOICES)){
-                                        $choice_text = $row['choice_text'];
-                                        $choice_id = $row['choice_id'];
+                                        $SELECT_CHOICES = " SELECT * FROM survey_db.choices WHERE question_id = '$question_id'";
+                                        $RESULT_CHOICES = mysqli_query($conn, $SELECT_CHOICES);
+                                        $choiceCounter=0;
+                                        while($row = mysqli_fetch_array($RESULT_CHOICES)){
+                                            $choice_text = $row['choice_text'];
+                                            $choice_id = $row['choice_id'];
 
-                                        if ($question_type == "Checkboxes"){
-                                            $inputType = "checkbox";
+                                            if ($question_type == "Checkboxes"){
+                                                $inputType = "checkbox";
 
-                                            echo    '<div class="choice-container" id="option'.$choice_id.'">
-                                                        <input type="'.$inputType.'" name="checkbox['.$questionCounter.']['.$choiceCounter.']" value="'.$choice_text.'">
-                                                        <p id="choice['.$questionCounter.']['.$choiceCounter.']" class="choice-input-text">'.$choice_text.'</p>
-                                                        <input type="hidden" name="choice-id['.$questionCounter.']['.$choiceCounter.']" value="'.$choice_id.'">
-                                                    </div>';
-                                        }else{
-                                            $inputType = "radio";
+                                                echo    '<div class="choice-container" id="option'.$choice_id.'">
+                                                            <input type="'.$inputType.'" name="checkbox['.$questionCounter.']['.$choiceCounter.']" value="'.$choice_text.'">
+                                                            <p id="choice['.$questionCounter.']['.$choiceCounter.']" class="choice-input-text">'.$choice_text.'</p>
+                                                            <input type="hidden" name="choice-id['.$questionCounter.']['.$choiceCounter.']" value="'.$choice_id.'">
+                                                        </div>';
+                                            }else{
+                                                $inputType = "radio";
 
-                                            echo    '<div class="choice-container" id="option'.$choice_id.'">
-                                                        <input type="'.$inputType.'" name="multiple-choice['.$questionCounter.']" value="'.$choice_text.'" required>
-                                                        <p id="choice['.$questionCounter.']['.$choiceCounter.']" class="choice-input-text">'.$choice_text.'</p>
-                                                        <input type="hidden" name="choice-id['.$questionCounter.']['.$choiceCounter.']" value="'.$choice_id.'">
-                                                    </div>';
+                                                echo    '<div class="choice-container" id="option'.$choice_id.'">
+                                                            <input type="'.$inputType.'" name="multiple-choice['.$questionCounter.']" value="'.$choice_text.'" required>
+                                                            <p id="choice['.$questionCounter.']['.$choiceCounter.']" class="choice-input-text">'.$choice_text.'</p>
+                                                            <input type="hidden" name="choice-id['.$questionCounter.']['.$choiceCounter.']" value="'.$choice_id.'">
+                                                        </div>';
+                                            }
+
+                                            
+                                            $choiceCounter++;
                                         }
 
-                                        
-                                        $choiceCounter++;
-                                    }
-
-                                echo         '<input type="hidden" class="add-choice-btn">
-                                              <input type="hidden" name="count-choices" value="'.$choiceCounter.'">
-                                        </div>
-                                            <input type="hidden" class="delete-question-btn">
-                                </div>';
-                            }elseif ($question_type == "Short Answer") {
-                                echo   '<div class="question-choices-container">
-                                            <input type="text" name="short_answer" class="short-answer-input" placeholder="Your answer" required>
-                                        </div>
+                                    echo         '<input type="hidden" class="add-choice-btn">
+                                                <input type="hidden" name="count-choices" value="'.$choiceCounter.'">
+                                            </div>
                                                 <input type="hidden" class="delete-question-btn">
-                                </div>';
-                            }elseif ($question_type == "Dropdown") {
-                                echo   '<div class="question-choices-container">
-                                            <select class="dropdown-choices" name="dropdown">
-                                                <option value="True">True</option>
-                                                <option value="False">False</option>
-                                            </select>
-                                        </div>
-                                                <input type="hidden" class="delete-question-btn">
-                                </div>';
-                            }elseif ($question_type == "Paragraph") {
-                                echo   '<div class="question-choices-container">
-                                            <textarea name="paragraph" class="paragraph-textarea" placeholder="Your answer" rows="4" style="resize:none;" required></textarea>
-                                        </div>
-                                                <input type="hidden" class="delete-question-btn">
-                                </div>';
-                            }
-                            $questionCounter++;
-                    }
-                ?>
-            </div>
+                                    </div>';
+                                }elseif ($question_type == "Short Answer") {
+                                    echo   '<div class="question-choices-container">
+                                                <input type="text" name="short_answer" class="short-answer-input" placeholder="Your answer" required>
+                                            </div>
+                                                    <input type="hidden" class="delete-question-btn">
+                                    </div>';
+                                }elseif ($question_type == "Dropdown") {
+                                    echo   '<div class="question-choices-container">
+                                                <select class="dropdown-choices" name="dropdown">
+                                                    <option value="True">True</option>
+                                                    <option value="False">False</option>
+                                                </select>
+                                            </div>
+                                                    <input type="hidden" class="delete-question-btn">
+                                    </div>';
+                                }elseif ($question_type == "Paragraph") {
+                                    echo   '<div class="question-choices-container">
+                                                <textarea name="paragraph" class="paragraph-textarea" placeholder="Your answer" rows="4" style="resize:none;" required></textarea>
+                                            </div>
+                                                    <input type="hidden" class="delete-question-btn">
+                                    </div>';
+                                }
+                                $questionCounter++;
+                        }
+                    ?>
+                </div>
 
-            <input type="hidden" id="add-options-btn">
+                <input type="hidden" id="add-options-btn">
 
-            <div id="add-options-container">
-                <img src="../imgs/plus_choices.svg" alt="Add question button" id="add-question-btn" class="add-options-btns">
-                <img src="../imgs/text_logo.svg" alt="Add title and description button" id="add-td-btn" class="add-options-btns">
-                <img src="../imgs/image_logo.svg" alt="Add image logo" id="add-image-btn" class="add-options-btns">
-                <button class="save-btn" name="save-btn" onclick="submitHiddenQuestions()">
-                    <img src="../imgs/save.svg" alt="Add image logo" id="add-save-btn" class="add-options-btns">
-                </button>       
-            </div>
-            
-            <div class="survey-btn">
-                <button name="submit-btn" class="submit-btn">Submit</button>
-                <button name="clear-btn" class="clear-btn" id="clear-btn">Clear Form</button>          
-            </div>
+                <div id="add-options-container">
+                    <img src="../imgs/plus_choices.svg" alt="Add question button" id="add-question-btn" class="add-options-btns">
+                    <img src="../imgs/text_logo.svg" alt="Add title and description button" id="add-td-btn" class="add-options-btns">
+                    <img src="../imgs/image_logo.svg" alt="Add image logo" id="add-image-btn" class="add-options-btns">
+                    <button class="save-btn" name="save-btn" onclick="submitHiddenQuestions()">
+                        <img src="../imgs/save.svg" alt="Add image logo" id="add-save-btn" class="add-options-btns">
+                    </button>       
+                </div>
+                
+                <div class="survey-btn">
+                    <button name="submit-btn" class="submit-btn">Submit</button>
+                    <button name="clear-btn" class="clear-btn" id="clear-btn">Clear Form</button>          
+                </div>
+            <?php }else{?>
+                <div class="title-desc-container">
+                    <p class="survey-title" id="nav-survey-title"><?php echo $survey_title;?></p>
+                    <p class="survey-desc"><?php echo $survey_title;?> is no longer accepting responses.</p>
+                    <p class="survey-desc">Try contacting the owner of the form if you think this is a mistake.</p>
+                </div>
+            <?php }?>
         </form>
     </main>
 
