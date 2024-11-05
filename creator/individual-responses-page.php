@@ -152,7 +152,7 @@
             </div>
             <div class = "responses-btn-section">
                 <form class = "responses-btn-section" action="" method="post">
-                    <button name="summary-btn">Summary</button>
+                    <button id="summary-btn" name="summary-btn">Summary</button>
                     <button id="individual">Individual</button>
                 </form>
             </div>

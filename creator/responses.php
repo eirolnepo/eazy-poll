@@ -152,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class = "responses-btn-section">
                 <form class = "responses-btn-section" action="" method="post">
                     <button id="summary">Summary</button>
-                    <button name="individual-btn">Individual</button>
+                    <button id="individual-btn" name="individual-btn">Individual</button>
                 </form>
             </div>
         </div>
