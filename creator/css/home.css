@@ -443,6 +443,6 @@ body.dark-mode #add-custom-div:hover {
     }
     #add-custom-div{
         margin-left: 6rem;
-        width: 100%;
+        min-width: 10rem;
     }
 }
