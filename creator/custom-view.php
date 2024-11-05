@@ -482,5 +482,12 @@
         </form>
     </main>
 
+    <div id="info-modal" class="modal">
+        <div class="modal-content">
+            <h2 id="info-modal-title">Existing Surveys Information</h2><br>
+            <p class="info-modal-texts">This is where you can edit your <strong>already existing surveys</strong>. Click the plus (+) button at the bottom of the page for more options. Remember that you cannot save the survey if there are duplicate choices.</p><br>
+            <p class="info-modal-texts"><strong>Note</strong>: Hover your cursor on a button to know what it does.</p>
+        </div>
+    </div>
 </body>
 </html>

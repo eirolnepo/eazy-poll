@@ -66,22 +66,24 @@
 }
 
 main, .main {
+    height: 60vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 }
 
 .title-desc-container {
     width: 35rem;
     padding: 1rem;
-    border-top: 1rem solid #02897a;
     border-right: 0.1rem solid #173a56;
     border-bottom: 0.1rem solid #173a56;
     border-left: 0.1rem solid #173a56;
-    border-radius: 0.5rem;
+    border-radius: 0 0 0.5rem 0.5rem;
 
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 0.8rem;
 }
 
@@ -91,15 +93,36 @@ main, .main {
     align-items: center;
 }
 
+#survey-title-container {
+    background-color: #02897a;
+    width: 100%;
+    padding: 2rem;
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
 .survey-title {
     font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
     border: none;
     outline: none;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.3s ease;
+}
+
+#thankyou-desc {
+    margin-bottom: -1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#check-img {
+    width: 4rem;
 }
 
 .survey-desc {
-    font-size: 1rem;
+    font-size: 1.5rem;
+    color: #173a56;
     line-height: 1.5;
     padding: 0;
     margin: 0;
@@ -109,12 +132,17 @@ main, .main {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+#create-form-link {
+    color: #02897a;
+}
+
 .survey-title:focus, .survey-desc:focus {
     border-bottom: 0.1rem solid #173a56;
 }
 
 .date-created-text {
     font-size: 0.7rem;
+    color: #173a56;
 }
 
 .question-container {
@@ -370,7 +398,8 @@ body.dark-mode #nav-title {
 }
 
 
-body.dark-mode .nav-links {
+body.dark-mode .nav-links,
+body.dark-mode .date-created-text {
     color: #fff;
 }
 
@@ -387,13 +416,11 @@ body.dark-mode .paragraph-textarea {
 
 body.dark-mode .title-desc-container,
 body.dark-mode .new-title-desc-container {
-    border-top: 1rem solid #02897a;
     border-right: 0.1rem solid #fff;
     border-bottom: 0.1rem solid #fff;
     border-left: 0.1rem solid #fff;
 }
 
-body.dark-mode .survey-title,
 body.dark-mode .survey-desc {
     background-color: #173a56;
     color: white;
@@ -443,4 +470,3 @@ body.dark-mode .image-upload-container {
 body.dark-mode ::placeholder {
     color: #D3D2D2;
 }
-

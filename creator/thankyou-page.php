@@ -153,14 +153,19 @@
 
     <main>
         <form id="survey-form" method="post" class="main"">
-            <div class="title-desc-container">
+            <div id="survey-title-container">
                 <p class="survey-title" id="nav-survey-title">SURVEY DONE</p>
-                <p class="survey-desc">Thanks for answering!</p>
-                <p class="date-created-text">Your response was submitted</p>
-                <a href="response-page.php?id=<?php echo $id;?>&&survey_id=<?php echo $survey_id;?>">Submit another response</a>
-                <a href="../index.php">Create My Own Form</a>          
+            </div>
+            <div class="title-desc-container">
+                <div id="thankyou-desc">
+                    <img src="../imgs/check.svg" alt="" id="check-img">
+                    <p class="survey-desc">Thanks for answering!</p>
+                </div>
+                <p class="date-created-text">Your response was submitted</p><br>
+                <a href="../index.php" id="create-form-link">Create My Own Form</a>          
                 <input type="hidden" id="user_id" value="<?php echo $id?>">
                 <input type="hidden" id="survey_id" value="<?php echo $survey_id?>">
+                <p class="date-created-text">Copyright © 2024 EazyPoll. All rights reserved</p>
             </div>
         </form>
     </main>
