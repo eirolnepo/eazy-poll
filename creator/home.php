@@ -19,6 +19,50 @@
         $fname = $row['fname'];
     }
 
+    $select_templates = " SELECT template_text FROM survey_db.templates";
+    $result_templates = mysqli_query($conn,  $select_templates);
+    $search_count = mysqli_num_rows($result_templates);
+    if($search_count == 0){
+        $template1 = "Multiple Choice";
+        $template2 = "Checkboxes";
+        $template3 = "True or False";
+        $template4 = "Short Answer";
+        $template5 = "Paragraph";
+
+        $insert_templates = "INSERT INTO survey_db.templates (template_text) VALUES (?)";
+        $stmt = $conn->prepare($insert_templates);
+        $stmt->bind_param('s', $template1);
+        $stmt->execute();
+        $insert_templates = "INSERT INTO survey_db.templates (template_text) VALUES (?)";
+        $stmt = $conn->prepare($insert_templates);
+        $stmt->bind_param('s', $template2);
+        $stmt->execute();
+        $insert_templates = "INSERT INTO survey_db.templates (template_text) VALUES (?)";
+        $stmt = $conn->prepare($insert_templates);
+        $stmt->bind_param('s', $template3);
+        $stmt->execute();
+        $insert_templates = "INSERT INTO survey_db.templates (template_text) VALUES (?)";
+        $stmt = $conn->prepare($insert_templates);
+        $stmt->bind_param('s', $template4);
+        $stmt->execute();
+        $insert_templates = "INSERT INTO survey_db.templates (template_text) VALUES (?)";
+        $stmt = $conn->prepare($insert_templates);
+        $stmt->bind_param('s', $template5);
+        $stmt->execute();
+        
+    }
+
+    $select_search = " SELECT search_text FROM survey_db.search WHERE user_id = '$id' ";
+    $result_search = mysqli_query($conn, $select_search);
+    $search_count = mysqli_num_rows($result_search);
+    if($search_count > 0){
+        while($row = mysqli_fetch_array($result)){
+            $search = $row['search_text'];
+        }
+    }else{
+        $search = "";
+    }
+
     if(isset($_POST['sign-out'])){
         session_destroy();
         header("location: ../index.php");
@@ -65,6 +109,27 @@
         header("location: custom-view.php?id=$id&survey_id=$survey_id");
         exit;
     }
+
+    if(isset($_POST['search'])){
+        $search = $_POST['search'];
+
+        $select_search = " SELECT search_text FROM survey_db.search WHERE user_id = '$id' ";
+        $result_search = mysqli_query($conn, $select_search);
+        $search_count = mysqli_num_rows($result_search);
+
+        if($search_count > 0){
+            $delete= "DELETE FROM survey_db.search WHERE user_id = '$id'";
+            $delete_search = mysqli_query($conn, $delete);
+        }
+
+        if ($search != ""){
+            $insert_search = "INSERT INTO survey_db.search (user_id,search_text) VALUES (?,?)";
+            $stmt = $conn->prepare($insert_search);
+            $stmt->bind_param('is', $id, $search);
+
+            $stmt->execute();
+        }   
+    }
 ?>
 
 <!DOCTYPE html>
@@ -86,7 +151,9 @@
         </div>
         <div id="nav-center">
             <div id="search-container">
-                <input type="text" placeholder="Search" id="nav-search-bar">
+                <form method="post">
+                    <input type="text" name="search" value="<?php echo $search;?>" placeholder="Search" id="nav-search-bar">
+                </form>
             </div>
             <img src="../imgs/dark-mode-green.png" alt="Dark mode button" id="nav-dark-mode">
         </div>
@@ -119,36 +186,95 @@
             <form method="post">
                 <h3 class="containers-title">Templates</h3>
                 <div class="divs-container">
-                    <div class="templates-divs-container" id="multiple-choice-btn">
-                        <button class = "multiple-choice-btn" name = "multiple-choice-btn">
-                            <div class="templates-divs"></div>
-                        </button>
-                        <p class="templates-texts">Multiple-Choice Survey</p>
-                    </div>
-                    <div class="templates-divs-container" id="checkboxes-btn">
-                        <button class = "checkboxes-btn" name = "checkboxes-btn">
-                            <div class="templates-divs"></div>
-                        </button>
-                        <p class="templates-texts">Checkboxes Survey</p>
-                    </div>
-                    <div class="templates-divs-container" id="true-false-btn">
-                        <button class = "true-false-btn" name = "true-false-btn">
-                            <div class="templates-divs"></div>
-                        </button>
-                        <p class="templates-texts">True or False Survey</p>
-                    </div>
-                    <div class="templates-divs-container" id="short-answer-btn">
-                        <button class = "short-answer-btn" name = "short-answer-btn">
-                            <div class="templates-divs"></div>
-                        </button>
-                        <p class="templates-texts">Short Answer Survey</p>
-                    </div>
-                    <div class="templates-divs-container" id="paragraph-btn">
-                        <button class = "paragraph-btn" name = "paragraph-btn">
-                            <div class="templates-divs"></div>
-                        </button>
-                        <p class="templates-texts">Paragraph Survey</p>
-                    </div>
+                    <?php 
+                        if ($search==""){
+                        echo   
+                            '<div class="templates-divs-container" id="multiple-choice-btn">
+                                <button class = "multiple-choice-btn" name = "multiple-choice-btn">
+                                    <div class="templates-divs"></div>
+                                </button>
+                                <p class="templates-texts">Multiple-Choice Survey</p>
+                            </div>
+                            <div class="templates-divs-container" id="checkboxes-btn">
+                                <button class = "checkboxes-btn" name = "checkboxes-btn">
+                                    <div class="templates-divs"></div>
+                                </button>
+                                <p class="templates-texts">Checkboxes Survey</p>
+                            </div>
+                            <div class="templates-divs-container" id="true-false-btn">
+                                <button class = "true-false-btn" name = "true-false-btn">
+                                    <div class="templates-divs"></div>
+                                </button>
+                                <p class="templates-texts">True or False Survey</p>
+                            </div>
+                            <div class="templates-divs-container" id="short-answer-btn">
+                                <button class = "short-answer-btn" name = "short-answer-btn">
+                                    <div class="templates-divs"></div>
+                                </button>
+                                <p class="templates-texts">Short Answer Survey</p>
+                            </div>
+                            <div class="templates-divs-container" id="paragraph-btn">
+                                <button class = "paragraph-btn" name = "paragraph-btn">
+                                    <div class="templates-divs"></div>
+                                </button>
+                                <p class="templates-texts">Paragraph Survey</p>
+                            </div>';
+                        }
+                        if ($search!=""){
+                            $select = "SELECT * FROM survey_db.templates WHERE template_text LIKE '%$search%'";
+                            $search_result = (mysqli_query($conn,$select));
+                            $count_result = mysqli_num_rows($search_result);
+                            if ($search_result != null) {
+                                while ($row = mysqli_fetch_array($search_result)){
+                                    if ($count_result != 0){
+                                        $template = $row["template_text"];
+                                        if($template == "Multiple Choice"){
+                                            $btn="multiple-choice-btn";
+                                            echo '<div class="templates-divs-container" id="'.$btn.'">
+                                            <button class = "'.$btn.'" name = "'.$btn.'">
+                                                <div class="templates-divs"></div>
+                                            </button>
+                                            <p class="templates-texts">'.$template.' Survey</p>
+                                        </div>';
+                                        }elseif($template == "Checkboxes"){
+                                            $btn="checkboxes-btn";
+                                            echo '<div class="templates-divs-container" id="'.$btn.'">
+                                            <button class = "'.$btn.'" name = "'.$btn.'">
+                                                <div class="templates-divs"></div>
+                                            </button>
+                                            <p class="templates-texts">'.$template.' Survey</p>
+                                        </div>';
+                                        }elseif($template == "True or False"){
+                                            $btn="true-false-btn";
+                                            echo '<div class="templates-divs-container" id="'.$btn.'">
+                                            <button class = "'.$btn.'" name = "'.$btn.'">
+                                                <div class="templates-divs"></div>
+                                            </button>
+                                            <p class="templates-texts">'.$template.' Survey</p>
+                                        </div>';
+                                        }elseif($template == "Short Answer"){
+                                            $btn="short-answer-btn";
+                                            echo '<div class="templates-divs-container" id="'.$btn.'">
+                                            <button class = "'.$btn.'" name = "'.$btn.'">
+                                                <div class="templates-divs"></div>
+                                            </button>
+                                            <p class="templates-texts">'.$template.' Survey</p>
+                                        </div>';
+                                        }elseif($template == "Paragraph"){
+                                            $btn="paragraph-btn";
+                                            echo '<div class="templates-divs-container" id="'.$btn.'">
+                                            <button class = "'.$btn.'" name = "'.$btn.'">
+                                                <div class="templates-divs"></div>
+                                            </button>
+                                            <p class="templates-texts">'.$template.' Survey</p>
+                                        </div>';
+                                        }
+                                        
+                                    }
+                                }
+                            }
+                        }
+                    ?>
                 </div>
             </form>
         </div>
@@ -166,19 +292,39 @@
                 <div class="custom-divs-container">
                     <form method="post" class="custom-divs-container">
                         <?php
-                            $select_survey = " SELECT * FROM survey_db.surveys WHERE user_id = '$id' ";
-                            $result_survey = mysqli_query($conn, $select_survey);
-                            if(mysqli_num_rows($result_survey) > 0){
-                                while($row = mysqli_fetch_array($result_survey)){
-                                    $survey_id = $row['survey_id'];
-                                    $survey_title = $row['title'];
+                            if($search == ""){
+                                $select_survey = " SELECT * FROM survey_db.surveys WHERE user_id = '$id' ";
+                                $result_survey = mysqli_query($conn, $select_survey);
+                                if(mysqli_num_rows($result_survey) > 0){
+                                    while($row = mysqli_fetch_array($result_survey)){
+                                        $survey_id = $row['survey_id'];
+                                        $survey_title = $row['title'];
 
-                                    echo   '<div class="custom-section">
-                                                <button class = "custom-div-btn" name = "custom-div-btn" value="'.$survey_id.'">
-                                                    <div class="custom-divs"></div>
-                                                </button>
-                                                <p class="custom-texts">'.$survey_title.'</p>
-                                        </div>';
+                                        echo   '<div class="custom-section">
+                                                    <button class = "custom-div-btn" name = "custom-div-btn" value="'.$survey_id.'">
+                                                        <div class="custom-divs"></div>
+                                                    </button>
+                                                    <p class="custom-texts">'.$survey_title.'</p>
+                                            </div>';
+                                    }
+                                }
+                            }else{
+                                $select = "SELECT * FROM survey_db.surveys WHERE title LIKE '%$search%' && user_id = '$id'";
+                                $search_result = (mysqli_query($conn,$select));
+                                $count_result = mysqli_num_rows($search_result);
+
+                                if($count_result > 0){
+                                    while($row = mysqli_fetch_array($search_result)){
+                                        $survey_id = $row['survey_id'];
+                                        $survey_title = $row['title'];
+
+                                        echo   '<div class="custom-section">
+                                                    <button class = "custom-div-btn" name = "custom-div-btn" value="'.$survey_id.'">
+                                                        <div class="custom-divs"></div>
+                                                    </button>
+                                                    <p class="custom-texts">'.$survey_title.'</p>
+                                            </div>';
+                                    }
                                 }
                             }
                         ?>

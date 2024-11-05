@@ -135,8 +135,7 @@
 }
 
 #profile-container {
-    position: relative;
-
+    position: relative;    
     display: flex;
     flex-direction: column;
 }
@@ -541,4 +540,62 @@ body.dark-mode .image-upload-container {
 
 body.dark-mode ::placeholder {
     color: #D3D2D2;
+}
+
+@media only screen and (min-width: 425px) and (max-width: 767px) {
+    #nav-left-side{
+        margin-left: -4.7rem;
+        margin-right: 0.3rem;
+    }
+    #nav-title {
+        display: none;
+    }
+    #links-container {
+        gap: .5rem;
+    }
+    #nav-right-side {
+        gap: .5rem;
+    }
+    #nav-home-btn {
+        width: 2.7rem;
+    }
+    #nav-dark-mode-btn {
+        width: 2.7rem;
+    }
+    #profile-container {
+        width: 2.7rem;
+    }
+    #profile-options {
+        right: 10%;
+    }
+    #nav-info {
+        display: none;
+    }
+    .title-desc-container {
+        width: 25rem;
+        padding: 1rem;
+    }
+    .question-container {
+        width: 25rem;
+        padding: 1rem;
+    } 
+    .question-title {
+        width: 23rem;
+    }
+    .choice-input-text {
+        width: 19.7rem;
+    }
+    .new-title-desc-container {
+        width: 25rem;
+        padding: .5rem;
+    }
+    .image-upload-container {
+        width: 25rem;
+    }
+    .short-answer-input {
+        width: 20rem;
+    }
+    .paragraph-textarea {
+        width: 20rem;
+    }
 }

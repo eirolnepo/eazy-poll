@@ -122,6 +122,35 @@ if ($conn->query($sql_create_table_responses) === TRUE) {
     die("Error creating table: " . $conn->error);
 }
 
+$sql_create_table_search = "CREATE TABLE IF NOT EXISTS search (
+    search_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    search_text TEXT NOT NULL
+)";
+
+if ($conn->query($sql_create_table_search) === TRUE) {
+    // Check if the table was just created (not if it existed before)
+    if ($conn->query("SHOW TABLES LIKE 'search'")->num_rows == 0) {
+        echo "<script>alert('Table \"search\" created successfully');</script>";
+    }
+} else {
+    die("Error creating table: " . $conn->error);
+}
+
+$sql_create_table_templates = "CREATE TABLE IF NOT EXISTS templates (
+    template_id INT AUTO_INCREMENT PRIMARY KEY,
+    template_text TEXT NOT NULL
+)";
+
+if ($conn->query($sql_create_table_templates) === TRUE) {
+    // Check if the table was just created (not if it existed before)
+    if ($conn->query("SHOW TABLES LIKE 'templates'")->num_rows == 0) {
+        echo "<script>alert('Table \"templates\" created successfully');</script>";
+    }
+} else {
+    die("Error creating table: " . $conn->error);
+}
+
 // Database configuration
 $host = 'localhost';
 $username = 'root';

@@ -250,7 +250,7 @@ main {
 }
 
 #add-custom-div {
-    width: 10rem;
+    min-width: 10rem;
     height: 12rem;
     border: 0.1rem solid transparent;
     border-radius: 0rem;
@@ -302,7 +302,6 @@ main {
 }
 
 .custom-divs {
-
     width: 10rem;
     height: 12rem;
     border: 0.1rem solid #000;

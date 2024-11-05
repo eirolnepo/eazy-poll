@@ -58,6 +58,11 @@ if (isset($_POST['custom-btn'])) {
     exit;
 }
 
+    if(isset($_POST['individual-btn'])){
+        header("location: individual-responses-page.php?id=$i&&survey_id=$survey_id");
+        exit;
+    }
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $status = $_POST['status'];
 
@@ -143,6 +148,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input type="submit" style="display:none;">
                 </form>
                 <p id="accepting-responses-text">Accepting responses</p>
+            </div>
+            <div class = "responses-btn-section">
+                <form class = "responses-btn-section" action="" method="post">
+                    <button id="summary">Summary</button>
+                    <button name="individual-btn">Individual</button>
+                </form>
             </div>
         </div>
 
