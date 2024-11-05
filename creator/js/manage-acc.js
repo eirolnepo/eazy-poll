@@ -104,6 +104,30 @@ var check = function() {
     }
 }
 
+const infoModal = document.getElementById("info-modal");
+const openButton = document.getElementById("nav-info");
+const closeButton = infoModal.querySelector(".close-button");
+
+openButton.addEventListener("click", () => {
+    infoModal.style.display = "flex";
+    infoModal.classList.add("fade-in");
+
+  setTimeout(() => {
+    infoModal.classList.remove("fade-in");
+  }, 300);
+});
+
+window.addEventListener("click", (event) => {
+  if (event.target === infoModal) {
+    infoModal.classList.add("fade-out");
+
+    setTimeout(() => {
+        infoModal.style.display = "none";
+        infoModal.classList.remove("fade-out");
+    }, 300);
+  }
+});
+
 const deleteBtn = document.getElementById("account-delete-btn");
 const modal = document.getElementById("deleteModal");
 

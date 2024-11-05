@@ -333,5 +333,13 @@
             </div>
         </div>
     </main>
+
+    <div id="info-modal" class="modal">
+        <div class="modal-content">
+            <h2 id="info-modal-title">Creator Homepage Information</h2><br>
+            <p class="info-modal-texts">The <strong>survey templates</strong> only allows one type of question to be used in the survey.</p><br>
+            <p class="info-modal-texts">You can create a <strong>custom survey</strong> by clicking the plus (+) button. In a custom survey all question types are allowed to be used.</p>
+        </div>
+    </div>
 </body>
 </html>

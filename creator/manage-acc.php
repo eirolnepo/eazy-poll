@@ -1,4 +1,4 @@
-<?php
+<s?php
     session_start();
     include '../php/db_connect.php';
 
@@ -315,6 +315,14 @@
                 <input type="text" name="acc-del-confirm" class="acc-del-inputs" placeholder="DELETE" />
                 <button id="confirm-delete-btn" name="confirm-delete-btn">Confirm</button>
             </form>
+        </div>
+    </div>
+
+    <div id="info-modal" class="modal">
+        <div class="modal-content">
+            <h2 id="info-modal-title">Creator Manage Account Information</h2><br>
+            <p class="info-modal-texts">This is where you can change your <strong>profile details</strong> (e.g. name, contact number, etc.), your <strong>account settings</strong>, and <strong>delete your account</strong>.</p><br>
+            <p class="info-modal-texts"><strong>Deleting your account</strong> cannot be undone, and all associated data, including your profile information, surveys, and any other content, will be permanently removed.</p>
         </div>
     </div>
 </body>
