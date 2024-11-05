@@ -179,8 +179,8 @@
             </div>
         <img src="imgs/home.png" alt="" id="home-img">
         <div id="index-btns-container">
-            <button class="nav-btns" id="sign-in-btn">Sign In</button>
-            <button class="nav-btns" id="sign-up-btn">Sign Up</button>
+            <button class="nav-btns" id="sign-in-btn-mobile">Sign In</button>
+            <button class="nav-btns" id="sign-up-btn-mobile">Sign Up</button>
         </div>
     </main>
 

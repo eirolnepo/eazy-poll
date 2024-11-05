@@ -74,12 +74,31 @@ button {
     cursor: pointer;
 }
 
+#sign-in-btn-mobile {
+    background-color: #d9d9d9;
+}
+
+#sign-in-btn-mobile:hover {
+    background-color: #9E9E9E;
+    cursor: pointer;
+}
+
 #sign-up-btn {
     background-color: #02897a;
     color: #fff;
 }
 
 #sign-up-btn:hover {
+    background-color: #006156;
+    cursor: pointer;
+}
+
+#sign-up-btn-mobile {
+    background-color: #02897a;
+    color: #fff;
+}
+
+#sign-up-btn-mobile:hover {
     background-color: #006156;
     cursor: pointer;
 }

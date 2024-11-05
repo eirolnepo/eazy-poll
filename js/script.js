@@ -2,6 +2,9 @@ const modal = document.getElementById("sign-in-modal");
 const signInBtn = document.getElementById("sign-in-btn");
 const signUpModal = document.getElementById("sign-up-modal");
 const signUpBtn = document.getElementById("sign-up-btn");
+const signInBtnMobile = document.getElementById("sign-in-btn-mobile");
+const signUpBtnMobile = document.getElementById("sign-up-btn-mobile");
+const getStartedBtn = document.getElementById("get-started-btn");
 const signInUpBtn = document.getElementById("sign-in-up-btn");
 const signUpInBtn = document.getElementById("sign-up-in-btn");
 const changePassModal = document.getElementById("change-pass-modal");
@@ -96,6 +99,14 @@ signInBtn.addEventListener("click", function() {
     showModal(modal);
 });
 
+signInBtnMobile.addEventListener("click", function() {
+    showModal(modal);
+});
+
+getStartedBtn.addEventListener("click", function() {
+    showModal(modal);
+});
+
 window.addEventListener("click", function(event) {
     if (event.target == modal) {
         hideModal(modal);
@@ -103,6 +114,10 @@ window.addEventListener("click", function(event) {
 });
 
 signUpBtn.addEventListener("click", function() {
+    showModal(signUpModal);
+});
+
+signUpBtnMobile.addEventListener("click", function() {
     showModal(signUpModal);
 });
 
