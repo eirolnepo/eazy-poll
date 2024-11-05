@@ -205,14 +205,6 @@
         </form>
     </main>
 
-    <div id="info-modal" class="modal">
-        <div class="modal-content">
-            <h2 id="info-modal-title">Custom Survey Information</h2><br>
-            <p class="info-modal-texts">Create a survey <strong>in any way you want</strong>. Click the plus (+) button at the bottom of the page for more options. Remember that you cannot save the survey if there are duplicate choices.</p><br>
-            <p class="info-modal-texts"><strong>Note</strong>: Hover your cursor on a button to know what it does.</p>
-        </div>
-    </div>
-
     <script>
         document.querySelector(".main").onsubmit = function() {
             const questions = document.querySelectorAll(".question-title");

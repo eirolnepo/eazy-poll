@@ -52,30 +52,6 @@ for (let i = 0; i < textareas.length; i++) {
     });
 }
 
-const modal = document.getElementById("info-modal");
-const openButton = document.getElementById("nav-info");
-const closeButton = modal.querySelector(".close-button");
-
-openButton.addEventListener("click", () => {
-  modal.style.display = "flex";
-  modal.classList.add("fade-in");
-
-  setTimeout(() => {
-      modal.classList.remove("fade-in");
-  }, 300);
-});
-
-window.addEventListener("click", (event) => {
-  if (event.target === modal) {
-    modal.classList.add("fade-out");
-
-    setTimeout(() => {
-        modal.style.display = "none";
-        modal.classList.remove("fade-out");
-    }, 300);
-  }
-});
-
 document.addEventListener("DOMContentLoaded", function () {
     const darkModeButton = document.getElementById("nav-dark-mode");
     const profileOptionsButton = document.getElementById("nav-profile-img");
@@ -353,7 +329,7 @@ document.addEventListener("DOMContentLoaded", function () {
         titleDescContainer.classList.add("new-title-desc-container");
 
         titleDescContainer.innerHTML = `
-            <input type="text" name="question-title[${questionCounter}]" class="survey-title" value="Untitled Section">
+            <input type="text" name="survey-title" class="survey-title" value="Untitled Section">
             <textarea name="survey-desc" class="survey-desc" placeholder="Section Description"></textarea>
             <img src="../imgs/delete.svg" alt="Delete section button" class="delete-section-btn">
         `;

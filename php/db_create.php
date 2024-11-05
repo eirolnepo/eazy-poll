@@ -152,6 +152,23 @@ if ($conn->query($sql_create_table_templates) === TRUE) {
     die("Error creating table: " . $conn->error);
 }
 
+$sql_create_table_more = "CREATE TABLE IF NOT EXISTS more (
+    more_id INT AUTO_INCREMENT PRIMARY KEY,
+    question_id INT NOT NULL,
+    content_type TEXT NOT NULL,
+    content TEXT NOT NULL,
+    content_desc TEXT NOT NULL
+)";
+
+if ($conn->query($sql_create_table_more) === TRUE) {
+    // Check if the table was just created (not if it existed before)
+    if ($conn->query("SHOW TABLES LIKE 'more'")->num_rows == 0) {
+        echo "<script>alert('Table \"more\" created successfully');</script>";
+    }
+} else {
+    die("Error creating table: " . $conn->error);
+}
+
 // Database configuration
 $host = 'localhost';
 $username = 'root';
