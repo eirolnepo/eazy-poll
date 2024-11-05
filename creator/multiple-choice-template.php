@@ -35,71 +35,64 @@
         exit;
     }
 
-    if(isset($_POST['save-btn'])){
+    if (isset($_POST['save-btn'])) {
         $survey_title = $_POST['survey-title'];
         $survey_desc = $_POST['survey-desc'];
         $status = "ACCEPTING";
-
-        $insert_survey = "INSERT INTO survey_db.surveys (user_id,title,description,status) VALUES(?,?,?,?)";
-                    
-        $stmt = $conn -> prepare ($insert_survey);
-        $stmt -> bind_param('isss',$id,$survey_title,$survey_desc, $status);
-            
-        if($stmt->execute()){
+    
+        // Insert survey into the database
+        $insert_survey = "INSERT INTO survey_db.surveys (user_id, title, description, status) VALUES (?, ?, ?, ?)";
+        $stmt = $conn->prepare($insert_survey);
+        $stmt->bind_param('isss', $id, $survey_title, $survey_desc, $status);
+    
+        if ($stmt->execute()) {
             $survey_id = $stmt->insert_id;
             $questions = $_POST['question-title'];
             $count = count($questions);
-            
-            for($i=0; $i < $count; $i++){
+    
+            for ($i = 0; $i < $count; $i++) {
                 $question = $_POST['question-title'][$i];
                 $type = "Multiple Choice";
-                    if($questions==""){
-                        break;
-                    }else{
-                        $insert_question = "INSERT INTO survey_db.questions (user_id,survey_id,question_text,question_type) VALUES(?,?,?,?)";
-                                
-                        $stmt = $conn -> prepare ($insert_question);
-                        $stmt -> bind_param('iiss',$id,$survey_id,$question,$type);
-                        
-                            if($stmt->execute()){
-
-                                if (isset($_POST['choice'][$i]) && is_array($_POST['choice'][$i])) {
-                                    $count_choices = count($_POST['choice'][$i]);
-                                } else {
-                                    $count_choices = 0;
-                                }
-
-                                if($count_choices == 0){
-                                    continue;
-                                }else{
-                                        if(isset($_POST['choice'][$i]) && is_array($_POST['choice'][$i])) {
-                                            $count_choices = count($_POST['choice'][$i]); 
-                                            
-                                            $select = "SELECT LAST_INSERT_ID() AS question_id"; 
-                                            $query = mysqli_query($conn, $select);
-
-                                            if ($query) {
-                                                $row = mysqli_fetch_array($query);
-                                                $question_id = $row['question_id'];
-                                            }
-                                            
-                                            for($j = 0; $j < $count_choices; $j++) {
-                                                $choice = $_POST['choice'][$i][$j];
-                    
-                                                if(!empty($choice)) {
-                                                    $insert_choice = "INSERT INTO survey_db.choices (user_id,question_id, choice_text) VALUES (?,?, ?)";
-                                                    $stmt = $conn->prepare($insert_choice);
-                                                    $stmt->bind_param('iis',$id, $question_id, $choice);
-                                                    $stmt->execute();
-                                                }
-                                            }
-                                        }
-                                    
+    
+                if ($questions == "") {
+                    break;
+                } else {
+                    // Insert question into the database
+                    $insert_question = "INSERT INTO survey_db.questions (user_id, survey_id, question_text, question_type) VALUES (?, ?, ?, ?)";
+                    $stmt = $conn->prepare($insert_question);
+                    $stmt->bind_param('iiss', $id, $survey_id, $question, $type);
+    
+                    if ($stmt->execute()) {
+                        if (isset($_POST['choice'][$i]) && is_array($_POST['choice'][$i])) {
+                            $choices = $_POST['choice'][$i];
+    
+                            // Check for duplicate choices
+                            if (count($choices) !== count(array_unique($choices))) {
+                                echo "<script>alert('Duplicate choices found. Please remove duplicates.');</script>";
+                                exit;
                             }
+    
+                            // Get the last inserted question ID
+                            $select = "SELECT LAST_INSERT_ID() AS question_id";
+                            $query = mysqli_query($conn, $select);
+    
+                            if ($query) {
+                                $row = mysqli_fetch_array($query);
+                                $question_id = $row['question_id'];
+                            }
+    
+                            // Insert choices into the database
+                            foreach ($choices as $choice) {
+                                if (!empty($choice)) {
+                                    $insert_choice = "INSERT INTO survey_db.choices (user_id, question_id, choice_text) VALUES (?, ?, ?)";
+                                    $stmt = $conn->prepare($insert_choice);
+                                    $stmt->bind_param('iis', $id, $question_id, $choice);
+                                    $stmt->execute();
+                                }
+                            }
+                        }
                     }
                 }
-
-                
             }
             header("Location: home.php?id=$id");
         }
@@ -202,5 +195,28 @@
             <p class="info-modal-texts"><strong>Note</strong>: Hover your cursor on a button to know what it does.</p>
         </div>
     </div>
+
+    <script>
+        document.querySelector(".main").onsubmit = function() {
+            const questions = document.querySelectorAll(".question-title");
+            let hasDuplicateChoices = false;
+
+            questions.forEach((question, index) => {
+                const choices = document.querySelectorAll(`input[name="choice[${index}][]"]`);
+                const choiceValues = Array.from(choices).map(input => input.value);
+                
+                if (new Set(choiceValues).size !== choiceValues.length) {
+                    hasDuplicateChoices = true;
+                }
+            });
+
+            if (hasDuplicateChoices) {
+                alert("Duplicate choices found. Please remove duplicates.");
+                return false;
+            }
+
+            return true;
+        };
+    </script>
 </body>
 </html>
