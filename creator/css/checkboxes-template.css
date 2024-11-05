@@ -593,4 +593,10 @@ body.dark-mode ::placeholder {
     .image-upload-container {
         width: 25rem;
     }
+    .short-answer-input {
+        width: 20rem;
+    }
+    .paragraph-textarea {
+        width: 20rem;
+    }
 }
