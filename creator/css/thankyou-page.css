@@ -470,3 +470,12 @@ body.dark-mode .image-upload-container {
 body.dark-mode ::placeholder {
     color: #D3D2D2;
 }
+
+@media only screen and (min-width: 425px) and (max-width: 767px) {
+    #nav-logo {
+        margin-right: 1rem;
+    }
+    .title-desc-container {
+        width: 25.7rem;
+    }
+}
