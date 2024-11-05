@@ -121,7 +121,7 @@
                     
             }
         }
-            header("Location: response-page.php?id=$id&&survey_id=$survey_id");
+            header("Location: thankyou-page.php?id=$id&&survey_id=$survey_id");
                 exit;
     }
 
