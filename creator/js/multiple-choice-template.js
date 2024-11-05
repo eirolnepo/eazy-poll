@@ -52,6 +52,30 @@ for (let i = 0; i < textareas.length; i++) {
     });
 }
 
+const modal = document.getElementById("info-modal");
+const openButton = document.getElementById("nav-info");
+const closeButton = modal.querySelector(".close-button");
+
+openButton.addEventListener("click", () => {
+  modal.style.display = "flex";
+  modal.classList.add("fade-in");
+
+  setTimeout(() => {
+      modal.classList.remove("fade-in");
+  }, 300);
+});
+
+window.addEventListener("click", (event) => {
+  if (event.target === modal) {
+    modal.classList.add("fade-out");
+
+    setTimeout(() => {
+        modal.style.display = "none";
+        modal.classList.remove("fade-out");
+    }, 300);
+  }
+});
+
 document.addEventListener("DOMContentLoaded", function () {
     const darkModeButton = document.getElementById("nav-dark-mode");
     const profileOptionsButton = document.getElementById("nav-profile-img");
