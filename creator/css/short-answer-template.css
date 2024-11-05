@@ -589,6 +589,12 @@ body.dark-mode ::placeholder {
     .dropdown-choices {
         width: 20rem;   
     }
+    .short-answer-input {
+        width: 20rem;
+    }
+    .paragraph-textarea {
+        width: 20rem;
+    }
     .new-title-desc-container {
         width: 25rem;
         padding: .5rem;
