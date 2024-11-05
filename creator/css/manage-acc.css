@@ -383,3 +383,50 @@ body.dark-mode .acc-del-inputs {
 body.dark-mode .acc-del-inputs::placeholder {
     color: #fff;
 }
+
+@media only screen and (min-width: 425px) and (max-width: 767px) {
+    #nav-bar {
+        margin: 1rem 3.5rem; 
+    }
+    #nav-left-side {
+        margin-left: 2.4rem;
+        margin-right: 2rem;
+    }
+    #nav-title {
+        display: none;
+    }
+    #manage-acc-title {
+        font-size: 20px;
+        margin-right: 2rem;
+    }
+    #nav-dark-mode {
+        width: 2.5rem;
+        margin-left: .3rem;  
+    }
+    #nav-info {
+        width: 2.5rem;
+        margin-left: .5rem;
+        margin-right: 2rem;
+    }
+    #side-bar {
+        margin-left: .8rem;
+    }
+    #profile-img-container {
+        width: 12.5rem;
+        height: 12.5rem;
+    }
+    #change-img-btn {
+        margin-top: .5rem;
+        font-size: 16px;
+    }
+    #fields-container {
+    flex-direction: column-reverse;
+    }
+    #profile-save-btn {
+        margin-left: 5rem;
+    }
+    .account-fields-labels {
+        width: 10rem;
+    }
+
+}
