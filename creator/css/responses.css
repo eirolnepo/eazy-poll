@@ -316,13 +316,22 @@ input:checked + .slider::before {
     padding: 1rem;
     border: 0.1rem solid #173a56;
     border-radius: 0.5rem;
+
+    display: flex;
+    justify-content: center;
 }
 
 .survey-title {
     font-size: 1.5rem;
     border: none;
     outline: none;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.3s ease;
+}
+
+.chart_canvas {
+    width: 300px !important;
+    height: 300px !important;
+    margin: 2rem;
 }
 
 /* dark mode */
