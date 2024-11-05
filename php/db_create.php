@@ -26,6 +26,7 @@ $sql_create_table = "CREATE TABLE IF NOT EXISTS users (
     lname VARCHAR(255) NOT NULL,
     contact_num VARCHAR(255) NOT NULL,
     address VARCHAR(255) NOT NULL,
+    image_file VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     pass VARCHAR(255) NOT NULL
 )";

@@ -27,9 +27,45 @@
         $contact = $row['contact_num'];
         $address = $row['address'];
         $email = $row['email'];
+        $profile = $row['image_file'];
+        if($profile == ""){
+            $profile = "../imgs/default_profile_image_light.svg";
+        }
+    }
+
+    $targetDirectory = "images/profile-picture/";
+    if (!is_dir($targetDirectory)) {
+        mkdir($targetDirectory, 0777, true); // Create the directory if it doesn't exist
     }
 
     if(isset($_POST['profile-save'])){
+        $file_name = $_FILES['image']['name'];
+        $tempname = $_FILES['image']['tmp_name'];
+        $folder = 'images/profile-picture/' . $file_name;
+
+        // Ensure the folder exists or create it
+        if (!is_dir('images/profile-picture/')) {
+            mkdir('images/profile-picture/', 0777, true);
+        }
+
+        // Set the path to be stored in the database
+        $new_image = $folder;
+
+        if (move_uploaded_file($tempname, $folder)) {
+            // File uploaded successfully, now insert the path into the database
+            $UPDATE = "UPDATE survey_db.users SET image_file = '$folder' WHERE user_id = '$id'";
+            $RESULT = (mysqli_query($conn,$UPDATE));
+            
+            if ($RESULT) {
+                echo "Image uploaded and saved in the database successfully.";
+            } else {
+                echo "Failed to save image path in the database.";
+            }
+        } else {
+            echo "Failed to upload the image.";
+        }
+
+
         $fname = ucfirst(strtolower($_POST['first-name']));
         $lname = ucfirst(strtolower($_POST['last-name']));
         $address = ucfirst(strtolower($_POST['address']));
@@ -218,42 +254,42 @@
         </div>
 
         <div id="profile-content">
-            <div id="profile-img-container">
-                <img src="../imgs/default_profile_image_light.svg" alt="User's profile picture" id="profile-img">
-                <input type="file" id="image-input" accept="image/*" style="display: none;" />
-            </div>
-            <button id="change-img-btn">Change Profile Picture</button>
-            <?php
-                    if (isset($_SESSION['errorProfile'])) {
-                        echo "<div class='error-msg'>{$_SESSION['errorProfile']}</div>";
-                        unset($_SESSION['errorProfile']); 
-                    }
-                    if (isset($_SESSION['successProfile'])) {
-                        echo "<div class='success-msg'>{$_SESSION['successProfile']}</div>";
-                        unset($_SESSION['successProfile']); 
-                    }  
-                ?>
-            <div id="fields-container">
-                <form action="" method="post" id="fields-container">
-                    <div id="left-fields">
-                        <div>
-                            <span class="fields-labels">First Name: </span><input type="text" id="fname" class="profile-inputs" value="<?php echo $fname; ?>" name="first-name">
+            <form action="" method="post" enctype="multipart/form-data" id="profile-content">
+                <div id="profile-img-container">
+                    <img src="<?php echo $profile;?>" alt="User's profile picture" id="profile-img">
+                    <input type="file" name="image" id="image-input" accept="image/*" style="display: none;" />
+                </div>
+                <button id="change-img-btn">Change Profile Picture</button>
+                <?php
+                        if (isset($_SESSION['errorProfile'])) {
+                            echo "<div class='error-msg'>{$_SESSION['errorProfile']}</div>";
+                            unset($_SESSION['errorProfile']); 
+                        }
+                        if (isset($_SESSION['successProfile'])) {
+                            echo "<div class='success-msg'>{$_SESSION['successProfile']}</div>";
+                            unset($_SESSION['successProfile']); 
+                        }  
+                    ?>
+                <div id="fields-container">
+                        <div id="left-fields">
+                            <div>
+                                <span class="fields-labels">First Name: </span><input type="text" id="fname" class="profile-inputs" value="<?php echo $fname; ?>" name="first-name">
+                            </div>
+                            <div>
+                                <span class="fields-labels">Contact No: </span><input type="text" maxlength="11" minlength="11" id="contact" class="profile-inputs" value="<?php echo $contact; ?>" name="contact">
+                            </div>
+                            <button class="save-btns" id="profile-save-btn" name="profile-save">Save Changes</button> 
                         </div>
-                        <div>
-                            <span class="fields-labels">Contact No: </span><input type="text" maxlength="11" minlength="11" id="contact" class="profile-inputs" value="<?php echo $contact; ?>" name="contact">
+                        <div id="right-fields">
+                            <div>
+                                <span class="fields-labels">Last Name: </span><input type="text" id="lname" class="profile-inputs" value="<?php echo $lname; ?>" name="last-name">
+                            </div>
+                            <div>
+                                <span class="fields-labels">Address: </span><input type="text" id="address" class="profile-inputs" value="<?php echo $address; ?>" name="address">
+                            </div>
                         </div>
-                        <button class="save-btns" id="profile-save-btn" name="profile-save">Save Changes</button> 
-                    </div>
-                    <div id="right-fields">
-                        <div>
-                            <span class="fields-labels">Last Name: </span><input type="text" id="lname" class="profile-inputs" value="<?php echo $lname; ?>" name="last-name">
-                        </div>
-                        <div>
-                            <span class="fields-labels">Address: </span><input type="text" id="address" class="profile-inputs" value="<?php echo $address; ?>" name="address">
-                        </div>
-                    </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
 
         <div id="account-content">
